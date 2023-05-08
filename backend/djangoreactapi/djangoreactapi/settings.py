@@ -66,7 +66,7 @@ WSGI_APPLICATION = "djangoreactapi.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "graup88db",  # DB name
+        "NAME": "gradup88db",  # DB name
         "USER": "root",  # DB account
         "PASSWORD": "whybinc2k!",  # DB account's password
         "HOST": "127.0.0.1",  # DB address(IP)
@@ -87,6 +87,7 @@ REST_FRAMEWORK = {
 # http제한해제 
 CORS_ORIGIN_WHITELIST = [
     "https://localhost:3000",
+    "https://127.0.0.1:3000",
 ]
 
 
