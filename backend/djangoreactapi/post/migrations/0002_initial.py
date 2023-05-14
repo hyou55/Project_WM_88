@@ -28,13 +28,6 @@ class Migration(migrations.Migration):
                 ),
                 ("sentence", models.TextField()),
                 ("meaning", models.TextField()),
-                (
-                    "sentence_id",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
             ],
         ),
     ]
