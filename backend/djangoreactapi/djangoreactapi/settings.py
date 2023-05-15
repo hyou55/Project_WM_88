@@ -63,16 +63,9 @@ WSGI_APPLICATION = "djangoreactapi.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "gradup88db",  # DB name
-        "USER": "root",  # DB account
-        "PASSWORD": "whybinc2k!",  # DB account's password
-        "HOST": "127.0.0.1",  # DB address(IP)
-        "PORT": "3306",  # DB port(normally 3306)
-    }
-}
+import my_settings
+
+DATABASES = my_settings.DATABASES
 
 
 # rest 추가
