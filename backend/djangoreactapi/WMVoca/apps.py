@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 
 
-class PostConfig(AppConfig):
+class WmvocaConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "post"
+    name = "WMVoca"
+    serbose_name = "WMVoca"
