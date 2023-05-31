@@ -7,6 +7,7 @@ from WMVoca.views import *
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('', include('PAPAGO.urls')),
     # path("app/", include("WMVoca.urls")), # 추가
 
     # # 구글 패스
