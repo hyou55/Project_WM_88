@@ -5,12 +5,11 @@ import Image from './pages/Image';
 import Keyword from './pages/Keyword';
 import Login from './pages/Login';
 import Myword from './pages/Myword';
-import Navbar from './components/Navbar'
+import Navbar from './components/Navbar';
 import Vocabook from './pages/Vocabook';
 import Scrapbook from './pages/Scrapbook';
 import Vocatest from './pages/Vocatest';
-import '../src/App.css';
-
+import '../src/App.css'
 
 function App() {
   return (
