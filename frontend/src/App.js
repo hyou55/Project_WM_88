@@ -5,7 +5,10 @@ import Image from './pages/Image';
 import Keyword from './pages/Keyword';
 import Login from './pages/Login';
 import Myword from './pages/Myword';
-import Navbar from './components/Navbar'
+import Navbar from './components/Navbar';
+import Vocabook from './pages/Vocabook';
+import Scrapbook from './pages/Scrapbook';
+import Vocatest from './pages/Vocatest';
 import '../src/App.css'
 
 function App() {
@@ -18,6 +21,9 @@ function App() {
         <Route path="keyword" element={<Keyword />}></Route>
         <Route path="myword" element={<Myword />}></Route>
         <Route path="main" element={<Main />}></Route>
+        <Route path="vocabook" element={<Vocabook />}></Route>
+        <Route path="scrapbook" element={<Scrapbook />}></Route>
+        <Route path="vocatest" element={<Vocatest />}></Route>
       </Routes>
   </>
   );
