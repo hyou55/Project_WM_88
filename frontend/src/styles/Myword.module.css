@@ -1,0 +1,90 @@
+*{
+  box-sizing: border-box;
+}
+h1{
+  font-size: 1.8rem;
+}
+
+div{
+  width: 1000px;
+  display: inline-block;
+}
+
+body{
+  width: 1000px;
+  margin: 100px 80px;
+}
+
+.line{
+  border-top: 1px solid #444444;
+  margin: 40px auto;
+  width: 900px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+}
+
+.basicVoca{
+  background-Image: url('../img/vocaBookIcon.png');
+  background-Repeat: no-repeat;
+  margin: 0px 20px;
+  background-size: contain;
+  width: 180px;
+  font-size: 1rem;
+  color : rgb(255, 255, 255);
+  text-align:center;
+  line-height: 180px;
+  float: left;
+}
+
+.basicVocaAdd{
+  background-Image: url('../img/vocaBookIcon.png');
+  background-Repeat: no-repeat;
+  background-size: contain;
+  width: 180px;
+  margin: 0px 20px;
+  font-size: 1rem;
+  color : rgb(255, 255, 255);
+  text-align:center;
+  line-height: 180px;
+  float: left;
+}
+
+.basicScrap{
+  background-Image: url('../img/scrapBookIcon.png');
+  background-Repeat: no-repeat;
+  margin: 0px 20px;
+  background-size: contain;
+  width: 180px;
+  font-size: 1rem;
+  color : rgb(255, 255, 255);
+  text-align:center;
+  line-height: 180px;
+  float: left;
+}
+
+.basicScrapAdd{
+  background-Image: url('../img/scrapBookIcon.png');
+  background-Repeat: no-repeat;
+  margin: 0px 20px;
+  background-size: contain;
+  width: 180px;
+  font-size: 1rem;
+  color : rgb(255, 255, 255);
+  text-align:center;
+  line-height: 180px;
+  float: left;
+}
+
+.testButton{
+  width: 200px;
+  margin: 5px auto;
+  text-align: center;
+}
+
+.vocaTestButton {
+  font-size: 0.8rem;
+  color : rgb(255, 255, 255);
+  background-color: rgb(26, 80, 139);
+  border-radius: 5px;
+}
