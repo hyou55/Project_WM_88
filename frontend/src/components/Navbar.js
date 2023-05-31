@@ -16,7 +16,7 @@ const Navbar = () => {
         워드마스터
       </div2>
       <div>
-        <NavLink to="/login" activeclassname='active' className={styles.mainbar}>
+        <NavLink to="/main" activeclassname='active' className={styles.mainbar}>
           메인 검색
         </NavLink>
       </div>
