@@ -25,7 +25,7 @@ body{
 }
 
 .basicVoca{
-  background-Image: url('../img/vocaBookIcon.png');
+  background-Image: url("C:\Users\PC\Desktop\Project_WM_88\frontend\src\styles\img\vocaBookIcon.png");
   background-Repeat: no-repeat;
   margin: 0px 20px;
   background-size: contain;
@@ -38,7 +38,7 @@ body{
 }
 
 .basicVocaAdd{
-  background-Image: url('../img/vocaBookIcon.png');
+  background-Image: url("C:\Users\PC\Desktop\Project_WM_88\frontend\src\styles\img\vocaBookIcon.png");
   background-Repeat: no-repeat;
   background-size: contain;
   width: 180px;
@@ -51,7 +51,7 @@ body{
 }
 
 .basicScrap{
-  background-Image: url('../img/scrapBookIcon.png');
+  background-Image: url("C:\Users\PC\Desktop\Project_WM_88\frontend\src\styles\img\scrapBookIcon.png");
   background-Repeat: no-repeat;
   margin: 0px 20px;
   background-size: contain;
@@ -64,7 +64,7 @@ body{
 }
 
 .basicScrapAdd{
-  background-Image: url('../img/scrapBookIcon.png');
+  background-Image: url("C:\Users\PC\Desktop\Project_WM_88\frontend\src\styles\img\scrapBookIcon.png");
   background-Repeat: no-repeat;
   margin: 0px 20px;
   background-size: contain;
