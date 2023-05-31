@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     
     # app 추가
-    "WMVoca", 
+    "WMVoca",
 
     # rest 추가
     "rest_framework",

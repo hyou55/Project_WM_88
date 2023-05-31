@@ -1,20 +1,25 @@
 # DB ORM 설정 코드 
 
 from django.db import models
+
+# 나중에 설정 바꿀 때 활성화
+#from django.contrib.auth.models import AbstractBaseUser
+
 #from django.conf import settings
 
+
 # 사용자 ORM
-class UserInfo(models.Model):
+class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=255)
     user_email = models.EmailField()
 
     class Meta:
-        db_table = "USERINFO"
+        db_table = "User"
 
 # 단어장 ORM
 class VocaInfo(models.Model):
-    v_user_id = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
+    v_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     voca_id = models.AutoField(primary_key=True)
     voca_name = models.CharField(max_length=255)
     voca_info = models.TextField()
@@ -50,7 +55,7 @@ class VocaWord(models.Model):
 
 # scapbook ORM
 class Scrapbook(models.Model):
-    sb_user_id = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
+    sb_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     scrapbook_id = models.AutoField(primary_key=True)
     scrapbook_name = models.CharField(max_length=255)
     scrapbook_info = models.TextField()
