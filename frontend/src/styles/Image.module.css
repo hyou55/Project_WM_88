@@ -1,0 +1,107 @@
+body {
+  width: 100%;
+  height: 1000px;
+  margin: 150px 50px;
+  /* background-color: rgb(9, 243, 9); */
+  box-sizing: border-box;
+
+}
+
+
+imagebox {
+  background-color: white;
+  width: 80%;
+  height: 150px;
+  margin: 0px;
+  border: solid 3px rgba(9, 47, 72, 0.4);
+  padding: 10px;
+  position: relative;
+  box-sizing: border-box;
+  float: left;
+}
+
+imagebox2 {
+  background-color: white;
+  width: 100%;
+  height: 75%;
+  border-top: solid 1px rgba(9, 47, 72, 0.4);
+  float: left;
+  text-align: center;
+  line-height: 100px;
+  box-sizing: border-box;
+  font-size: 20px;
+}
+
+imagebox3{
+  background-color: white;
+  width: 100%;
+  height: 20%;
+  float: top;
+  box-sizing: border-box;
+}
+
+imagebox4 {
+  background-color: white;
+  width: 80%;
+  height: 400px;
+  padding: 10px;
+  position: relative;
+  box-sizing: border-box;
+  float: left;
+}
+
+imagebox5 {
+  background-color: white;
+  width: 80%;
+  height: 10px;
+  margin: 0px;
+  position: relative;
+  box-sizing: border-box;
+  float: left;
+  text-align: left;
+}
+
+imagebox6 {
+  background-color: white;
+  width: 80%;
+  height: 35px;
+  margin: 0px;
+  position: relative;
+  box-sizing: border-box;
+  float: left;
+  text-align: left;
+  font-size: 24px;
+  border-bottom: solid 1px rgba(9, 47, 72, 0.4);
+  margin-top: 10px;
+}
+
+imagebox7 {
+  background-color: white;
+  width: 80%;
+  height: 25px;
+  position: relative;
+  box-sizing: border-box;
+  float: left;
+  border-bottom: solid 1px rgba(9, 47, 72, 0.4);
+}
+
+
+imagebox8 {
+  background-color: white;
+  width: 20%;
+  height: 150px;
+  position: relative;
+  box-sizing: border-box;
+  float: left;
+}
+
+img1 {
+  width: 10px;
+  height: 10px;
+  object-fit: fill;
+}
+
+imgbutton{
+  
+}
+  
