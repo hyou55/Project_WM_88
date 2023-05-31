@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "WMVoca", # app 추가
+    "PAPAGO",
     "rest_framework", # rest 추가
     "corsheaders", # http접근제어 규약해제 명령어추가
 ]
