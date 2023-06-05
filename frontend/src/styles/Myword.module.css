@@ -1,82 +1,82 @@
-*{
+* {
   box-sizing: border-box;
 }
-h1{
+h1 {
   font-size: 1.8rem;
 }
 
-div{
+div {
   width: 1000px;
   display: inline-block;
 }
 
-body{
+body {
   width: 1000px;
   margin: 100px 80px;
 }
 
-.line{
+.line {
   border-top: 1px solid #444444;
   margin: 40px auto;
   width: 900px;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
 }
 
-.basicVoca{
-  background-Image: url("C:\Users\PC\Desktop\Project_WM_88\frontend\src\styles\img\vocaBookIcon.png");
-  background-Repeat: no-repeat;
+.basicVoca {
+  background-image: url("./img/vocaBookIcon.png");
+  background-repeat: no-repeat;
   margin: 0px 20px;
   background-size: contain;
   width: 180px;
   font-size: 1rem;
-  color : rgb(255, 255, 255);
-  text-align:center;
+  color: rgb(255, 255, 255);
+  text-align: center;
   line-height: 180px;
   float: left;
 }
 
-.basicVocaAdd{
-  background-Image: url("C:\Users\PC\Desktop\Project_WM_88\frontend\src\styles\img\vocaBookIcon.png");
-  background-Repeat: no-repeat;
+.basicVocaAdd {
+  background-image: url("./img/vocaBookIcon.png");
+  background-repeat: no-repeat;
   background-size: contain;
   width: 180px;
   margin: 0px 20px;
   font-size: 1rem;
-  color : rgb(255, 255, 255);
-  text-align:center;
+  color: rgb(255, 255, 255);
+  text-align: center;
   line-height: 180px;
   float: left;
 }
 
-.basicScrap{
-  background-Image: url("C:\Users\PC\Desktop\Project_WM_88\frontend\src\styles\img\scrapBookIcon.png");
-  background-Repeat: no-repeat;
+.basicScrap {
+  background-image: url("./img/scrapBookIcon.png");
+  background-repeat: no-repeat;
   margin: 0px 20px;
   background-size: contain;
   width: 180px;
   font-size: 1rem;
-  color : rgb(255, 255, 255);
-  text-align:center;
+  color: rgb(255, 255, 255);
+  text-align: center;
   line-height: 180px;
   float: left;
 }
 
-.basicScrapAdd{
-  background-Image: url("C:\Users\PC\Desktop\Project_WM_88\frontend\src\styles\img\scrapBookIcon.png");
-  background-Repeat: no-repeat;
+.basicScrapAdd {
+  background-image: url("./img/scrapBookIcon.png");
+  background-repeat: no-repeat;
   margin: 0px 20px;
   background-size: contain;
   width: 180px;
   font-size: 1rem;
-  color : rgb(255, 255, 255);
-  text-align:center;
+  color: rgb(255, 255, 255);
+  text-align: center;
   line-height: 180px;
   float: left;
 }
 
-.testButton{
+.testButton {
   width: 200px;
   margin: 5px auto;
   text-align: center;
@@ -84,7 +84,7 @@ body{
 
 .vocaTestButton {
   font-size: 0.8rem;
-  color : rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   background-color: rgb(26, 80, 139);
   border-radius: 5px;
 }

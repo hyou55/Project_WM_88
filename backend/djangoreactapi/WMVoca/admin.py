@@ -7,3 +7,4 @@ admin.site.register(VocaSentence)
 admin.site.register(VocaWord)
 admin.site.register(Scrapbook)
 admin.site.register(ScrapbookContent)
+
