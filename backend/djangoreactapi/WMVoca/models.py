@@ -18,8 +18,8 @@ class VocaInfo(models.Model):
     voca_id = models.AutoField(primary_key=True)
     voca_name = models.CharField(max_length=255)
     voca_info = models.TextField()
-    word_num = models.IntegerField()
-    sentence_num = models.IntegerField()
+    word_num = models.IntegerField(default=0)
+    sentence_num = models.IntegerField(default=0)
     
     class Meta:
         db_table = "VOCAINFO"

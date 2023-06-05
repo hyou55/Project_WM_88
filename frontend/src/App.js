@@ -1,15 +1,15 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Main from './pages/Main';
-import Image from './pages/Image';
-import Keyword from './pages/Keyword';
-import Login from './pages/Login';
-import Myword from './pages/Myword';
-import Navbar from './components/Navbar';
-import Vocabook from './pages/Vocabook';
-import Scrapbook from './pages/Scrapbook';
-import Vocatest from './pages/Vocatest';
-import '../src/App.css'
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Main from "./pages/Main";
+import Image from "./pages/Image";
+import Keyword from "./pages/Keyword";
+import Login from "./pages/Login";
+import Myword from "./pages/Myword";
+import Navbar from "./components/Navbar";
+import Vocabook from "./pages/Vocabook";
+import Scrapbook from "./pages/Scrapbook";
+import Vocatest from "./pages/Vocatest";
+import "../src/App.css";
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
         <Route path="scrapbook" element={<Scrapbook />}></Route>
         <Route path="vocatest" element={<Vocatest />}></Route>
       </Routes>
-  </>
+    </>
   );
 }
 
