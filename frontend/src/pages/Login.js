@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import styles from "../styles/Login.module.css";
+import axios from "axios";
 
 const Login = ({ setGetToken, setUserInfo }) => {
   const { naver } = window;
@@ -54,6 +56,26 @@ const Login = ({ setGetToken, setUserInfo }) => {
     // 이후 로컬 스토리지 또는 state에 저장하여 사용하자!
     // localStorage.setItem('access_token', token)
     // setGetToken(token)
+
+    axios
+      .get(`YOUR_BACKEND_API_ENDPOINT?access_token=${token}`)
+      //YOUR_BACKEND_API_ENDPOINT는 백서버의 /api URL경로를 입력
+      .then((response) => {
+        // 성공적으로 사용자 정보를 받아왔을 때 처리할 로직 작성
+        const userData = response.data; // 받아온 사용자 정보
+
+        // 데이터베이스에 사용자 정보 저장
+        // axios.post(YOUR_BACKEND_API_ENDPOINT, userData)
+        //   .then(response => {
+        //     console.log('사용자 정보가 성공적으로 저장되었습니다.');
+        //   })
+        //   .catch(error => {
+        //     console.error('사용자 정보 저장에 실패했습니다.', error);
+        //   });
+      })
+      .catch((error) => {
+        console.error("사용자 정보를 가져오는데 실패했습니다.", error);
+      });
   };
 
   // 화면 첫 렌더링이후 바로 실행하기 위해 useEffect 를 사용하였다.
