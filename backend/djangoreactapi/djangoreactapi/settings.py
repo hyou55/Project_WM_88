@@ -1,5 +1,6 @@
-
+from my_settings import SECRET_KEY
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +21,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.sites",
+    "django.contrib.sites",        # dj_rest_auth의 registration 기능 사용을 위한
     
     # app 추가
     "WMVoca",
 
-    # rest 추가
+    # DRF
     "rest_framework",
+    # dj_rest_auth 사용을 위해서 선행되어야 하는 app
+    "rest_framework.authtoken",
+
+    # token
     "rest_framework_simplejwt",
     # 위에꺼 아니면 이걸로 "rest_framework_simplejwt.token_blacklist",
 
@@ -38,7 +43,9 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
+
+    # naver
+    "allauth.socialaccount.providers.naver",
 
 
     # http접근제어 규약해제 명령어추가
@@ -52,27 +59,55 @@ SITE_ID = 1
 AUTH_USER_MODEL = "WMVoca.User"
 
 # dj_rest_auth.registration.views.SocialLoginView를 쓰기 위한 설정
+# JWT를 사용하기위한 설정
 REST_USE_JWT = True
 
-# 두번째 블로그 참고----------
+
 from datetime import timedelta
-
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": True,
-}
-# ----------------------------
-
-
 
 # jwt 토큰은 simplejwt의 JWTAuthentication으로 인증한다.
 REST_FRAMEWORK = {
+    # 이거 소괄호인데 아래 원래 코드에서는 대괄호로 되어있음 혹시 오류나면 변경
+    # 기본 인증에 대한 설정
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        # 아래는 다른 블로그에서 설정한거라 부딪힐까봐 주석처리...했는데 다른데 보면 또 이게 되어있고...
+        # 메인으로 참고한 블로그에서 이게 설정이 안되어있는데 다른데서는 simplejwt 사용하려면 기본으로 다 깔아놔서 일단 주석해제함
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-     ] # 이거 소괄호인데 아래 원래 코드에서는 대괄호로 되어있음 혹시 오류나면 변경
+
+        # dj_rest_auth 의 인증 절차 중 JWTCookieAuthentication을 사용
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+     ],
+     # 허가에 대한 설정
+     "DEFAULT_PERMISSION_CLASSES": [
+         # 인증이 완료된 사용자에 한해서 접근 허가
+         "rest_framework.permission.IsAuthenticated",
+     ]
 }
+
+# cookie key와 refresh cookie key의 이름을 설정
+JWT_AUTH_COOKIE = "sociallogin-auth"
+JWT_AUTH_REFRESH_COOKIE = "sociallogin-refresh-token"
+
+# JWT 사용을 위한 설정
+REST_USE_JWT = True
+
+# simplejwt 에 대한 설정
+SIMPLE_JWT = {
+    # access token의 유효기한
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
+    # refresh token의 유효기한
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
+    # 토큰에 들어갈 알고리즘
+    "ALGORITHM": "HS256",
+    #토큰을 만드는데 사용할 secret key
+    "SIGNING_KEY": SECRET_KEY,
+
+    # 이전에 참고한 블로그 설정----------
+    # "ROTATE_REFRESH_TOKENS": False,
+    # "BLACKLIST_AFTER_ROTATION": True,
+}
+# ----------------------------
+
 
 
 
@@ -84,11 +119,11 @@ REST_FRAMEWORK = {
 # }
 
 
-
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None # username 필드 사용 x
-ACCOUNT_EMAIL_REQUIRED = True            # email 필드 사용 o
-ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+# 이전에 참고한 블로그 설정 ------------
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None # username 필드 사용 x
+# ACCOUNT_EMAIL_REQUIRED = True            # email 필드 사용 o
+# ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
+# ACCOUNT_AUTHENTICATION_METHOD = "email"
 
 
 # 그외 참조한 블로그에서 있던 설정
@@ -143,7 +178,7 @@ import my_settings
 
 DATABASES = my_settings.DATABASES
 
-SECRET_KEY = "django-insecure-%3q#eu9+m@rpi%a0su()g_xw86u8&5rlx(=84ezg9r#7cvm=9j"
+# SECRET_KEY = "django-insecure-%3q#eu9+m@rpi%a0su()g_xw86u8&5rlx(=84ezg9r#7cvm=9j"
 
 
 # RDS Django 연동 pymysql 설치후 추가
