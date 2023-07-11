@@ -10,7 +10,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don"t run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+
+# 인증 정보, 쿠키에 대한 설정
+# CSRF_COOKIE_NAME = 'csrftoken'
+
+# CSRF_COOKIE_SECURE = False
+
+# CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+
+# CSRF_COOKIE_PATH = '/' 
+
+# CSRF_COOKIE_DOMAIN = None
 
 # Application definition
 INSTALLED_APPS = [
@@ -20,7 +32,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
+    ###########################################################
+    
     "WMVoca", # app 추가
+    "PAPAGO",
     "rest_framework", # rest 추가
     "corsheaders", # http접근제어 규약해제 명령어추가
 ]
@@ -28,10 +44,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",     # http접근제어 규약해제 명령어추가
     "django.middleware.common.CommonMiddleware", # http접근제어 규약해제 명령어추가
-
+   
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -80,10 +95,14 @@ pymysql.install_as_MySQLdb()
 # rest 추가
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
+    "rest_framework.permissions.AllowAny",
     ]
 }
 
+# 특정 도메인에서 오는 리소스 요청을 허용
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+# ]
 
 # script안에서의 리소스 요청을 허용할 도메인 추가
 # http제한해제 
@@ -92,6 +111,11 @@ CORS_ORIGIN_WHITELIST = [
     "https://127.0.0.1:3000",
 ]
 
+#  웹 애플리케이션이 다른 출처에 대한 리소스 요청 시 인증 정보(예: 쿠키, HTTP 인증)를 함께 전송하는지에 대한 허용여부
+CORS_ALLOW_CREDENTIALS = True
+
+# 웹 애플리케이션이 모든 출처에서의 리소스 요청을 허용할지 여부를 결정
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -116,7 +140,6 @@ TIME_ZONE = "Asia/Seoul"
 USE_I18N = True
 
 USE_TZ = False
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
