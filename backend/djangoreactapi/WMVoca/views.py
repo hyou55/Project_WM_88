@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 from rest_framework import viewsets
 from .models import UserInfo, VocaInfo, VocaSentence, VocaWord, Scrapbook, ScrapbookContent
 from .serializers import UserInfoSerializer, VocaInfoSerializer, VocaSentenceSerializer, VocaWordSerializer, ScrapbookSerializer, ScrapbookContentSerializer
