@@ -105,14 +105,14 @@ const Login = ({ setGetToken, setUserInfo }) => {
 
   // ...
 
-  naverLogin.getLoginStatus(async function (status) {
-    if (status) {
-      const userid = naverLogin.user.getEmail();
-      const username = naverLogin.user.getName();
-      handleUserInfo(userid, username);
-      // setUserInfo(naverLogin.user);
-    }
-  });
+  // naverLogin.getLoginStatus(async function (status) {
+  //   if (status) {
+  //     const userid = naverLogin.user.getEmail();
+  //     const username = naverLogin.user.getName();
+  //     handleUserInfo(userid, username);
+  //     // setUserInfo(naverLogin.user);
+  //   }
+  // });
 
   return (
     // 구현할 위치에 아래와 같이 코드를 입력해주어야 한다.
