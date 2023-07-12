@@ -21,9 +21,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+<<<<<<< HEAD
 
     "django.contrib.sites",        # dj_rest_auth의 registration 기능 사용을 위한
 
+=======
+    "django.contrib.sites",        # dj_rest_auth의 registration 기능 사용을 위한
+>>>>>>> aa1638ef33266394ab4af73d9fe110158d73b55e
     
     # app 추가
     "WMVoca",
