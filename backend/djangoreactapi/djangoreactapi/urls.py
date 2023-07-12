@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 
+
 # 구글 패스로 추가
 # from django.urls import path
 # from WMVoca.views import *
@@ -14,6 +15,10 @@ urlpatterns = [
     # # 구글 패스
     # path("auth/google/", views.google_auth, name="google-auth"),
     # path("auth/google/callback/", views.google_auth_callback, name="google-auth-callback"),
+]
 
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path('', include('PAPAGO.urls')),
 
 ]
