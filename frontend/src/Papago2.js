@@ -247,7 +247,7 @@ function Papago2() {
     }
     postvars += '&text=' + encText;
 
-    const url = 'http://cors-anywhere.herokuapp.com/https://openapi.naver.com/v1/papago/n2mt';
+    const url = '/v1/papago/n2mt';
 
     axios
       .post(url, postvars, {
