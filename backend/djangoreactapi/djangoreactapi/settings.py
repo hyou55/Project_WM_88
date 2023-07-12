@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "django.contrib.sites",
     
     # app 추가
@@ -42,7 +43,10 @@ INSTALLED_APPS = [
 
 
     # http접근제어 규약해제 명령어추가
-    "corsheaders", 
+
+    "WMVoca", # app 추가
+    "rest_framework", # rest 추가
+    "corsheaders",# http접근제어 규약해제 명령어추가
 ]
 
 # 사이트는 하나만 사용할 것이라는 명시
