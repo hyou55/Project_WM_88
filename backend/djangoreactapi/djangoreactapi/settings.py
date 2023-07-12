@@ -16,9 +16,11 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 # 인증 정보, 쿠키에 대한 설정
 # CSRF_COOKIE_NAME = 'csrftoken'
 
-# CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
-# CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000", ]
+
+"http://%2A.merkl.it/"
 
 # CSRF_COOKIE_PATH = '/' 
 
@@ -47,7 +49,8 @@ MIDDLEWARE = [
    
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -109,6 +112,8 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 
 #  웹 애플리케이션이 다른 출처에 대한 리소스 요청 시 인증 정보(예: 쿠키, HTTP 인증)를 함께 전송하는지에 대한 허용여부
