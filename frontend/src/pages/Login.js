@@ -1,9 +1,11 @@
 import { useEffect } from "react";
+import styles from "../styles/Login.module.css";
+import axios from "axios";
 
 const Login = ({ setGetToken, setUserInfo }) => {
   const { naver } = window;
   const NAVER_CLIENT_ID = "UtkDRCTFmyyXauUyocKH"; // 발급 받은 Client ID 입력
-  const NAVER_CALLBACK_URL = "http://127.0.0.1:3000/login"; // 작성했던 Callback URL 입력
+  const NAVER_CALLBACK_URL = "http://127.0.0.1:3000/main"; // 작성했던 Callback URL 입력
 
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
@@ -52,9 +54,35 @@ const Login = ({ setGetToken, setUserInfo }) => {
     // console.log, alert 창을 통해 어스코드가 잘 추출 되는지 확인하자!
 
     // 이후 로컬 스토리지 또는 state에 저장하여 사용하자!
-    // localStorage.setItem('access_token', token)
-    // setGetToken(token)
+    localStorage.setItem("access_token", token);
+    setGetToken(token);
   };
+
+  //   // gpt) 사용자 정보 받아오는 토큰---------------------------------
+  //   axios
+  //     .get(`http://127.0.0.1:8000/api/endpoint?access_token=${token}`)
+  //     //YOUR_BACKEND_API_ENDPOINT는 백서버의 /api URL경로를 입력
+  //     // http://127.0.0.1:8000/api/endpoint
+  //     .then((response) => {
+  //       // 성공적으로 사용자 정보를 받아왔을 때 처리할 로직 작성
+  //       const userData = response.data; // 받아온 사용자 정보
+
+  //       // 데이터베이스에 사용자 정보 저장
+  //       axios.post(YOUR_BACKEND_API_ENDPOINT, userData)
+  //         .then(response => {
+  //           console.log('사용자 정보가 성공적으로 저장되었습니다.');
+  //         })
+  //         .catch(error => {
+  //           console.error('사용자 정보 저장에 실패했습니다.', error);
+  //         });
+
+  //     })
+  //     .catch((error) => {
+  //       console.error("사용자 정보를 가져오는데 실패했습니다.", error);
+  //     });
+  // };
+
+  // // -------------------------------------
 
   // 화면 첫 렌더링이후 바로 실행하기 위해 useEffect 를 사용하였다.
   useEffect(() => {
@@ -62,12 +90,37 @@ const Login = ({ setGetToken, setUserInfo }) => {
     userAccessToken();
   }, []);
 
+  const handleUserInfo = (userid, username) => {
+    // 사용자 정보를 백엔드로 전달하는 로직
+    const userData = { userid, username };
+    axios
+      .post("http://127.0.0.1:8000/admin/", userData)
+      .then((response) => {
+        console.log("사용자 정보가 성공적으로 전달되었습니다.");
+      })
+      .catch((error) => {
+        console.error("사용자 정보 전달에 실패했습니다.", error);
+      });
+  };
+
+  // ...
+
+  naverLogin.getLoginStatus(async function (status) {
+    if (status) {
+      const userid = naverLogin.user.getEmail();
+      const username = naverLogin.user.getName();
+      handleUserInfo(userid, username);
+      // setUserInfo(naverLogin.user);
+    }
+  });
+
   return (
     // 구현할 위치에 아래와 같이 코드를 입력해주어야 한다.
     // 태그에 id="naverIdLogin" 를 해주지 않으면 오류가 발생한다!
-    <>
+    // 이게 로그인 버튼 생성한 것임
+    <div>
       <div id="naverIdLogin" />
-    </>
+    </div>
     // 이거 위에 <div />이렇게 닫아놓고 왜 쓴거임 -> </div>
   );
 };
