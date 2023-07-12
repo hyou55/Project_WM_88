@@ -107,8 +107,8 @@ REST_FRAMEWORK = {
 # script안에서의 리소스 요청을 허용할 도메인 추가
 # http제한해제 
 CORS_ORIGIN_WHITELIST = [
-    "https://localhost:3000",
-    "https://127.0.0.1:3000",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
 #  웹 애플리케이션이 다른 출처에 대한 리소스 요청 시 인증 정보(예: 쿠키, HTTP 인증)를 함께 전송하는지에 대한 허용여부
