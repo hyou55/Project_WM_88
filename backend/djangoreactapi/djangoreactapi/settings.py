@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "WMVoca", # app 추가
     "rest_framework", # rest 추가
     "corsheaders",# http접근제어 규약해제 명령어추가
+    "OCR" # app 추가
 ]
 
 MIDDLEWARE = [

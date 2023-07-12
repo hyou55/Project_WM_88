@@ -40,6 +40,7 @@
 
 import React, { useEffect, useState } from "react";
 import {createWorker} from "tesseract.js";
+import axios from 'axios';
 import styles from "../styles/image.module.css";
 
 function Image() {
@@ -66,6 +67,20 @@ function Image() {
     convertImageToText();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageData]);
+
+  const sendTextToDjango = async (text) => {
+    try {
+      const response = await axios.post('/api/process_text/', { text });
+      console.log(response.data); // 형태소 분석 결과
+      // 분석 결과를 원하는 방식으로 처리
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  // 텍스트 변환 후 sendTextToDjango 함수 호출 예시
+  const convertedText = 'Tesseract로 변환된 영어 텍스트';
+  sendTextToDjango(convertedText);
 
   function handleImageChange(e) {
     const file = e.target.files[0];
