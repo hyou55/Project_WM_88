@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 # user 앱에서 내가 설정한 User를 사용하겠다고 설정
-AUTH_USER_MODEL = "WMVoca.User"
+AUTH_USER_MODEL = "WMVoca.UserInfo"
 
 # dj_rest_auth.registration.views.SocialLoginView를 쓰기 위한 설정
 # JWT를 사용하기위한 설정

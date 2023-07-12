@@ -9,13 +9,13 @@ from django.db import models
 
 
 # 사용자 ORM
-class User(models.Model):
+class UserInfo(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=255)
     user_email = models.EmailField()
 
     class Meta:
-        db_table = "User"
+        db_table = "USERINFO"
 
 # 단어장 ORM
 class VocaInfo(models.Model):
