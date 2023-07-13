@@ -9,16 +9,13 @@ from django.urls import path, include
 urlpatterns = [ 
     path("admin/", admin.site.urls),
     path("api/WMVoca/", include("allauth.urls")),
-    path("api/WMVoca/", include("WMVoca.urls")),
-    # path("app/", include("WMVoca.urls")), # 추가
+    
+    #path("api/WMVoca/", include("WMVoca.urls")),
+    # 파파고 
+    path("", include("PAPAGO.urls")),
 
-    # # 구글 패스
-    # path("auth/google/", views.google_auth, name="google-auth"),
-    # path("auth/google/callback/", views.google_auth_callback, name="google-auth-callback"),
-]
+    # 추가 
+    # path("app/", include("WMVoca.urls")), 
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path('', include('PAPAGO.urls')),
+ ]
 
-]
