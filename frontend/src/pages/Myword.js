@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import styles from '../styles/Myword.module.css';
-import { NavLink } from 'react-router-dom';
+import styles from "../styles/Myword.module.css";
+import { NavLink } from "react-router-dom";
 
 const Myword = () => {
   return (

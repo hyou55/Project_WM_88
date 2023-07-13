@@ -39,13 +39,15 @@ INSTALLED_APPS = [
     "PAPAGO",
     "rest_framework", # rest 추가
     "corsheaders",# http접근제어 규약해제 명령어추가
+    "allauth",
+    "allauth.account",
 ]
 
 # 사이트는 하나만 사용할 것이라는 명시
 SITE_ID = 1
 
 # user 앱에서 내가 설정한 User를 사용하겠다고 설정
-AUTH_USER_MODEL = "WMVoca.UserInfo"
+# AUTH_USER_MODEL = "WMVoca.UserInfo"
 
 # dj_rest_auth.registration.views.SocialLoginView를 쓰기 위한 설정
 # JWT를 사용하기위한 설정

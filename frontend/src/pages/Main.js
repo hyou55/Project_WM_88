@@ -1,5 +1,5 @@
-import React, { useState }  from 'react';
-import styles from '../styles/Main.module.css';
+import React, { useState } from "react";
+import styles from "../styles/Main.module.css";
 import axios from "axios";
 
 const Main = () => {
@@ -35,18 +35,23 @@ const Main = () => {
       <div className={styles.blank0}>
         <hr />
       </div>
-      <textarea className={styles.inputField} 
+      <textarea
+        className={styles.inputField}
         placeholder="번역할 내용을 입력하세요."
         value={textValue}
         onChange={handleSetValue}
       ></textarea>
-        <button className={styles.button} onClick={clicked} >번역</button>
+      <button className={styles.button} onClick={clicked}>
+        번역
+      </button>
       <div className={styles.arrow1}></div>
       <div className={styles.arrow2}></div>
-      <textarea class={styles.outputbox} 
+      <textarea
+        class={styles.outputbox}
         placeholder="번역 결과"
         value={resultValue}
-        readOnly></textarea>
+        readOnly
+      ></textarea>
       <div className={styles.blank1}>
         <h4>영어 단어 결과입니다.</h4>
         <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
@@ -60,7 +65,7 @@ const Main = () => {
       </div>
       <div className={styles.blank4}>
         <h5>저장할 폴더를 선택해주세요</h5>
-        <img src={process.env.PUBLIC_URL + '/voca-img.png'} width = '150px'/>
+        <img src={process.env.PUBLIC_URL + "/voca-img.png"} width="150px" />
         <button className={styles.button3}>저장</button>
       </div>
       <div className={styles.blank5}>
@@ -69,8 +74,5 @@ const Main = () => {
     </div>
   );
 };
-
-
-
 
 export default Main;
