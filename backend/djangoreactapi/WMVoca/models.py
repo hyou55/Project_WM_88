@@ -9,17 +9,17 @@ from django.db import models
 
 
 # 사용자 ORM
-class User(models.Model):
+class UserInfo(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=255)
     user_email = models.EmailField()
-
+    
     class Meta:
-        db_table = "User"
+        db_table = "USERINFO"
 
 # 단어장 ORM
 class VocaInfo(models.Model):
-    v_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    v_user_id = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
     voca_id = models.AutoField(primary_key=True)
     voca_name = models.CharField(max_length=255)
     voca_info = models.TextField()
@@ -55,7 +55,7 @@ class VocaWord(models.Model):
 
 # scapbook ORM
 class Scrapbook(models.Model):
-    sb_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    sb_user_id = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
     scrapbook_id = models.AutoField(primary_key=True)
     scrapbook_name = models.CharField(max_length=255)
     scrapbook_info = models.TextField()
