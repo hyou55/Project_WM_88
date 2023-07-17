@@ -4,7 +4,9 @@ import axios from "axios";
 
 const Main = () => {
   const [textValue, setTextValue] = useState("");
-  const [resultValue, setResultValue] = useState("");
+  const [resultValue1, setResultValue1] = useState("");
+  const [resultValue2, setResultValue2] = useState([]); // 초기값은 빈 배열로 설정
+
 
   const handleSetValue = (e) => {
     setTextValue(e.target.value);
@@ -12,16 +14,29 @@ const Main = () => {
 
   const clicked = () => {
     axios
-      .post("http://127.0.0.1:8000/PAPAGO/api/", {
+      .post("http://127.0.0.1:8000/api/PAPAGO/", {
         text: textValue,
       })
       .then((response) => {
-        const translatedText = response.data.translated_text;
-        setResultValue(translatedText);
+        const translatedText1 = response.data.translated_text;
+        setResultValue1(translatedText1);
       })
       .catch((error) => {
         console.error(error);
-        setResultValue("번역 실패");
+        setResultValue1("번역 실패");
+      });
+
+      axios
+      .post("http://127.0.0.1:8000/api/process_text/", {
+        text: textValue,
+      })
+      .then((response) => {
+        const nouns = response.data.nouns;
+        setResultValue2(nouns);
+      })
+      .catch((error) => {
+        console.error(error);
+        setResultValue2("형태소 분석 실패");
       });
   };
   return (
@@ -47,17 +62,24 @@ const Main = () => {
       <div className={styles.arrow1}></div>
       <div className={styles.arrow2}></div>
       <textarea
-        class={styles.outputbox}
+        className={styles.outputbox}
         placeholder="번역 결과"
-        value={resultValue}
+        value={resultValue1}
         readOnly
       ></textarea>
+
       <div className={styles.blank1}>
         <h4>영어 단어 결과입니다.</h4>
         <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
         <button className={styles.button2}>한국어 결과보기</button>
       </div>
       <div className={styles.blank2}>
+      <textarea
+        className={styles.outputbox}
+        placeholder="형태소 분석 결과"
+        value={Array.isArray(resultValue2) ? resultValue2.join("\n") : ""}
+        readOnly
+      ></textarea>
         <hr />
       </div>
       <div className={styles.blank3}>
