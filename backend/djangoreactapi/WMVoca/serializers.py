@@ -7,7 +7,6 @@ class UserInfoSerializer(serializers.ModelSerializer):
         model = UserInfo
         fields = '__all__'
 
-
 class VocaInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = VocaInfo

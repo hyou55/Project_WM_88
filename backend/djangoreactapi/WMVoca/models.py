@@ -1,14 +1,19 @@
 # DB ORM 설정 코드 
 
 from django.db import models
+
+# 나중에 설정 바꿀 때 활성화
+#from django.contrib.auth.models import AbstractBaseUser
+
 #from django.conf import settings
+
 
 # 사용자 ORM
 class UserInfo(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=255)
     user_email = models.EmailField()
-
+    
     class Meta:
         db_table = "USERINFO"
 
@@ -18,8 +23,8 @@ class VocaInfo(models.Model):
     voca_id = models.AutoField(primary_key=True)
     voca_name = models.CharField(max_length=255)
     voca_info = models.TextField()
-    word_num = models.IntegerField()
-    sentence_num = models.IntegerField()
+    word_num = models.IntegerField(default=0)
+    sentence_num = models.IntegerField(default=0)
     
     class Meta:
         db_table = "VOCAINFO"
