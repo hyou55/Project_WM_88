@@ -11,15 +11,17 @@ from django.db import models
 # from django.conf import settings
 
 
-# 사용자 ORM
-class UserInfo(models.Model):
+from django.contrib.auth.models import AbstractUser
+
+class UserInfo(AbstractUser):
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=255)
     user_email = models.EmailField()
 
+    REQUIRED_FIELDS = ['user_email']  # 필수 필드를 여기에 명시
+
     class Meta:
         db_table = "UserInfo"
-        # swappable= "AUTH_USER_MODEL"
 
 # 단어장 ORM
 class VocaInfo(models.Model):
