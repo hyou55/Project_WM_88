@@ -40,12 +40,15 @@
 
 import React, { useEffect, useState } from "react";
 import {createWorker} from "tesseract.js";
-import axios from 'axios';
+import axios from "axios";
 import styles from "../styles/image.module.css";
+
 
 function Image() {
   const [ocr, setOcr] = useState("");
   const [imageData, setImageData] = useState(null);
+  const [translate, setTranslate] = useState("");
+  const [result, setResult] = useState([]); // 초기값은 빈 배열로 설정
   
   const convertImageToText = async () => {
     if (!imageData) return;
@@ -61,14 +64,44 @@ function Image() {
       data: { text },
     } = await worker.recognize(imageData);
     setOcr(text);
+
+    test(ocr);
   };
 
-  useEffect(() => {
-    convertImageToText();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageData]);
+  const test = () => { 
+    axios
+    .post("http://127.0.0.1:8000/api/PAPAGO/", {
+      text: ocr,
+    })
+    .then((response) => {
+      const translatedText1 = response.data.translated_text;
+      setTranslate(translatedText1);
+    })
+    .catch((error) => {
+      console.error(error);
+      setTranslate("번역 실패");
+    });
+
+    axios
+    .post("http://127.0.0.1:8000/api/process_text/", {
+      text: ocr,
+    })
+    .then((response) => {
+      const nouns = response.data.nouns;
+      setResult(nouns);
+    })
+    .catch((error) => {
+      console.error(error);
+      setResult("형태소 분석 실패");
+    });
+  }
+  // useEffect(() => {
+  //   convertImageToText();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [imageData]);
 
 
+  
   function handleImageChange(e) {
     const file = e.target.files[0];
     if(!file)return;
@@ -107,11 +140,27 @@ sendTextToDjango(englishSentence);
           accept="image/*"
         />
       </div>
+      <button className={styles.button} onClick={convertImageToText}>
+        번역
+      </button>
       <div className={styles.displayflex}>
         <img src={imageData} alt="" srcset="" />
         <p>{ocr}</p>
       </div>
+      <textarea
+        className={styles.outputbox}
+        placeholder="번역 결과"
+        value={translate}
+        readOnly
+      ></textarea>
+      <textarea
+        className={styles.outputbox}
+        placeholder="형태소 분석 결과"
+        value={Array.isArray(result) ? result.join("\n") : ""}
+        readOnly
+      ></textarea>
     </div>
+
   );
 }
 

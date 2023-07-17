@@ -5,7 +5,9 @@ import axios from "axios";
 const Main = () => {
   const [textValue, setTextValue] = useState("");
   const [resultValue1, setResultValue1] = useState("");
-  const [resultValue2, setResultValue2] = useState([]); // 초기값은 빈 배열로 설정
+  const [morp, setMorp] = useState([]); // 초기값은 빈 배열로 설정
+  //const [word, setWord] = useState([]); // 초기값은 빈 배열로 설정
+  //const [sum, setsum] = useState([]); // 초기값은 빈 배열로 설정
 
 
   const handleSetValue = (e) => {
@@ -32,11 +34,16 @@ const Main = () => {
       })
       .then((response) => {
         const nouns = response.data.nouns;
-        setResultValue2(nouns);
+        const wordTrans = response.data.result;
+        setMorp(nouns);
+        //setWord(wordTrans);
+        // for(let i = 0 ; i < nouns.length; i++) {
+        //   setsum(nouns[i] + "    :    " + wordTrans[i]);
+        // }
       })
       .catch((error) => {
         console.error(error);
-        setResultValue2("형태소 분석 실패");
+        setMorp("형태소 분석 실패");
       });
   };
   return (
@@ -77,7 +84,7 @@ const Main = () => {
       <textarea
         className={styles.outputbox}
         placeholder="형태소 분석 결과"
-        value={Array.isArray(resultValue2) ? resultValue2.join("\n") : ""}
+        value={Array.isArray(morp) ? morp.join("\n") : ""}
         readOnly
       ></textarea>
         <hr />
