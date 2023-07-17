@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from nltk import word_tokenize, pos_tag
 
-def process_text(request):
+def analyze_text(request):
     if request.method == 'POST':
         text = request.POST.get('text', '')
         tokens = word_tokenize(text)  # 텍스트를 단어로 토큰화

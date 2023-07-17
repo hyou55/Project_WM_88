@@ -10,7 +10,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/WMVoca/", include("allauth.urls")),
     path("api/WMVoca/", include("WMVoca.urls")),
-    path("api/process_text", include("MOR.urls")),
+    path("api/analze_text", include("MOR.urls")),
     # path("app/", include("WMVoca.urls")), # 추가
 
     # # 구글 패스
