@@ -9,6 +9,10 @@ from django.urls import path, include
 urlpatterns = [ 
     path("admin/", admin.site.urls),
     path("api/WMVoca/", include("allauth.urls")),
+    
+    #path("api/WMVoca/", include("WMVoca.urls")),
+    # 파파고 
+    path("", include("PAPAGO.urls")),
     path("api/WMVoca/", include("WMVoca.urls")),
     path("api/process_text", include("MOR.urls")),
     # path("app/", include("WMVoca.urls")), # 추가
@@ -18,8 +22,8 @@ urlpatterns = [
     # path("auth/google/callback/", views.google_auth_callback, name="google-auth-callback"),
 ]
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path('', include('PAPAGO.urls')),
+    # 추가 
+    # path("app/", include("WMVoca.urls")), 
 
-]
+ ]
+
