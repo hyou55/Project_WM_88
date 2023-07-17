@@ -9,13 +9,12 @@ from django.urls import path, include
 urlpatterns = [ 
     path("admin/", admin.site.urls),
     path("api/WMVoca/", include("allauth.urls")),
-    
-    #path("api/WMVoca/", include("WMVoca.urls")),
-    # 파파고 
     path("", include("PAPAGO.urls")),
+    path("api/analze_text", include("SepWords.urls")),
+    
 
     # 추가 
     # path("app/", include("WMVoca.urls")), 
-
+    # path("api/WMVoca/", include("WMVoca.urls")), 
  ]
 
