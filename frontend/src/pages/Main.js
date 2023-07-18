@@ -26,7 +26,7 @@ const Main = () => {
         setResultValue1("번역 실패");
       });
 
-      axios
+    axios
       .post("http://127.0.0.1:8000/api/process_text/", {
         text: textValue,
       })
@@ -96,22 +96,22 @@ const Main = () => {
         <button className={styles.button2}>한국어 결과보기</button>
       </div>
       <div className={styles.blank2}>
-      <textarea
-        className={styles.inputField}
-        placeholder="형태소 분석 결과"
-        value={Array.isArray(morp) ? morp.join("\n") : ""}
-        readOnly
-      ></textarea>
-      <div className={styles.arrow1}></div>
-      <div className={styles.arrow2}></div>
+        <textarea
+          className={styles.inputField}
+          placeholder="형태소 분석 결과"
+          value={Array.isArray(morp) ? morp.join("\n") : ""}
+          readOnly
+        ></textarea>
+        <div className={styles.arrow1}></div>
+        <div className={styles.arrow2}></div>
 
-      {/* 형태소 번역 공간 */}
-      <textarea
-        className={styles.outputbox}
-        placeholder="형태소 번역 결과"
-        value={Array.isArray(word) ? word.join("\n") : ""}
-        readOnly
-      ></textarea>
+        {/* 형태소 번역 공간 */}
+        <textarea
+          className={styles.outputbox}
+          placeholder="형태소 번역 결과"
+          value={Array.isArray(word) ? word.join("\n") : ""}
+          readOnly
+        ></textarea>
         <hr />
       </div>
       <div className={styles.blank3}>
