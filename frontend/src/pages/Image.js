@@ -38,7 +38,7 @@
 //          img.src = URL.createObjectURL(blob);
 //          setImage(img);
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {createWorker} from "tesseract.js";
 import axios from "axios";
 import styles from "../styles/image.module.css";
@@ -48,8 +48,9 @@ function Image() {
   const [ocr, setOcr] = useState("");
   const [imageData, setImageData] = useState(null);
   const [translate, setTranslate] = useState("");
-  const [result, setResult] = useState([]); // 초기값은 빈 배열로 설정
-  
+  const [morResult, setmorResult] = useState([]); // 초기값은 빈 배열로 설정
+  const [morTranslate, setmorTranslate] = useState([]); // 초기값은 빈 배열로 설정
+
   const convertImageToText = async () => {
     if (!imageData) return;
     const worker =await createWorker({
@@ -64,11 +65,9 @@ function Image() {
       data: { text },
     } = await worker.recognize(imageData);
     setOcr(text);
-
-    test(ocr);
   };
 
-  const test = () => { 
+  const clicked = () => { 
     axios
     .post("http://127.0.0.1:8000/api/PAPAGO/", {
       text: ocr,
@@ -88,11 +87,27 @@ function Image() {
     })
     .then((response) => {
       const nouns = response.data.nouns;
-      setResult(nouns);
+      setmorResult(nouns);
+
+      // 파파고 API 호출(형태소 분석)
+      nouns.forEach((morResult) => {
+        axios
+          .post("http://127.0.0.1:8000/api/PAPAGO/", {
+            text: morResult,
+          })
+          .then((response) => {
+            const translatedNoun = response.data.translated_text;
+            setmorTranslate((prevWord) => [...prevWord, translatedNoun]);
+          })
+          .catch((error) => {
+            console.error(error);
+            setmorTranslate((prevWord) => [...prevWord, "형태소 번역 실패"]);
+          });
+      });
     })
     .catch((error) => {
       console.error(error);
-      setResult("형태소 분석 실패");
+      setmorResult("형태소 분석 실패");
     });
   }
   // useEffect(() => {
@@ -129,38 +144,57 @@ const englishSentence = ocr;
 sendTextToDjango(englishSentence);
 
   return (
-    <div className={styles.Image}>
-      <div>
-        <h2>Choose an Image</h2>
-        <input
-          type="file"
-          name=""
-          id=""
-          onChange={handleImageChange}
-          accept="image/*"
-        />
-      </div>
-      <button className={styles.button} onClick={convertImageToText}>
-        번역
-      </button>
-      <div className={styles.displayflex}>
-        <img src={imageData} alt="" srcset="" />
-        <p>{ocr}</p>
-      </div>
-      <textarea
-        className={styles.outputbox}
-        placeholder="번역 결과"
-        value={translate}
-        readOnly
-      ></textarea>
-      <textarea
-        className={styles.outputbox}
-        placeholder="형태소 분석 결과"
-        value={Array.isArray(result) ? result.join("\n") : ""}
-        readOnly
-      ></textarea>
-    </div>
+    <div className={styles.mainlayout}>
+      <div className={styles.Image}>
+        <div>
+          <h2>Choose an Image</h2>
+          <input
+            type="file"
+            name=""
+            id=""
+            onChange={handleImageChange}
+            accept="image/*"
+          />
+        </div>
+        <button className={styles.button} onClick={convertImageToText}>
+          텍스트 추출
+        </button>
+        <div className={styles.displayflex}>
+          <img src={imageData} alt="" srcset="" />
+          <p>{ocr}</p>
+        </div>
+        <button className={styles.button} onClick={clicked}>
+            번역
+        </button>
+        <div className={styles.blank1}>
+          <textarea
+            className={styles.translateBox}
+            placeholder="번역 결과"
+            value={translate}
+            readOnly
+          ></textarea>
+        </div>
+        <div className={styles.blank2}>
+          <textarea
+            className={styles.inputField}
+            placeholder="형태소 분석 결과"
+            value={Array.isArray(morResult) ? morResult.join("\n") : ""}
+            readOnly
+          ></textarea>
+        <div className={styles.arrow1}></div>
+        <div className={styles.arrow2}></div>
 
+        {/* 형태소 번역 공간 */}
+        <textarea
+          className={styles.outputbox}
+          placeholder="형태소 번역 결과"
+          value={Array.isArray(morTranslate) ? morTranslate.join("\n") : ""}
+          readOnly
+        ></textarea>
+          <hr />
+        </div>
+      </div>
+    </div>
   );
 }
 
