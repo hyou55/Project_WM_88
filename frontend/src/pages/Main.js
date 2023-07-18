@@ -9,7 +9,6 @@ const Main = () => {
   //const [word, setWord] = useState([]); // 초기값은 빈 배열로 설정
   //const [sum, setsum] = useState([]); // 초기값은 빈 배열로 설정
 
-
   const handleSetValue = (e) => {
     setTextValue(e.target.value);
   };
@@ -28,7 +27,7 @@ const Main = () => {
         setResultValue1("번역 실패");
       });
 
-      axios
+    axios
       .post("http://127.0.0.1:8000/api/process_text/", {
         text: textValue,
       })
@@ -81,12 +80,12 @@ const Main = () => {
         <button className={styles.button2}>한국어 결과보기</button>
       </div>
       <div className={styles.blank2}>
-      <textarea
-        className={styles.outputbox}
-        placeholder="형태소 분석 결과"
-        value={Array.isArray(morp) ? morp.join("\n") : ""}
-        readOnly
-      ></textarea>
+        <textarea
+          className={styles.outputbox}
+          placeholder="형태소 분석 결과"
+          value={Array.isArray(morp) ? morp.join("\n") : ""}
+          readOnly
+        ></textarea>
         <hr />
       </div>
       <div className={styles.blank3}>

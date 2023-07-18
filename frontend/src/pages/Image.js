@@ -42,7 +42,6 @@ import React, { useEffect, useState } from "react";
 import { createWorker } from "tesseract.js";
 import axios from "axios";
 import styles from "../styles/image.module.css";
-import axios from "axios";
 
 function Image() {
   const [ocr, setOcr] = useState("");
@@ -111,7 +110,6 @@ function Image() {
     };
     reader.readAsDataURL(file);
   }
-
   // Tesseract로 영어 문장을 변환하고, 서버로 전송하는 함수
   const sendTextToDjango = async (text) => {
     try {
