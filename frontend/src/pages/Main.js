@@ -6,9 +6,7 @@ const Main = () => {
   const [textValue, setTextValue] = useState("");
   const [resultValue1, setResultValue1] = useState("");
   const [morp, setMorp] = useState([]); // 초기값은 빈 배열로 설정
-  //const [word, setWord] = useState([]); // 초기값은 빈 배열로 설정
-  //const [sum, setsum] = useState([]); // 초기값은 빈 배열로 설정
-
+  const [word, setWord] = useState([]); // 초기값은 빈 배열로 설정
 
   const handleSetValue = (e) => {
     setTextValue(e.target.value);
@@ -34,12 +32,28 @@ const Main = () => {
       })
       .then((response) => {
         const nouns = response.data.nouns;
-        const wordTrans = response.data.result;
+        //const wordTrans = response.data.result;
         setMorp(nouns);
         //setWord(wordTrans);
         // for(let i = 0 ; i < nouns.length; i++) {
         //   setsum(nouns[i] + "    :    " + wordTrans[i]);
         // }
+
+        // 파파고 API 호출(형태소 분석)
+        nouns.forEach((noun) => {
+          axios
+            .post("http://127.0.0.1:8000/api/PAPAGO/", {
+              text: noun,
+            })
+            .then((response) => {
+              const translatedNoun = response.data.translated_text;
+              setWord((prevWord) => [...prevWord, translatedNoun]);
+            })
+            .catch((error) => {
+              console.error(error);
+              setWord((prevWord) => [...prevWord, "형태소 번역 실패"]);
+            });
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -62,6 +76,7 @@ const Main = () => {
         placeholder="번역할 내용을 입력하세요."
         value={textValue}
         onChange={handleSetValue}
+        text
       ></textarea>
       <button className={styles.button} onClick={clicked}>
         번역
@@ -82,9 +97,19 @@ const Main = () => {
       </div>
       <div className={styles.blank2}>
       <textarea
-        className={styles.outputbox}
+        className={styles.inputField}
         placeholder="형태소 분석 결과"
         value={Array.isArray(morp) ? morp.join("\n") : ""}
+        readOnly
+      ></textarea>
+      <div className={styles.arrow1}></div>
+      <div className={styles.arrow2}></div>
+
+      {/* 형태소 번역 공간 */}
+      <textarea
+        className={styles.outputbox}
+        placeholder="형태소 번역 결과"
+        value={Array.isArray(word) ? word.join("\n") : ""}
         readOnly
       ></textarea>
         <hr />

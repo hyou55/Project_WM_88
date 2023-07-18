@@ -23,6 +23,7 @@
   background-color: transparent;
 }
 
+
 .inputField {
   position: absolute;
   top: 70px;
@@ -33,7 +34,9 @@
   border-radius: 30px;
   border-style: solid;
   background-color: transparent;
+  text-align: center;
 }
+
 
 .outputbox {
   position: absolute;
@@ -45,12 +48,27 @@
   border-radius: 30px;
   border-style: solid;
   background-color: transparent;
+  text-align: center;
 }
 
 .arrow1 {
   position: absolute;
   top:200px;
   left:440px;
+  content: '';
+  display:inline-block;
+  width: 2.0rem;
+  height: 2.0rem;
+  margin-left: 0.5rem;
+  border-top: 0.1rem solid #333;
+  border-right: 0.1rem solid #333;
+  transform: rotate(45deg);
+}
+
+.arrow2 {
+  position: absolute;
+  top:200px;
+  left:450px;
   content: '';
   display:inline-block;
   width: 2.0rem;
