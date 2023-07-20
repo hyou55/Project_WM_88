@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "rest_framework", # rest 추가
     "corsheaders",# http접근제어 규약해제 명령어추가
     "MOR", # app 추가
+    "Dictionary", # 네이버 사전 크롤링 추가
     "allauth",
     "allauth.account",
 ]

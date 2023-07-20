@@ -15,6 +15,7 @@ urlpatterns = [
     path("api/PAPAGO/", include("PAPAGO.urls")),
     path("api/WMVoca/", include("WMVoca.urls")),
     path("api/process_text/", include("MOR.urls")),
+    path("api/Dictionary/", include("Dictionary.urls")),
     # path("app/", include("WMVoca.urls")), # 추가
 
     # # 구글 패스
