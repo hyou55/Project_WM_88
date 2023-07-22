@@ -6,7 +6,7 @@ const Main = () => {
   const [textValue, setTextValue] = useState("");
   const [resultValue1, setResultValue1] = useState("");
   const [morp, setMorp] = useState([]); // 초기값은 빈 배열로 설정
-  const [word, setWord] = useState([[]]); // 리스트의 리스트로 초기화
+  const [word, setWord] = useState([]); // 리스트의 리스트로 초기화
 
   const handleSetValue = (e) => {
     setTextValue(e.target.value);
@@ -27,45 +27,53 @@ const Main = () => {
       });
     }
     
-    const clicked2 = () => {
+    const mor_Clicked = async () => {
       // 형태소 분석
-      axios
-        .post("http://127.0.0.1:8000/api/process_text/", {
-          text: textValue,
-        })
-        .then((response) => {
-          const nouns = response.data.nouns;
-          setMorp(nouns);
-    
-          // 형태소 사전 검색 호출
-          nouns.forEach((morp) => {
-            searchDictionary(morp);
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-          setMorp("형태소 분석 실패");
+      try {
+        const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
+          text: "Chinese audiences are gravitating toward movies made at home, rather than in Hollywood",
         });
+  
+        const nouns = response.data.nouns;
+        setMorp(nouns);
+        setWord([]); // 형태소 분석 시에 word를 초기화합니다.
+      } catch (error) {
+        console.error(error);
+        setMorp("형태소 분석 실패");
+      }
     };
+  
+    const diction_Clicked = async () => {
+      // 형태소 사전 검색 호출
+      const results = [];
+      for (const item of morp) {
+        try {
+          const dict = await searchDictionary(item);
+          results.push(dict);
+        } catch (error) {
+          console.error(error);
+          results.push("형태소 사전 검색 실패");
+        }
+      }
     
+      setWord(results);
+    };
+  
     // 형태소 사전 검색 호출
     const searchDictionary = (morp) => {
-      setWord([]); // 기본값으로 빈 배열을 제공하여 prevWord가 항상 iterable하도록 설정합니다.
-    
-      axios
+      return axios
         .post("http://127.0.0.1:8000/api/Dictionary/", {
           text: morp,
         })
         .then((response) => {
           const dict = response.data.result; // 형태소 사전 검색 결과 추출
-          setWord((prevWord) => [...prevWord, dict]);
+          return dict;
         })
         .catch((error) => {
           console.error(error);
-          setWord((prevWord) => [...prevWord, "형태소 사전 검색 실패"]);
+          throw new Error("형태소 사전 검색 실패");
         });
     };
-
 
   return (
     <div className={styles.mainlayout}>
@@ -100,7 +108,8 @@ const Main = () => {
       <div className={styles.blank1}>
         <h4>영어 단어 결과입니다.</h4>
         <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
-        <button className={styles.button2} onClick={clicked2}>한국어 결과보기</button>
+        <button className={styles.button2_1} onClick={mor_Clicked}>형태소 분석하기</button>
+        <button className={styles.button2_2} onClick={diction_Clicked}>한국어 결과보기</button>
       </div>
       <div className={styles.blank2}>
         <textarea
@@ -116,9 +125,11 @@ const Main = () => {
         <textarea
           className={styles.outputbox}
           placeholder="형태소 사전 검색 결과"
-          value={Array.isArray(word)
-            ? word.map((innerList) => innerList.join(", ")).join("\n\n")
-            : ""}
+          value={
+            Array.isArray(word) && word.length > 0
+              ? word.map((innerList, index) => (index > 0 ? "\n\n" : "") + innerList[0]).join("")
+              : "형태소 사전 검색 결과"
+          }
           readOnly
         ></textarea>
         <hr />

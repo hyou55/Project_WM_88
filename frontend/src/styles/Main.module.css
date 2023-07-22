@@ -165,7 +165,23 @@
   height: 10;
 }
 
-.button2 {
+.button2_1 {
+  position: absolute;
+  top:60px;
+  left: 720px;
+  width: 120px;
+  height: 40px;
+  background-color: rgb(26, 80, 139);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button2_2 {
   position: absolute;
   top:60px;
   left: 850px;
