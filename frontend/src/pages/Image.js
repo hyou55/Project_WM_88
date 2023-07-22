@@ -40,6 +40,7 @@
 
 import React, { useState } from "react";
 import { createWorker } from "tesseract.js";
+
 import axios from "axios";
 import styles from "../styles/image.module.css";
 
@@ -67,7 +68,6 @@ function Image() {
     setOcr(text);
   };
 
-  // (1) 문장 번역, (2) 형태소 분석, (3) 형태소 번역
   const clicked = () => {
     axios
       .post("http://127.0.0.1:8000/api/PAPAGO/", {
@@ -81,7 +81,7 @@ function Image() {
         console.error(error);
         setTranslate("번역 실패");
       });
-    // 파파고 API 호출(형태소 분석)
+
     axios
       .post("http://127.0.0.1:8000/api/process_text/", {
         text: ocr,
@@ -90,7 +90,6 @@ function Image() {
         const nouns = response.data.nouns;
         setmorResult(nouns);
 
-        // 형태소 번역
         nouns.forEach((morResult) => {
           axios
             .post("http://127.0.0.1:8000/api/PAPAGO/", {
@@ -111,6 +110,7 @@ function Image() {
         setmorResult("형태소 분석 실패");
       });
   };
+
   // useEffect(() => {
   //   convertImageToText();
   //   // eslint-disable-next-line react-hooks/exhaustive-deps

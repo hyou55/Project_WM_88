@@ -29,6 +29,7 @@ const Main = () => {
 
   const clicked2 = () => {
     // 형태소 분석
+
     axios
       .post("http://127.0.0.1:8000/api/process_text/", {
         text: textValue,
