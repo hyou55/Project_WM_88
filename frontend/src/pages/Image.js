@@ -7,7 +7,7 @@
 //      const worker =await createWorker({
 //        logger: m => console.log(m)
 //      });
-//      
+//
 //      (async () => {
 //        await worker.load();
 //        await worker.loadLanguage('eng'); //추출대상 언어
@@ -39,10 +39,9 @@
 //          setImage(img);
 
 import React, { useState } from "react";
-import {createWorker} from "tesseract.js";
+import { createWorker } from "tesseract.js";
 import axios from "axios";
 import styles from "../styles/image.module.css";
-
 
 function Image() {
   const [ocr, setOcr] = useState("");
@@ -51,9 +50,10 @@ function Image() {
   const [morResult, setmorResult] = useState([]); // 초기값은 빈 배열로 설정
   const [morTranslate, setmorTranslate] = useState([]); // 초기값은 빈 배열로 설정
 
+  // 영문 이미지 문장 추출
   const convertImageToText = async () => {
     if (!imageData) return;
-    const worker =await createWorker({
+    const worker = await createWorker({
       logger: (m) => {
         console.log(m);
       },
@@ -67,59 +67,58 @@ function Image() {
     setOcr(text);
   };
 
-  const clicked = () => { 
+  // (1) 문장 번역, (2) 형태소 분석, (3) 형태소 번역
+  const clicked = () => {
     axios
-    .post("http://127.0.0.1:8000/api/PAPAGO/", {
-      text: ocr,
-    })
-    .then((response) => {
-      const translatedText1 = response.data.translated_text;
-      setTranslate(translatedText1);
-    })
-    .catch((error) => {
-      console.error(error);
-      setTranslate("번역 실패");
-    });
-
-    axios
-    .post("http://127.0.0.1:8000/api/process_text/", {
-      text: ocr,
-    })
-    .then((response) => {
-      const nouns = response.data.nouns;
-      setmorResult(nouns);
-
-      // 파파고 API 호출(형태소 분석)
-      nouns.forEach((morResult) => {
-        axios
-          .post("http://127.0.0.1:8000/api/PAPAGO/", {
-            text: morResult,
-          })
-          .then((response) => {
-            const translatedNoun = response.data.translated_text;
-            setmorTranslate((prevWord) => [...prevWord, translatedNoun]);
-          })
-          .catch((error) => {
-            console.error(error);
-            setmorTranslate((prevWord) => [...prevWord, "형태소 번역 실패"]);
-          });
+      .post("http://127.0.0.1:8000/api/PAPAGO/", {
+        text: ocr,
+      })
+      .then((response) => {
+        const translatedText1 = response.data.translated_text;
+        setTranslate(translatedText1);
+      })
+      .catch((error) => {
+        console.error(error);
+        setTranslate("번역 실패");
       });
-    })
-    .catch((error) => {
-      console.error(error);
-      setmorResult("형태소 분석 실패");
-    });
-  }
+    // 파파고 API 호출(형태소 분석)
+    axios
+      .post("http://127.0.0.1:8000/api/process_text/", {
+        text: ocr,
+      })
+      .then((response) => {
+        const nouns = response.data.nouns;
+        setmorResult(nouns);
+
+        // 형태소 번역
+        nouns.forEach((morResult) => {
+          axios
+            .post("http://127.0.0.1:8000/api/PAPAGO/", {
+              text: morResult,
+            })
+            .then((response) => {
+              const translatedNoun = response.data.translated_text;
+              setmorTranslate((prevWord) => [...prevWord, translatedNoun]);
+            })
+            .catch((error) => {
+              console.error(error);
+              setmorTranslate((prevWord) => [...prevWord, "형태소 번역 실패"]);
+            });
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        setmorResult("형태소 분석 실패");
+      });
+  };
   // useEffect(() => {
   //   convertImageToText();
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [imageData]);
 
-
-  
   function handleImageChange(e) {
     const file = e.target.files[0];
-    if(!file)return;
+    if (!file) return;
     const reader = new FileReader();
     reader.onloadend = () => {
       const imageDataUri = reader.result;
@@ -129,19 +128,19 @@ function Image() {
     reader.readAsDataURL(file);
   }
   // Tesseract로 영어 문장을 변환하고, 서버로 전송하는 함수
-const sendTextToDjango = async (text) => {
-  try {
-    const response = await axios.post('/api/process_text/', { text });
-    console.log(response.data); // 형태소 분석 결과
-    // 분석 결과를 원하는 방식으로 처리
-  } catch (error) {
-    console.error(error);
-  }
-};
+  const sendTextToDjango = async (text) => {
+    try {
+      const response = await axios.post("/api/process_text/", { text });
+      console.log(response.data); // 형태소 분석 결과
+      // 분석 결과를 원하는 방식으로 처리
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-// 영어 문장 변환 후 sendTextToDjango 함수 호출 예시
-const englishSentence = ocr;
-sendTextToDjango(englishSentence);
+  // 영어 문장 변환 후 sendTextToDjango 함수 호출 예시
+  const englishSentence = ocr;
+  sendTextToDjango(englishSentence);
 
   return (
     <div className={styles.mainlayout}>
@@ -164,7 +163,7 @@ sendTextToDjango(englishSentence);
           <p>{ocr}</p>
         </div>
         <button className={styles.button} onClick={clicked}>
-            번역
+          번역
         </button>
         <div className={styles.blank1}>
           <textarea
@@ -181,22 +180,21 @@ sendTextToDjango(englishSentence);
             value={Array.isArray(morResult) ? morResult.join("\n") : ""}
             readOnly
           ></textarea>
-        <div className={styles.arrow1}></div>
-        <div className={styles.arrow2}></div>
+          <div className={styles.arrow1}></div>
+          <div className={styles.arrow2}></div>
 
-        {/* 형태소 번역 공간 */}
-        <textarea
-          className={styles.outputbox}
-          placeholder="형태소 번역 결과"
-          value={Array.isArray(morTranslate) ? morTranslate.join("\n") : ""}
-          readOnly
-        ></textarea>
+          {/* 형태소 번역 공간 */}
+          <textarea
+            className={styles.outputbox}
+            placeholder="형태소 번역 결과"
+            value={Array.isArray(morTranslate) ? morTranslate.join("\n") : ""}
+            readOnly
+          ></textarea>
           <hr />
         </div>
       </div>
     </div>
   );
 }
-
 
 export default Image;
