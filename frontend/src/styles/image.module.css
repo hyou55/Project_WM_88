@@ -1,0 +1,118 @@
+
+.Image {
+  position: relative;
+  top: 70px;
+  left: 50px;
+  padding: 10px;
+}
+input {
+  margin-bottom: 5px;
+}
+img {
+  max-width: 30vw;
+  margin-right: 50px;
+  height: auto;
+}
+p {
+  width: 50vw;
+}
+.displayflex {
+  display: flex;
+}
+.progresslabel {
+  margin-bottom: 5px;
+}
+.progressbar {
+  background-color: rgb(232, 232, 232);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  max-width: 50vw;
+}
+.progress {
+  background-color: rgb(0, 255, 170);
+  width: 0%;
+  height: 10px;
+}
+
+
+
+/* main 페이지의 css에서 가져옴 + 번역된 textareaBox는 새로 작성할 필요가 있어 작성함 */
+.mainlayout {
+  position: relative;
+  top: 100px;
+  left: 200px;
+  width: 1030px;
+  height: 320px;
+  background-color: transparent;
+}
+
+
+.translateBox {
+  position: absolute;
+  width: 800px;
+  height: 280px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-color: rgb(132, 132, 132);
+  border-radius: 30px;
+  border-style: solid;
+  background-color: transparent;
+}
+
+.inputField {
+  position: absolute;
+  top: 70px;
+  left: 0px;
+  width: 421px;
+  height: 280px;
+  border-color: rgb(9, 47, 72);
+  border-radius: 30px;
+  border-style: solid;
+  background-color: transparent;
+  text-align: center;
+}
+
+.outputbox {
+  position: absolute;
+  width: 421px;
+  height: 280px;
+  top: 70px;
+  left: 550px;
+  border-color: rgb(132, 132, 132);
+  border-radius: 30px;
+  border-style: solid;
+  background-color: transparent;
+  text-align: center;
+}
+
+.blank0 {
+  position: absolute;
+  top: 280px;
+  left: 18px;
+  width: 390px;
+  height: 10px;
+}
+
+.blank1 {
+  position: absolute;
+  top: 700px;
+  left: 0px;
+}
+
+.blank2 {
+  position: absolute;
+  top: 900px;
+  left: -10px;
+  width: 1000px;
+  height: 10px;
+}
+
+.blank3 {
+  position: absolute;
+  top: 1300px;
+  left: -10px;
+  width: 1000px;
+  height: 10px;
+}

@@ -1,0 +1,35 @@
+import json
+from django.http import JsonResponse
+import requests
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+
+
+CLIENT_ID = "lUmpXs3j1n6tF4ycqdrp"  # 네이버 Papago API 클라이언트 ID
+CLIENT_SECRET = "ttvQqE7dMc"  # 네이버 Papago API 클라이언트 시크릿
+
+@method_decorator(csrf_exempt, name='dispatch')
+def main(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        text = data.get("text", "")
+
+        url = "https://openapi.naver.com/v1/papago/n2mt"
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "X-Naver-Client-Id": CLIENT_ID,
+            "X-Naver-Client-Secret": CLIENT_SECRET,
+        }
+        data = {
+            "source": "en",
+            "target": "ko",
+            "text": text,
+        }
+
+        response = requests.post(url, headers=headers, data=data)
+        if response.status_code == 200:
+            translated_text = response.json()["message"]["result"]["translatedText"]
+            return JsonResponse({"translated_text": translated_text}, safe=False)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
