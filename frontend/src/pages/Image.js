@@ -67,7 +67,7 @@ function Image() {
     setOcr(text);
   };
 
-  const clicked = () => { 
+  const clicked = async () => { 
     axios
     .post("http://127.0.0.1:8000/api/PAPAGO/", {
       text: ocr,
@@ -80,35 +80,76 @@ function Image() {
       console.error(error);
       setTranslate("번역 실패");
     });
-
-    axios
-    .post("http://127.0.0.1:8000/api/process_text/", {
-      text: ocr,
-    })
-    .then((response) => {
-      const nouns = response.data.nouns;
-      setmorResult(nouns);
-
-      // 파파고 API 호출(형태소 분석)
-      nouns.forEach((morResult) => {
-        axios
-          .post("http://127.0.0.1:8000/api/PAPAGO/", {
-            text: morResult,
-          })
-          .then((response) => {
-            const translatedNoun = response.data.translated_text;
-            setmorTranslate((prevWord) => [...prevWord, translatedNoun]);
-          })
-          .catch((error) => {
-            console.error(error);
-            setmorTranslate((prevWord) => [...prevWord, "형태소 번역 실패"]);
-          });
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
+        text: ocr,
       });
-    })
-    .catch((error) => {
+  
+      const nouns = response.data.nouns;
+  
+      // 형태소 분석 결과를 words 상태로 업데이트
+      setmorTranslate(nouns.map((word) => [word, ""]));
+  
+      // 형태소 분석 결과를 morp 상태로 업데이트
+      setmorResult(nouns);
+  
+      // 형태소 사전 검색 호출
+      const results = [];
+      for (const item of nouns) {
+        let dict = ""; // 사전 검색 결과를 담을 변수
+        while (dict === "") { // 사전 검색 결과가 빈 문자열일 경우 계속해서 사전 검색 수행
+          try {
+            dict = await searchDictionary(item);
+          } catch (error) {
+            console.error(error);
+            dict = "형태소 사전 검색 실패";
+          }
+        }
+  
+        // words 배열의 각 항목에 형태소와 사전 검색 결과를 할당
+        setmorTranslate((prevWords) =>
+          prevWords.map((word) => {
+            if (word[0] === item) {
+              return [item, dict];
+            }
+            return word;
+          })
+        );
+  
+        results.push(dict);
+      }
+    } catch (error) {
       console.error(error);
-      setmorResult("형태소 분석 실패");
-    });
+      setmorResult(["형태소 분석 실패"]);
+    }
+  //   axios
+  //   .post("http://127.0.0.1:8000/api/process_text/", {
+  //     text: ocr,
+  //   })
+  //   .then((response) => {
+  //     const nouns = response.data.nouns;
+  //     setmorResult(nouns);
+
+  //     // 파파고 API 호출(형태소 분석)
+  //     nouns.forEach((morResult) => {
+  //       axios
+  //         .post("http://127.0.0.1:8000/api/PAPAGO/", {
+  //           text: morResult,
+  //         })
+  //         .then((response) => {
+  //           const translatedNoun = response.data.translated_text;
+  //           setmorTranslate((prevWord) => [...prevWord, translatedNoun]);
+  //         })
+  //         .catch((error) => {
+  //           console.error(error);
+  //           setmorTranslate((prevWord) => [...prevWord, "형태소 번역 실패"]);
+  //         });
+  //     });
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //     setmorResult("형태소 분석 실패");
+  //   });
   }
   // useEffect(() => {
   //   convertImageToText();
@@ -143,6 +184,22 @@ const sendTextToDjango = async (text) => {
 const englishSentence = ocr;
 sendTextToDjango(englishSentence);
 
+    // 형태소 사전 검색 호출
+    const searchDictionary = (morp) => {
+      return axios
+        .post("http://127.0.0.1:8000/api/Dictionary/", {
+          text: morp,
+        })
+        .then((response) => {
+          const dict = response.data.result; // 형태소 사전 검색 결과 추출
+          return dict;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error("형태소 사전 검색 실패");
+        });
+    };
+
   return (
     <div className={styles.mainlayout}>
       <div className={styles.Image}>
@@ -175,22 +232,59 @@ sendTextToDjango(englishSentence);
           ></textarea>
         </div>
         <div className={styles.blank2}>
-          <textarea
-            className={styles.inputField}
-            placeholder="형태소 분석 결과"
-            value={Array.isArray(morResult) ? morResult.join("\n") : ""}
-            readOnly
-          ></textarea>
-        <div className={styles.arrow1}></div>
-        <div className={styles.arrow2}></div>
-
-        {/* 형태소 번역 공간 */}
         <textarea
-          className={styles.outputbox}
-          placeholder="형태소 번역 결과"
-          value={Array.isArray(morTranslate) ? morTranslate.join("\n") : ""}
-          readOnly
-        ></textarea>
+        className={styles.inputField}
+        placeholder="형태소 분석 및 사전 검색 결과"
+        // 사전 검색 기본 값.
+        // value={
+        //   Array.isArray(words) && words.length > 0
+        //     ? words.map((item, index) => {
+        //         const analysisResult = item[0];
+        //         const dictionaryResult = Array.isArray(item[1]) && item[1].length > 0 && item[1][0].length > 0 ? item[1][0][1] : "";
+
+        //         return `${analysisResult}\n${dictionaryResult}\n\n`;
+        //       }).join("")
+        //     : "형태소 분석 및 사전 검색 결과"
+        // }
+        value={
+          Array.isArray(morTranslate) && morTranslate.length > 0
+            ? morTranslate.map((item, index) => {
+                const analysisResult = item[0];
+                let dictionaryResult = "";
+        
+                if (Array.isArray(item[1]) && item[1].length > 0) {
+                  const result0 = item[1][0][0];
+                  const result1 = item[1][0][1];
+        
+                  if (result0.match(/^[a-zA-Z]/)) {
+                    const mergedLength = item[1][0].reduce((total, str) => total + str.length, 0);
+                    if (mergedLength > 50) {
+                      let currentIndex = 0;
+                      let currentLength = 0;
+                      while (item[1][0][1][currentIndex]) {
+                        currentLength += item[1][0][1][currentIndex].length;
+                        if (currentLength > 50) {
+                          dictionaryResult = item[1][0][1].slice(0, currentIndex + 1);
+                          break;
+                        }
+                        currentIndex++;
+                      }
+                    }
+                    else{
+                    dictionaryResult = result1;
+                    }
+                  } else if (result0.match(/^[0-9(]/)) {
+                    dictionaryResult = result0;
+                  } else {
+                    dictionaryResult = result0;
+                  }
+                }
+                return `${analysisResult}\n${dictionaryResult}\n\n`;
+              }).join("")
+            : "형태소 분석 및 사전 검색 결과"
+        }
+        readOnly
+      ></textarea>
           <hr />
         </div>
       </div>

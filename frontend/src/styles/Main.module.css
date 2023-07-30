@@ -34,9 +34,22 @@
   border-radius: 30px;
   border-style: solid;
   background-color: transparent;
-  text-align: center;
+  text-align: left;
 }
 
+/*형태소 분석 및 사전 검색 결과 전용 박스*/
+.morField {
+  position: absolute;
+  top: 70px;
+  left: 0px;
+  width: 1000px;
+  height: 600px;
+  border-color: rgb(9, 47, 72);
+  border-radius: 30px;
+  border-style: solid;
+  background-color: transparent;
+  text-align: left;
+}
 
 .outputbox {
   position: absolute;
@@ -48,7 +61,7 @@
   border-radius: 30px;
   border-style: solid;
   background-color: transparent;
-  text-align: center;
+  text-align: left;
 }
 
 .arrow1 {
