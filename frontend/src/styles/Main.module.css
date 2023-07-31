@@ -91,6 +91,7 @@
   justify-content: center;
   align-items: center;
   margin: 5px 5px 7px 285px;
+  cursor: pointer; /* 커서를 포인터로 변경하여 사용자가 버튼처럼 느끼게 함 */
 }
 
 .blank0 {
@@ -222,22 +223,9 @@ hr {margin: 0px 0px;}
   border-radius: 30px;
   border-style: solid;
   background-color: transparent;
-  text-align: left;
+  text-align: center;
 }
 
-/*형태소 분석 및 사전 검색 결과 전용 박스*/
-.morField {
-  position: absolute;
-  top: 70px;
-  left: 0px;
-  width: 1000px;
-  height: 600px;
-  border-color: rgb(9, 47, 72);
-  border-radius: 30px;
-  border-style: solid;
-  background-color: transparent;
-  text-align: left;
-}
 
 .outputbox {
   position: absolute;
@@ -249,7 +237,7 @@ hr {margin: 0px 0px;}
   border-radius: 30px;
   border-style: solid;
   background-color: transparent;
-  text-align: left;
+  text-align: center;
 }
 
 .arrow1 {
