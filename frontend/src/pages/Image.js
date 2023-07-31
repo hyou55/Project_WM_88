@@ -42,6 +42,8 @@ import React, { useState } from "react";
 import {createWorker} from "tesseract.js";
 import axios from "axios";
 import styles from "../styles/image.module.css";
+import folder from "../styles/img/folder.png";
+import arrow from "../styles/img/arrow.png";
 
 
 function Image() {
@@ -144,54 +146,67 @@ const englishSentence = ocr;
 sendTextToDjango(englishSentence);
 
   return (
+    
     <div className={styles.mainlayout}>
+      <div className={styles.textposition1}>
+        <h2>이미지를 첨부해주세요</h2>
+      </div>
+      <div className={styles.textposition3}>
+      <label className={styles.inputfilebutton} for="input-file">
+          이미지 첨부
+        </label>
+        <input
+          type="file"
+          name=""
+          id="input-file"
+          onChange={handleImageChange}
+          accept="image/*"
+          style={{display:"none"}}
+        />
+        <img className={styles.folderimg} src={folder} />
+      </div>
+      
       <div className={styles.Image}>
         <div>
-          <h2>Choose an Image</h2>
-          <input
-            type="file"
-            name=""
-            id=""
-            onChange={handleImageChange}
-            accept="image/*"
-          />
-        </div>
-        <button className={styles.button} onClick={convertImageToText}>
-          텍스트 추출
+        <button className={styles.button} onClick={clicked}>
+          한글 번역  
         </button>
+          <button className={styles.button2} onClick={convertImageToText} >
+            텍스트 추출
+          </button>
+        </div> 
         <div className={styles.displayflex}>
           <img src={imageData} alt="" srcset="" />
-          <p>{ocr}</p>
+          <img className={styles.arrowimg} src={arrow} />
+          <div className={styles.outputField}>{ocr}</div>
         </div>
-        <button className={styles.button} onClick={clicked}>
-            번역
-        </button>
-        <div className={styles.blank1}>
           <textarea
-            className={styles.translateBox}
+            className={styles.outputbox}
             placeholder="번역 결과"
             value={translate}
             readOnly
           ></textarea>
+        <div className={styles.resultBox}>
+          <h4>문장 분석 결과입니다.</h4>
+          <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
+          <button className={styles.button2_1} >형태소 분석하기</button>
+          <button className={styles.button2_2} >한국어 결과보기</button>
         </div>
-        <div className={styles.blank2}>
+        <div className={styles.morphemeBox}>  
           <textarea
-            className={styles.inputField}
+            className={styles.outputbox2}
             placeholder="형태소 분석 결과"
             value={Array.isArray(morResult) ? morResult.join("\n") : ""}
             readOnly
           ></textarea>
-        <div className={styles.arrow1}></div>
-        <div className={styles.arrow2}></div>
 
         {/* 형태소 번역 공간 */}
         <textarea
-          className={styles.outputbox}
+          className={styles.outputbox2}
           placeholder="형태소 번역 결과"
           value={Array.isArray(morTranslate) ? morTranslate.join("\n") : ""}
           readOnly
         ></textarea>
-          <hr />
         </div>
       </div>
     </div>
