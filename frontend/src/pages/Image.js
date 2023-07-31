@@ -130,20 +130,21 @@ function Image() {
     };
     reader.readAsDataURL(file);
   }
-  // Tesseract로 영어 문장을 변환하고, 서버로 전송하는 함수
-const sendTextToDjango = async (text) => {
-  try {
-    const response = await axios.post('/api/process_text/', { text });
-    console.log(response.data); // 형태소 분석 결과
-    // 분석 결과를 원하는 방식으로 처리
-  } catch (error) {
-    console.error(error);
-  }
-};
 
-// 영어 문장 변환 후 sendTextToDjango 함수 호출 예시
-const englishSentence = ocr;
-sendTextToDjango(englishSentence);
+  // Tesseract로 영어 문장을 변환하고, 서버로 전송하는 함수
+  const sendTextToDjango = async (convertedText) => {
+    try {
+      const response = await axios.post('/api/analyze_text/', { text: convertedText });
+      const analyzedText = response.data.result;
+      console.log(analyzedText); // 형태소 분석 결과
+      // 분석 결과를 원하는 방식으로 처리
+    } catch (error) {
+      console.error(error);
+    }
+  };
+    // 영어 문장 변환 후 sendTextToDjango 함수 호출 예시
+const convertedText = ocr;
+sendTextToDjango(convertedText);
 
   return (
     
