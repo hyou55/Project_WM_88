@@ -42,6 +42,8 @@ import React, { useState } from "react";
 import {createWorker} from "tesseract.js";
 import axios from "axios";
 import styles from "../styles/image.module.css";
+import folder from "../styles/img/folder.png";
+import arrow from "../styles/img/arrow.png";
 
 
 function Image() {
@@ -169,6 +171,7 @@ function Image() {
     };
     reader.readAsDataURL(file);
   }
+
   // Tesseract로 영어 문장을 변환하고, 서버로 전송하는 함수
 const sendTextToDjango = async (text) => {
   try {
@@ -184,107 +187,70 @@ const sendTextToDjango = async (text) => {
 const englishSentence = ocr;
 sendTextToDjango(englishSentence);
 
-    // 형태소 사전 검색 호출
-    const searchDictionary = (morp) => {
-      return axios
-        .post("http://127.0.0.1:8000/api/Dictionary/", {
-          text: morp,
-        })
-        .then((response) => {
-          const dict = response.data.result; // 형태소 사전 검색 결과 추출
-          return dict;
-        })
-        .catch((error) => {
-          console.error(error);
-          throw new Error("형태소 사전 검색 실패");
-        });
-    };
-
   return (
+    
     <div className={styles.mainlayout}>
+      <div className={styles.textposition1}>
+        <h2>이미지를 첨부해주세요</h2>
+      </div>
+      <div className={styles.textposition3}>
+      <label className={styles.inputfilebutton} for="input-file">
+          이미지 첨부
+        </label>
+        <input
+          type="file"
+          name=""
+          id="input-file"
+          onChange={handleImageChange}
+          accept="image/*"
+          style={{display:"none"}}
+        />
+        <img className={styles.folderimg} src={folder} />
+      </div>
+      
       <div className={styles.Image}>
         <div>
-          <h2>Choose an Image</h2>
-          <input
-            type="file"
-            name=""
-            id=""
-            onChange={handleImageChange}
-            accept="image/*"
-          />
-        </div>
-        <button className={styles.button} onClick={convertImageToText}>
-          텍스트 추출
+        <button className={styles.button} onClick={clicked}>
+          한글 번역  
         </button>
+          <button className={styles.button2} onClick={convertImageToText} >
+            텍스트 추출
+          </button>
+        </div> 
         <div className={styles.displayflex}>
           <img src={imageData} alt="" srcset="" />
-          <p>{ocr}</p>
+          <img className={styles.arrowimg} src={arrow} />
+          <div className={styles.outputField}>{ocr}</div>
         </div>
-        <button className={styles.button} onClick={clicked}>
-            번역
-        </button>
-        <div className={styles.blank1}>
           <textarea
-            className={styles.translateBox}
+            className={styles.outputbox}
             placeholder="번역 결과"
             value={translate}
             readOnly
           ></textarea>
+        <div className={styles.resultBox}>
+          <h4>문장 분석 결과입니다.</h4>
+          <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
+          <button className={styles.button2_1} >형태소 분석하기</button>
+          <button className={styles.button2_2} >한국어 결과보기</button>
         </div>
         <div className={styles.blank2}>
-        <textarea
-        className={styles.inputField}
-        placeholder="형태소 분석 및 사전 검색 결과"
-        // 사전 검색 기본 값.
-        // value={
-        //   Array.isArray(words) && words.length > 0
-        //     ? words.map((item, index) => {
-        //         const analysisResult = item[0];
-        //         const dictionaryResult = Array.isArray(item[1]) && item[1].length > 0 && item[1][0].length > 0 ? item[1][0][1] : "";
+          <textarea
+            className={styles.inputField}
+            placeholder="형태소 분석 결과"
+            value={Array.isArray(morResult) ? morResult.join("\n") : ""}
+            readOnly
+          ></textarea>
+        <div className={styles.arrow1}></div>
+        <div className={styles.arrow2}></div>
 
-        //         return `${analysisResult}\n${dictionaryResult}\n\n`;
-        //       }).join("")
-        //     : "형태소 분석 및 사전 검색 결과"
-        // }
-        value={
-          Array.isArray(morTranslate) && morTranslate.length > 0
-            ? morTranslate.map((item, index) => {
-                const analysisResult = item[0];
-                let dictionaryResult = "";
-        
-                if (Array.isArray(item[1]) && item[1].length > 0) {
-                  const result0 = item[1][0][0];
-                  const result1 = item[1][0][1];
-        
-                  if (result0.match(/^[a-zA-Z]/)) {
-                    const mergedLength = item[1][0].reduce((total, str) => total + str.length, 0);
-                    if (mergedLength > 50) {
-                      let currentIndex = 0;
-                      let currentLength = 0;
-                      while (item[1][0][1][currentIndex]) {
-                        currentLength += item[1][0][1][currentIndex].length;
-                        if (currentLength > 50) {
-                          dictionaryResult = item[1][0][1].slice(0, currentIndex + 1);
-                          break;
-                        }
-                        currentIndex++;
-                      }
-                    }
-                    else{
-                    dictionaryResult = result1;
-                    }
-                  } else if (result0.match(/^[0-9(]/)) {
-                    dictionaryResult = result0;
-                  } else {
-                    dictionaryResult = result0;
-                  }
-                }
-                return `${analysisResult}\n${dictionaryResult}\n\n`;
-              }).join("")
-            : "형태소 분석 및 사전 검색 결과"
-        }
-        readOnly
-      ></textarea>
+        {/* 형태소 번역 공간 */}
+        <textarea
+          className={styles.outputbox}
+          placeholder="형태소 번역 결과"
+          value={Array.isArray(morTranslate) ? morTranslate.join("\n") : ""}
+          readOnly
+        ></textarea>
           <hr />
         </div>
       </div>
