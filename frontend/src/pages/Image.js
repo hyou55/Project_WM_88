@@ -45,6 +45,7 @@ import styles from "../styles/image.module.css";
 import folder from "../styles/img/folder.png";
 import arrow from "../styles/img/arrow.png";
 
+var button2Count = 1;
 
 function Image() {
   const [ocr, setOcr] = useState("");
@@ -52,6 +53,14 @@ function Image() {
   const [translate, setTranslate] = useState("");
   const [morResult, setmorResult] = useState([]); // 초기값은 빈 배열로 설정
   const [morTranslate, setmorTranslate] = useState([]); // 초기값은 빈 배열로 설정
+
+
+
+  const button2Switch = async () => { 
+    //<한글 번역>상태는 짝수, <텍스트 추출>상태는 홀수
+    if (button2Count%2== 1) convertImageToText();
+    if (button2Count%2== 0) clicked();
+  }
 
   const convertImageToText = async () => {
     if (!imageData) return;
@@ -67,9 +76,16 @@ function Image() {
       data: { text },
     } = await worker.recognize(imageData);
     setOcr(text);
+
+    document.getElementById("button2").innerHTML = "한글 번역";
+    button2Count++;
   };
 
+
   const clicked = async () => { 
+    document.getElementById("button2").innerHTML = "텍스트 추출";
+    button2Count++;
+
     axios
     .post("http://127.0.0.1:8000/api/PAPAGO/", {
       text: ocr,
@@ -124,6 +140,8 @@ function Image() {
       console.error(error);
       setmorResult(["형태소 분석 실패"]);
     }
+
+
   }
   // useEffect(() => {
   //   convertImageToText();
@@ -180,6 +198,7 @@ sendTextToDjango(englishSentence);
     document.getElementById("file-input").click();
   };
 
+
   return (
     
     <div className={styles.mainlayout}>
@@ -204,12 +223,15 @@ sendTextToDjango(englishSentence);
       
       <div className={styles.Image}>
         <div>
-        <button className={styles.button} onClick={clicked}>
-          한글 번역  
-        </button>
-          <button className={styles.button2} onClick={convertImageToText} >
+          <button id="button2" className={styles.button2} onClick={button2Switch}>
             텍스트 추출
           </button>
+
+          {/* <button className={styles.button} onClick={clicked}>
+          한글 번역  
+          </button> */}
+
+
         </div> 
         <div className={styles.displayflex}>
           <img src={imageData} alt="" srcset="" />
