@@ -1,6 +1,6 @@
 
 .mainlayout {
-  margin: 200px 100px;
+  margin: 300px 200px;
   width: 1100px;
   height: 1400px;
   background-color: transparent;
@@ -91,6 +91,7 @@
   justify-content: center;
   align-items: center;
   margin: 5px 5px 7px 285px;
+  cursor: pointer; /* 커서를 포인터로 변경하여 사용자가 버튼처럼 느끼게 함 */
 }
 
 .blank0 {

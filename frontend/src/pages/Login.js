@@ -119,7 +119,7 @@ const Login = ({ setGetToken, setUserInfo }) => {
     // 태그에 id="naverIdLogin" 를 해주지 않으면 오류가 발생한다!
     // 이게 로그인 버튼 생성한 것임
     <div>
-      <div id="naverIdLogin" />
+      <div className={styles.mainlayout} id="naverIdLogin" />
     </div>
     // 이거 위에 <div />이렇게 닫아놓고 왜 쓴거임 -> </div>
   );
