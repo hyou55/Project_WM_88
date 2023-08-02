@@ -284,7 +284,7 @@ sendTextToDjango(englishSentence);
           ></textarea>
 
         {/* 원래 왼쪽에는 형태소 분석, 오른쪽에는 형태소 사전 검색 결과가 있었지만 이제는 형태소, 사전검색 결과가 같이 나오도록 됨. \
-            수정할 것 ->textarea 2개를 하나로 만들고 데이터가 많으면 스크롤로 내리도록 하기 */}
+            수정할 것 ->textarea 2개를 그대로 해서 같이 나오게 하고 데이터가 많으면 스크롤로 내리도록 하기 */}
         {/* <textarea
           className={styles.outputbox2}
           placeholder="형태소 번역 결과"
