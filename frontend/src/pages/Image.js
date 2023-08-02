@@ -234,9 +234,9 @@ sendTextToDjango(englishSentence);
 
         </div> 
         <div className={styles.displayflex}>
-          <img src={imageData} alt="" srcset="" />
-          <img className={styles.arrowimg} src={arrow} />
-          <div className={styles.outputField}>{ocr}</div>
+          <img className={styles.ocrimg} src={imageData} alt="" srcset="" />
+          <img className={styles.arrowimg} src={arrow} ></img>
+          <div className={styles.outputbox}>{ocr}</div>
         </div>
           <textarea
             className={styles.outputbox}
@@ -244,76 +244,78 @@ sendTextToDjango(englishSentence);
             value={translate}
             readOnly
           ></textarea>
-        <div className={styles.resultBox}>
-          <h4>문장 분석 결과입니다.</h4>
-          <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
-          {/* <button className={styles.button2_1} >형태소 분석하기</button>
-          <button className={styles.button2_2} >한국어 결과보기</button> */}
-        </div>
-        <div className={styles.morphemeBox}>  
-          <textarea
-            className={styles.outputbox2}
-            placeholder="형태소 분석 및 사전 검색 결과"
-            // 사전 검색 기본 값.
-            // value={
-            //   Array.isArray(words) && words.length > 0
-            //     ? words.map((item, index) => {
-            //         const analysisResult = item[0];
-            //         const dictionaryResult = Array.isArray(item[1]) && item[1].length > 0 && item[1][0].length > 0 ? item[1][0][1] : "";
-    
-            //         return `${analysisResult}\n${dictionaryResult}\n\n`;
-            //       }).join("")
-            //     : "형태소 분석 및 사전 검색 결과"
-            // }
-            value={
-              Array.isArray(morTranslate) && morTranslate.length > 0
-                ? morTranslate.map((item, index) => {
-                    const analysisResult = item[0];
-                    let dictionaryResult = "";
-            
-                    if (Array.isArray(item[1]) && item[1].length > 0) {
-                      const result0 = item[1][0][0];
-                      const result1 = item[1][0][1];
-            
-                      if (result0.match(/^[a-zA-Z]/)) {
-                        const mergedLength = item[1][0].reduce((total, str) => total + str.length, 0);
-                        if (mergedLength > 50) {
-                          let currentIndex = 0;
-                          let currentLength = 0;
-                          while (item[1][0][1][currentIndex]) {
-                            currentLength += item[1][0][1][currentIndex].length;
-                            if (currentLength > 50) {
-                              dictionaryResult = item[1][0][1].slice(0, currentIndex + 1);
-                              break;
-                            }
-                            currentIndex++;
-                          }
-                        }
-                        else{
-                        dictionaryResult = result1;
-                        }
-                      } else if (result0.match(/^[0-9(]/)) {
-                        dictionaryResult = result0;
-                      } else {
-                        dictionaryResult = result0;
-                      }
-                    }
-                    return `${analysisResult}\n${dictionaryResult}\n\n`;
-                  }).join("")
-                : "형태소 분석 및 사전 검색 결과"
-            }
-            readOnly
-          ></textarea>
+      </div>
 
-        {/* 원래 왼쪽에는 형태소 분석, 오른쪽에는 형태소 사전 검색 결과가 있었지만 이제는 형태소, 사전검색 결과가 같이 나오도록 됨. \
-            수정할 것 ->textarea 2개를 하나로 만들고 데이터가 많으면 스크롤로 내리도록 하기 */}
-        {/* <textarea
+      <div className={styles.blank0}></div>
+      <div className={styles.resultBox}>
+        <h4>문장 분석 결과입니다.</h4>
+        <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
+        {/* <button className={styles.button2_1} >형태소 분석하기</button>
+        <button className={styles.button2_2} >한국어 결과보기</button> */}
+      </div>
+      <div className={styles.morphemeBox}>  
+        <textarea
           className={styles.outputbox2}
-          placeholder="형태소 번역 결과"
-          value={Array.isArray(morTranslate) ? morTranslate.join("\n") : ""}
+          placeholder="형태소 분석 및 사전 검색 결과"
+          // 사전 검색 기본 값.
+          // value={
+          //   Array.isArray(words) && words.length > 0
+          //     ? words.map((item, index) => {
+          //         const analysisResult = item[0];
+          //         const dictionaryResult = Array.isArray(item[1]) && item[1].length > 0 && item[1][0].length > 0 ? item[1][0][1] : "";
+    
+          //         return `${analysisResult}\n${dictionaryResult}\n\n`;
+          //       }).join("")
+          //     : "형태소 분석 및 사전 검색 결과"
+          // }
+          value={
+            Array.isArray(morTranslate) && morTranslate.length > 0
+              ? morTranslate.map((item, index) => {
+                  const analysisResult = item[0];
+                  let dictionaryResult = "";
+            
+                  if (Array.isArray(item[1]) && item[1].length > 0) {
+                    const result0 = item[1][0][0];
+                    const result1 = item[1][0][1];
+            
+                    if (result0.match(/^[a-zA-Z]/)) {
+                      const mergedLength = item[1][0].reduce((total, str) => total + str.length, 0);
+                      if (mergedLength > 50) {
+                        let currentIndex = 0;
+                        let currentLength = 0;
+                        while (item[1][0][1][currentIndex]) {
+                          currentLength += item[1][0][1][currentIndex].length;
+                          if (currentLength > 50) {
+                            dictionaryResult = item[1][0][1].slice(0, currentIndex + 1);
+                            break;
+                          }
+                          currentIndex++;
+                        }
+                      }
+                      else{
+                      dictionaryResult = result1;
+                      }
+                    } else if (result0.match(/^[0-9(]/)) {
+                      dictionaryResult = result0;
+                    } else {
+                      dictionaryResult = result0;
+                    }
+                  }
+                  return `${analysisResult}\n${dictionaryResult}\n\n`;
+                }).join("")
+              : "형태소 분석 및 사전 검색 결과"
+          }
           readOnly
-        ></textarea> */}
-        </div>
+        ></textarea>
+
+      {/* 원래 왼쪽에는 형태소 분석, 오른쪽에는 형태소 사전 검색 결과가 있었지만 이제는 형태소, 사전검색 결과가 같이 나오도록 됨. \
+          수정할 것 ->textarea 2개를 하나로 만들고 데이터가 많으면 스크롤로 내리도록 하기 */}
+      {/* <textarea
+        className={styles.outputbox2}
+        placeholder="형태소 번역 결과"
+        value={Array.isArray(morTranslate) ? morTranslate.join("\n") : ""}
+        readOnly
+      ></textarea> */}
       </div>
     </div>
   );

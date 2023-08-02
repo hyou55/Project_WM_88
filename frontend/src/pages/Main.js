@@ -180,7 +180,7 @@ const Main = () => {
             </div>
           </div>
           
-          {/* <div className={styles.arrow}></div> */}
+          <div className={styles.arrow}></div>
   
           <div className={styles.right}>
             <h2>한국어</h2>
