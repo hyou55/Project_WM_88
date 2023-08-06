@@ -161,7 +161,13 @@ p {
   text-align: 30px;
   background-color: rgba(255, 255, 255, 0);
   border-color: rgb(33, 61, 92);
-  overflow: auto;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.outputbox::-webkit-scrollbar{
+  display: none;
 }
 
 .outputField {
@@ -236,7 +242,7 @@ h2 {margin: 10px 10px; width: 500px; display: inline-block;}
 }
 
 .outputbox2 {
-  width: 500px;
+  width: 1100px;
   height: 550px;
   margin-top: 20px;
   margin-left: 20px;

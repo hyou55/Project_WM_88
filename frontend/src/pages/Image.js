@@ -45,7 +45,7 @@ import styles from "../styles/image.module.css";
 import folder from "../styles/img/folder.png";
 import arrow from "../styles/img/arrow.png";
 
-var button2Count = 1;
+//var button2Count = 1;
 
 function Image() {
   const [ocr, setOcr] = useState("");
@@ -53,14 +53,15 @@ function Image() {
   const [translate, setTranslate] = useState("");
   const [morResult, setmorResult] = useState([]); // 초기값은 빈 배열로 설정
   const [morTranslate, setmorTranslate] = useState([]); // 초기값은 빈 배열로 설정
+  const [button2Count, setButton2Count] = useState(0);
+  const [extractionResult, setExtractionResult] = useState('');
 
 
-
-  const button2Switch = async () => { 
+  //const button2Switch = async () => { 
     //<한글 번역>상태는 짝수, <텍스트 추출>상태는 홀수
-    if (button2Count%2== 1) convertImageToText();
-    if (button2Count%2== 0) clicked();
-  }
+    //if (button2Count%2== 1) convertImageToText();
+    //if (button2Count%2== 0) clicked();
+  //}
 
   const convertImageToText = async () => {
     if (!imageData) return;
@@ -75,32 +76,34 @@ function Image() {
     const {
       data: { text },
     } = await worker.recognize(imageData);
-    setOcr(text);
+    setExtractionResult(text);
 
-    document.getElementById("button2").innerHTML = "한글 번역";
-    button2Count++;
+    //document.getElementById("button2").innerHTML = "한글 번역";
+    //button2Count++;
+    
   };
 
 
   const clicked = async () => { 
-    document.getElementById("button2").innerHTML = "텍스트 추출";
-    button2Count++;
+    //document.getElementById("button2").innerHTML = "텍스트 추출";
+    //setButton2Count((prevCount) => prevCount + 1);
+    //button2Count++;
 
     axios
     .post("http://127.0.0.1:8000/api/PAPAGO/", {
-      text: ocr,
+      text: extractionResult,
     })
     .then((response) => {
       const translatedText1 = response.data.translated_text;
-      setTranslate(translatedText1);
+      setExtractionResult(translatedText1);
     })
     .catch((error) => {
       console.error(error);
-      setTranslate("번역 실패");
+      setExtractionResult("번역 실패");
     });
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
-        text: ocr,
+        text: extractionResult,
       });
   
       const nouns = response.data.nouns;
@@ -173,7 +176,7 @@ const sendTextToDjango = async (text) => {
 };
 
 // 영어 문장 변환 후 sendTextToDjango 함수 호출 예시
-const englishSentence = ocr;
+const englishSentence = extractionResult;
 sendTextToDjango(englishSentence);
 
     // 형태소 사전 검색 호출
@@ -198,9 +201,17 @@ sendTextToDjango(englishSentence);
     document.getElementById("file-input").click();
   };
 
+  const button2Switch = async () => {
+    if (button2Count % 2 === 0) {
+      await convertImageToText();
+    } else {
+      await clicked();
+    }
+    setButton2Count((prevCount) => prevCount + 1);
+  };
+
 
   return (
-    
     <div className={styles.mainlayout}>
       <div className={styles.textposition1}>
         <h2>이미지를 첨부해주세요</h2>
@@ -224,7 +235,7 @@ sendTextToDjango(englishSentence);
       <div className={styles.Image}>
         <div>
           <button id="button2" className={styles.button2} onClick={button2Switch}>
-            텍스트 추출
+            {button2Count % 2 === 0 ? '텍스트 추출' : '한글 번역'}          
           </button>
 
           {/* <button className={styles.button} onClick={clicked}>
@@ -236,12 +247,11 @@ sendTextToDjango(englishSentence);
         <div className={styles.displayflex}>
           <img className={styles.ocrimg} src={imageData} alt="" srcset="" />
           <img className={styles.arrowimg} src={arrow} ></img>
-          <div className={styles.outputbox}>{ocr}</div>
         </div>
           <textarea
             className={styles.outputbox}
             placeholder="번역 결과"
-            value={translate}
+            value={extractionResult}
             readOnly
           ></textarea>
       </div>
@@ -310,12 +320,6 @@ sendTextToDjango(englishSentence);
 
       {/* 원래 왼쪽에는 형태소 분석, 오른쪽에는 형태소 사전 검색 결과가 있었지만 이제는 형태소, 사전검색 결과가 같이 나오도록 됨. \
           수정할 것 ->textarea 2개를 하나로 만들고 데이터가 많으면 스크롤로 내리도록 하기 */}
-      {/* <textarea
-        className={styles.outputbox2}
-        placeholder="형태소 번역 결과"
-        value={Array.isArray(morTranslate) ? morTranslate.join("\n") : ""}
-        readOnly
-      ></textarea> */}
       </div>
     </div>
   );
