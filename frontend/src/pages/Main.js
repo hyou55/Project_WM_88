@@ -25,7 +25,6 @@ const Main = () => {
         console.error(error);
         setResultValue1("번역 실패");
       });
-
       try {
         const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
           text: textValue,
@@ -181,7 +180,7 @@ const Main = () => {
             </div>
           </div>
           
-          {/* <div className={styles.arrow}></div> */}
+          <div className={styles.arrow}></div>
   
           <div className={styles.right}>
             <h2>한국어</h2>

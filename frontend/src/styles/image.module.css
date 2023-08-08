@@ -1,18 +1,13 @@
 
 .Image {
-  position: relative;
-  top: -20px;
-  left: 50px;
+  margin-top: 50px;
+  margin-left: 50px;
   padding: 10px;
 }
 input {
   margin-bottom: 5px;
 }
-img {
-  max-width: 30vw;
-  margin-right: 50px;
-  height: auto;
-}
+
 p {
   width: 50vw;
 }
@@ -78,7 +73,7 @@ p {
 .blank0{
   margin: 100px 50px;
   width: 1100px;
-  height: 300px;
+  height: 150px;
 }
 
 .blank1 {
@@ -87,28 +82,13 @@ p {
   left: 0px;
 }
 
-.blank2 {
-  position: absolute;
-  top: 900px;
-  left: -10px;
-  width: 1000px;
-  height: 10px;
-}
-
-.blank3 {
-  position: absolute;
-  top: 1300px;
-  left: -10px;
-  width: 1000px;
-  height: 10px;
-}
 
 /*  */
 
 .textposition1 {
-  position: relative;
-  top:20px;
-  left:50px;
+  margin: 0px 50px;
+  width: 1100px;
+  height: 50px;
 }
 
 .textposition2 {
@@ -118,9 +98,9 @@ p {
 }
 
 .textposition3 {
-  position: relative;
-  top: 20px;
-  left:120px;
+  margin: 10px 100px;
+  width: 1100px;
+  height: 50px;
 }
 
 .button {
@@ -141,9 +121,7 @@ p {
 }
 
 .button2 {
-  position: relative;
-  top: -50px;
-  left: 780px;
+  margin: -120px 900px;
   width: 100px;
   height: 40px;
   background-color: rgb(26, 80, 139);
@@ -157,9 +135,9 @@ p {
   cursor: pointer; /* 커서를 포인터로 변경하여 사용자가 버튼처럼 느끼게 함 */
 }
 
+
 .inputfilebutton{
-  position: relative;
-  left: 10px;
+  margin: 0px 60px;
   width: 134px;
   height: 40px;
   background-color: rgb(26, 80, 139);
@@ -177,13 +155,19 @@ p {
 .outputbox {
   width: 450px;
   height: 300px;
-  margin-top: 20px;
-  margin-left: 20px;
+  margin-top: 370px;
+  margin-left: 300px;
   font-size: 20px;
   text-align: 30px;
   background-color: rgba(255, 255, 255, 0);
-  border-color: rgb(33, 61, 92)
-  
+  border-color: rgb(33, 61, 92);
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.outputbox::-webkit-scrollbar{
+  display: none;
 }
 
 .outputField {
@@ -195,14 +179,21 @@ p {
   line-height : 25px;
   margin-top: 8px;
   margin-left: 7px;
+  overflow: auto;
 }
 
 .folderimg{
+  margin-top: -70px;
+  margin-left: 0px;
   width: 50px;
-  position: absolute;
-  left: -50px;
-  top: -5px;
   z-index: 2; /* 이미지의 층위를 설정하여 버튼보다 더 위에 표시되도록 함 */
+}
+
+.ocrimg{
+  max-width: 30vw;
+  margin-right: 50px;
+  margin-top: 150px;
+  height: auto;
 }
 
 .resultBox {
@@ -251,14 +242,20 @@ h2 {margin: 10px 10px; width: 500px; display: inline-block;}
 }
 
 .outputbox2 {
-  width: 500px;
+  width: 1100px;
   height: 550px;
   margin-top: 20px;
   margin-left: 20px;
   font-size: 20px;
   text-align: 30px;
   background-color: rgba(255, 255, 255, 0);
-  
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.outputbox2::-webkit-scrollbar{
+  display: none;
 }
 
 .translatedBox{
@@ -268,8 +265,9 @@ h2 {margin: 10px 10px; width: 500px; display: inline-block;}
 }
 
 .arrowimg{
-    width: 64px;
-    position: absolute;
-    left: 500px;
-    top: 180px;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  top : 510px;
+  left: 750px;
 }

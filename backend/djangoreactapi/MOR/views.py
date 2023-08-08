@@ -4,6 +4,11 @@ from django.http import JsonResponse
 from nltk import word_tokenize, pos_tag
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+
 
 # 겹치는 단어 없애고 순서대로 출력하기 위한
 from collections import OrderedDict

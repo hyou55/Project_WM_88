@@ -39,6 +39,13 @@
   line-height : 25px;
   margin-top: 14px;
   margin-left: 7px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.inputField::-webkit-scrollbar{
+  display: none;
 }
 
 .outputField {
@@ -50,8 +57,14 @@
   line-height : 25px;
   margin-top: 8px;
   margin-left: 7px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
+.outputField::-webkit-scrollbar{
+  display: none;
+}
 
 .textposition1 {
   width: 400px;
@@ -140,14 +153,20 @@ textarea {
 }
 
 .outputbox {
-  width: 500px;
+  width: 1100px;
   height: 550px;
   margin-top: 20px;
   margin-left: 20px;
   font-size: 20px;
   text-align: 30px;
   background-color: rgba(255, 255, 255, 0);
-  
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.outputbox::-webkit-scrollbar {
+  display: none;
 }
 
 
