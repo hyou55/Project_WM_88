@@ -2,9 +2,11 @@ nav {
   position: fixed;
   top: 0;
   width: 100%;
-  height: 150px;
+  height: 250px;
   display: flex;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(33, 61, 92);
+  justify-content: center;
+  align-items: center;
 }
 
 nav > div {
@@ -18,21 +20,34 @@ nav > div {
   font-size: 1rem;
   color : rgb(132, 132, 132);
   text-decoration: none;
+  width: 100px;
+  height: 10px;
+  
 }
 
 .mainbar{
+  display: flex;
+  position: absolute;
   font-size: 1.2rem;
-  color : rgb(132, 132, 132);
+  color : rgb(255, 255, 255);
   text-decoration: none;
+  top : 200px;
 }
 
 nav > div2 {
   width: 100%;
+  padding: 30px;
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
   font-size: xx-large;
   color: rgb(9, 47, 72);
   font-weight: bolder;
   padding: 30px;
+}
+
+.logoimg{
+  width: 300px;
+  position: absolute;
+  top: 10px;
 }
