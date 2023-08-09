@@ -203,6 +203,20 @@ hr {margin: 0px 0px;}
   align-items: center;
 }
 
+.button2_3 {
+  margin: -30px 5px 3px 900px;
+  width: 120px;
+  height: 40px;
+  background-color: rgb(26, 80, 139);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 
 /* 

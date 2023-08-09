@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "../styles/Main.module.css";
 import axios from "axios";
+import html2canvas from "html2canvas";
 
 const Main = () => {
   const [textValue, setTextValue] = useState("");
@@ -163,6 +164,25 @@ const Main = () => {
         });
     };
 
+     // DOM화면을 이미지로 저장하는 코드
+  const morResultRef = useRef(null);
+
+  const captureAndSaveImage = () => {
+    // 캡처할 요소를 선택 (여기서는 morResult div를 선택)
+    const element = morResultRef.current;
+
+    // html2canvas를 사용하여 선택한 div 요소를 이미지로 변환
+    html2canvas(element).then((canvas) => {
+      // 변환된 이미지를 저장할 수 있는 링크 생성
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = "captured_image.png"; // 저장할 이미지 파일 이름 지정
+
+      // 링크를 클릭하여 이미지 저장
+      link.click();
+    });
+  };
+
     return (
       <div className={styles.mainlayout}>
         <div className={styles.translatedBox}>
@@ -198,6 +218,9 @@ const Main = () => {
         <div className={styles.resultBox}>
           <h4>문장 분석 결과입니다.</h4>
           <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
+          <button className={styles.button2_3} onClick={captureAndSaveImage}>
+          결과 이미지 저장
+          </button>
           {/* <button className={styles.button2_1} onClick={mor_Clicked}>형태소 분석하기</button>
           <button className={styles.button2_2} onClick={diction_Clicked}>한국어 결과보기</button> */}
         </div>
@@ -209,7 +232,7 @@ const Main = () => {
           <p className={styles.saveVocaAdd}>단어장A</p>
           
         </div> */}
-        <div className={styles.morphemeBox}>
+        <div className={styles.morphemeBox} ref={morResultRef}>
           <textarea className={styles.outputbox}
              placeholder="형태소 분석 및 사전 검색 결과"
              // 사전 검색 기본 값.
