@@ -232,7 +232,12 @@ const Main = () => {
           <p className={styles.saveVocaAdd}>단어장A</p>
           
         </div> */}
-        <div className={styles.morphemeBox} ref={morResultRef}>
+
+
+
+
+
+        {/* <div className={styles.morphemeBox} ref={morResultRef}>
           <textarea className={styles.outputbox}
              placeholder="형태소 분석 및 사전 검색 결과"
              // 사전 검색 기본 값.
@@ -286,20 +291,64 @@ const Main = () => {
              
              readOnly
            ></textarea>
+        </div> */}
 
 
-          {/* 원래 왼쪽에는 형태소 분석, 오른쪽에는 형태소 사전 검색 결과가 있었지만 이제는 형태소, 사전검색 결과가 같이 나오도록 됨. \
-            수정할 것 ->textarea 2개를 그대로 해서 같이 나오게 하고 데이터가 많으면 스크롤로 내리도록 하기 */}
-          {/* <textarea className={styles.outputbox}
-            placeholder="형태소 사전 검색 결과"
-            value={
-              Array.isArray(word) && word.length > 0
-                ? word.map((innerList, index) => (index > 0 ? "\n\n" : "") + innerList[0]).join("")
-                : "형태소 사전 검색 결과"
-            }readOnly>
-          </textarea> */}
-        </div>
+<div className={styles.morphemeBox} ref={morResultRef}>
+        {/* 형태소 분석 및 사전 검색 결과 */}
+        <ul className={styles.outputList}>
+          {Array.isArray(words) && words.length > 0 ? (
+            words.map((item, index) => {
+              const analysisResult = item[0];
+              let dictionaryResult = "";
+
+              if (Array.isArray(item[1]) && item[1].length > 0) {
+                const result0 = item[1][0][0];
+                const result1 = item[1][0][1];
+
+                if (result0.match(/^[a-zA-Z]/)) {
+                  const mergedLength = item[1][0].reduce(
+                    (total, str) => total + str.length,
+                    0
+                  );
+                  if (mergedLength > 50) {
+                    let currentIndex = 0;
+                    let currentLength = 0;
+                    while (item[1][0][1][currentIndex]) {
+                      currentLength += item[1][0][1][currentIndex].length;
+                      if (currentLength > 50) {
+                        dictionaryResult = item[1][0][1].slice(
+                          0,
+                          currentIndex + 1
+                        );
+                        break;
+                      }
+                      currentIndex++;
+                    }
+                  } else {
+                    dictionaryResult = result1;
+                  }
+                } else if (result0.match(/^[0-9(]/)) {
+                  dictionaryResult = result0;
+                } else {
+                  dictionaryResult = result0;
+                }
+              }
+
+              return (
+                <li key={index}>
+                  {analysisResult}
+                  <br />
+                  {dictionaryResult}
+                </li>
+              );
+            })
+          ) : (
+            <li>형태소 분석 및 사전 검색 결과</li>
+          )}
+        </ul>
       </div>
+    </div>
 
     );
   };
