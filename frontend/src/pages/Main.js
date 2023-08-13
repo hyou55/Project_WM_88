@@ -9,11 +9,14 @@ const Main = () => {
   const [morp, setMorp] = useState([]); // 형태소 분석된 것들의 리스트
   const [words, setWords] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색의 전체 문장이 들어있음)
   const [word, setWord] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색 안에서 또 개별 단어가 리스트화 됨)
+  const [showMorphemeBox, setShowMorphemeBox] = useState(false);
+
   const handleSetValue = (e) => {
     setTextValue(e.target.value);
   };
 
   const clicked = async () => {
+    setShowMorphemeBox(true);
     axios
       .post("http://127.0.0.1:8000/api/PAPAGO/", {
         text: textValue,
@@ -171,6 +174,7 @@ const Main = () => {
     // 캡처할 요소를 선택 (여기서는 morResult div를 선택)
     const element = morResultRef.current;
 
+
     // html2canvas를 사용하여 선택한 div 요소를 이미지로 변환
     html2canvas(element).then((canvas) => {
       // 변환된 이미지를 저장할 수 있는 링크 생성
@@ -183,6 +187,10 @@ const Main = () => {
     });
   };
 
+  
+  
+
+  
     return (
       <div className={styles.mainlayout}>
         <div className={styles.translatedBox}>
@@ -293,64 +301,65 @@ const Main = () => {
            ></textarea>
         </div> */}
 
+    {showMorphemeBox && (
+      <div className={styles.morphemeBox} ref={morResultRef} >
+          {/* 형태소 분석 및 사전 검색 결과 */}
+          <ul className={styles.outputbox}>
+            {Array.isArray(words) && words.length > 0 ? (
+              words.map((item, index) => {
+                const analysisResult = item[0];
+                let dictionaryResult = "";
 
-<div className={styles.morphemeBox} ref={morResultRef}>
-        {/* 형태소 분석 및 사전 검색 결과 */}
-        <ul className={styles.outputList}>
-          {Array.isArray(words) && words.length > 0 ? (
-            words.map((item, index) => {
-              const analysisResult = item[0];
-              let dictionaryResult = "";
+                if (Array.isArray(item[1]) && item[1].length > 0) {
+                  const result0 = item[1][0][0];
+                  const result1 = item[1][0][1];
 
-              if (Array.isArray(item[1]) && item[1].length > 0) {
-                const result0 = item[1][0][0];
-                const result1 = item[1][0][1];
-
-                if (result0.match(/^[a-zA-Z]/)) {
-                  const mergedLength = item[1][0].reduce(
-                    (total, str) => total + str.length,
-                    0
-                  );
-                  if (mergedLength > 50) {
-                    let currentIndex = 0;
-                    let currentLength = 0;
-                    while (item[1][0][1][currentIndex]) {
-                      currentLength += item[1][0][1][currentIndex].length;
-                      if (currentLength > 50) {
-                        dictionaryResult = item[1][0][1].slice(
-                          0,
-                          currentIndex + 1
-                        );
-                        break;
+                  if (result0.match(/^[a-zA-Z]/)) {
+                    const mergedLength = item[1][0].reduce(
+                      (total, str) => total + str.length,
+                      0
+                    );
+                    if (mergedLength > 50) {
+                      let currentIndex = 0;
+                      let currentLength = 0;
+                      while (item[1][0][1][currentIndex]) {
+                        currentLength += item[1][0][1][currentIndex].length;
+                        if (currentLength > 50) {
+                          dictionaryResult = item[1][0][1].slice(
+                            0,
+                            currentIndex + 1
+                          );
+                          break;
+                        }
+                        currentIndex++;
                       }
-                      currentIndex++;
+                    } else {
+                      dictionaryResult = result1;
                     }
+                  } else if (result0.match(/^[0-9(]/)) {
+                    dictionaryResult = result0;
                   } else {
-                    dictionaryResult = result1;
+                    dictionaryResult = result0;
                   }
-                } else if (result0.match(/^[0-9(]/)) {
-                  dictionaryResult = result0;
-                } else {
-                  dictionaryResult = result0;
                 }
-              }
 
-              return (
-                <li key={index}>
-                  {analysisResult}
-                  <br />
-                  {dictionaryResult}
-                </li>
-              );
-            })
-          ) : (
-            <li>형태소 분석 및 사전 검색 결과</li>
-          )}
-        </ul>
-      </div>
+                return (
+                  <li key={index}>
+                    {analysisResult}
+                    <br />
+                    {dictionaryResult}
+                  </li>
+                );
+              })
+            ) : (
+              <li>형태소 분석 및 사전 검색 결과</li>
+            )}
+          </ul>
+        </div>
+      )}
     </div>
 
-    );
-  };
+      );
+    };
     
 export default Main;
