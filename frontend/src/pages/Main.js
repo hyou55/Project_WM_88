@@ -308,57 +308,22 @@ const Main = () => {
       <div className={styles.morphemeBox} ref={morResultRef} >
           {/* 형태소 분석 및 사전 검색 결과 */}
           <ul className={styles.outputbox}>
-            {Array.isArray(words) && words.length > 0 ? (
-              words.map((item, index) => {
-                const analysisResult = item[0];
-                let dictionaryResult = "";
+            {Array.isArray(words) && words.length > 0 ? words.map((item, index) => {
+                      const analysisResult = item[0];
+                      const dictionaryResult = Array.isArray(item[1]) && item[1].length > 0 && item[1][0].length > 0 ? item[1][0][1] : "";
 
-                if (Array.isArray(item[1]) && item[1].length > 0) {
-                  const result0 = item[1][0][0];
-                  const result1 = item[1][0][1];
-
-                  if (result0.match(/^[a-zA-Z]/)) {
-                    const mergedLength = item[1][0].reduce(
-                      (total, str) => total + str.length,
-                      0
-                    );
-                    if (mergedLength > 50) {
-                      let currentIndex = 0;
-                      let currentLength = 0;
-                      while (item[1][0][1][currentIndex]) {
-                        currentLength += item[1][0][1][currentIndex].length;
-                        if (currentLength > 50) {
-                          dictionaryResult = item[1][0][1].slice(
-                            0,
-                            currentIndex + 1
-                          );
-                          break;
-                        }
-                        currentIndex++;
-                      }
-                    } else {
-                      dictionaryResult = result1;
-                    }
-                  } else if (result0.match(/^[0-9(]/)) {
-                    dictionaryResult = result0;
-                  } else {
-                    dictionaryResult = result0;
+                      return (
+                        <li key={index}>
+                          {analysisResult}
+                          <br />
+                          {dictionaryResult}
+                        </li>
+                      );
+                    })
+                  : (<li>형태소 분석 및 사전 검색 결과</li>)
                   }
-                }
-
-                return (
-                  <li key={index}>
-                    {analysisResult}
-                    <br />
-                    {dictionaryResult}
-                  </li>
-                );
-              })
-            ) : (
-              <li>형태소 분석 및 사전 검색 결과</li>
-            )}
-          </ul>
-        </div>
+                </ul>
+              </div>
       )}
     </div>
 
