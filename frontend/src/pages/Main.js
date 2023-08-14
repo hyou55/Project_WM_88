@@ -8,7 +8,7 @@ const Main = () => {
   const [resultValue1, setResultValue1] = useState("");
   const [morp, setMorp] = useState([]); // 형태소 분석된 것들의 리스트
   const [words, setWords] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색의 전체 문장이 들어있음)
-  const [word, setWord] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색 안에서 또 개별 단어가 리스트화 됨)
+  // const [word, setWord] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색 안에서 또 개별 단어가 리스트화 됨)
   const [showMorphemeBox, setShowMorphemeBox] = useState(false);
 
   const handleSetValue = (e) => {
@@ -304,7 +304,7 @@ const Main = () => {
             </div> 
           */}
 
-{showMorphemeBox && (
+      {showMorphemeBox && (
       <div className={styles.morphemeBox} ref={morResultRef} >
           {/* 형태소 분석 및 사전 검색 결과 */}
           <ul className={styles.outputbox}>
