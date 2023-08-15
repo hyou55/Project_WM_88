@@ -29,151 +29,151 @@ const Main = () => {
         console.error(error);
         setResultValue1("번역 실패");
       });
-      try {
-        const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/process_text/",
+        {
           text: textValue,
-        });
-    
-        const nouns = response.data.nouns;
-    
-        // 형태소 분석 결과를 words 상태로 업데이트
-        setWords(nouns.map((word) => [word, ""]));
-    
-        // 형태소 분석 결과를 morp 상태로 업데이트
-        setMorp(nouns);
-    
-        // 형태소 사전 검색 호출
-        const results = [];
-        for (const item of nouns) {
-          let dict = ""; // 사전 검색 결과를 담을 변수
-          while (dict === "") { // 사전 검색 결과가 빈 문자열일 경우 계속해서 사전 검색 수행
-            try {
-              dict = await searchDictionary(item);
-            } catch (error) {
-              console.error(error);
-              dict = "형태소 사전 검색 실패";
-            }
-          }
-    
-          // words 배열의 각 항목에 형태소와 사전 검색 결과를 할당
-          setWords((prevWords) =>
-            prevWords.map((word) => {
-              if (word[0] === item) {
-                return [item, dict];
-              }
-              return word;
-            })
-          );
-    
-          results.push(dict);
         }
-      } catch (error) {
-        console.error(error);
-        setMorp(["형태소 분석 실패"]);
+      );
+
+      const nouns = response.data.nouns;
+
+      // 형태소 분석 결과를 words 상태로 업데이트
+      setWords(nouns.map((word) => [word, ""]));
+
+      // 형태소 분석 결과를 morp 상태로 업데이트
+      setMorp(nouns);
+
+      // 형태소 사전 검색 호출
+      const results = [];
+      for (const item of nouns) {
+        let dict = ""; // 사전 검색 결과를 담을 변수
+        while (dict === "") {
+          // 사전 검색 결과가 빈 문자열일 경우 계속해서 사전 검색 수행
+          try {
+            dict = await searchDictionary(item);
+          } catch (error) {
+            console.error(error);
+            dict = "형태소 사전 검색 실패";
+          }
+        }
+
+        // words 배열의 각 항목에 형태소와 사전 검색 결과를 할당
+        setWords((prevWords) =>
+          prevWords.map((word) => {
+            if (word[0] === item) {
+              return [item, dict];
+            }
+            return word;
+          })
+        );
+
+        results.push(dict);
       }
+    } catch (error) {
+      console.error(error);
+      setMorp(["형태소 분석 실패"]);
     }
-    
-    // const mor_Clicked = async () => {
-    //   try {
-    //     const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
-    //       text: "Ukraine war is spurring a revolution in drone warfare using artificial intelligence",
-    //       // text: "Chinese audiences are gravitating toward movies made at home, rather than in Hollywood",
-    //     });
-    
-    //     const nouns = response.data.nouns;
-    
-    //     // 형태소 분석 결과를 words 상태로 업데이트
-    //     setWords(nouns.map((word) => [word, ""]));
-    
-    //     // 형태소 분석 결과를 morp 상태로 업데이트
-    //     setMorp(nouns);
-    //   } catch (error) {
-    //     console.error(error);
-    //     setMorp(["형태소 분석 실패"]);
-    //   }
-    // };
-  
-    // const diction_Clicked = async () => {
-    //   // 형태소 분석 호출
-    //   try {
-    //     const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
-    //       text: textValue,
-    //     });
-    
-    //     const nouns = response.data.nouns;
-    
-    //     // 형태소 분석 결과를 words 상태로 업데이트
-    //     setWords(nouns.map((word) => [word, ""]));
-    
-    //     // 형태소 분석 결과를 morp 상태로 업데이트
-    //     setMorp(nouns);
-    
-    //     // 형태소 사전 검색 호출
-    //     const results = [];
-    //     for (const item of nouns) {
-    //       let dict = ""; // 사전 검색 결과를 담을 변수
-    //       while (dict === "") { // 사전 검색 결과가 빈 문자열일 경우 계속해서 사전 검색 수행
-    //         try {
-    //           dict = await searchDictionary(item);
-    //         } catch (error) {
-    //           console.error(error);
-    //           dict = "형태소 사전 검색 실패";
-    //         }
-    //       }
-    
-    //       // words 배열의 각 항목에 형태소와 사전 검색 결과를 할당
-    //       setWords((prevWords) =>
-    //         prevWords.map((word) => {
-    //           if (word[0] === item) {
-    //             return [item, dict];
-    //           }
-    //           return word;
-    //         })
-    //       );
-    
-    //       results.push(dict);
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //     setMorp(["형태소 분석 실패"]);
-    //   }
-    // };
+  };
 
+  // const mor_Clicked = async () => {
+  //   try {
+  //     const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
+  //       text: "Ukraine war is spurring a revolution in drone warfare using artificial intelligence",
+  //       // text: "Chinese audiences are gravitating toward movies made at home, rather than in Hollywood",
+  //     });
 
+  //     const nouns = response.data.nouns;
 
-      // words를 쪼개서 word 리스트에 저장하는 작업
-      // const newWord = [];
-      // for (const wordItem of results) {
-      //   const sentences = wordItem[0].split(", "); // ", "를 기준으로 문장을 나눔
-      //   const sentenceList = sentences.map((sentence) => sentence.trim()); // 각 문장 앞뒤의 공백을 제거하고 리스트에 추가
-      //   newWord.push(sentenceList); // 각각의 sentenceList를 newWord 리스트에 추가
-      // }
-      // setWord(newWord);
+  //     // 형태소 분석 결과를 words 상태로 업데이트
+  //     setWords(nouns.map((word) => [word, ""]));
 
-  
-    // 형태소 사전 검색 호출
-    const searchDictionary = (morp) => {
-      return axios
-        .post("http://127.0.0.1:8000/api/Dictionary/", {
-          text: morp,
-        })
-        .then((response) => {
-          const dict = response.data.result; // 형태소 사전 검색 결과 추출
-          return dict;
-        })
-        .catch((error) => {
-          console.error(error);
-          throw new Error("형태소 사전 검색 실패");
-        });
-    };
+  //     // 형태소 분석 결과를 morp 상태로 업데이트
+  //     setMorp(nouns);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setMorp(["형태소 분석 실패"]);
+  //   }
+  // };
 
-     // DOM화면을 이미지로 저장하는 코드
+  // const diction_Clicked = async () => {
+  //   // 형태소 분석 호출
+  //   try {
+  //     const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
+  //       text: textValue,
+  //     });
+
+  //     const nouns = response.data.nouns;
+
+  //     // 형태소 분석 결과를 words 상태로 업데이트
+  //     setWords(nouns.map((word) => [word, ""]));
+
+  //     // 형태소 분석 결과를 morp 상태로 업데이트
+  //     setMorp(nouns);
+
+  //     // 형태소 사전 검색 호출
+  //     const results = [];
+  //     for (const item of nouns) {
+  //       let dict = ""; // 사전 검색 결과를 담을 변수
+  //       while (dict === "") { // 사전 검색 결과가 빈 문자열일 경우 계속해서 사전 검색 수행
+  //         try {
+  //           dict = await searchDictionary(item);
+  //         } catch (error) {
+  //           console.error(error);
+  //           dict = "형태소 사전 검색 실패";
+  //         }
+  //       }
+
+  //       // words 배열의 각 항목에 형태소와 사전 검색 결과를 할당
+  //       setWords((prevWords) =>
+  //         prevWords.map((word) => {
+  //           if (word[0] === item) {
+  //             return [item, dict];
+  //           }
+  //           return word;
+  //         })
+  //       );
+
+  //       results.push(dict);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     setMorp(["형태소 분석 실패"]);
+  //   }
+  // };
+
+  // words를 쪼개서 word 리스트에 저장하는 작업
+  // const newWord = [];
+  // for (const wordItem of results) {
+  //   const sentences = wordItem[0].split(", "); // ", "를 기준으로 문장을 나눔
+  //   const sentenceList = sentences.map((sentence) => sentence.trim()); // 각 문장 앞뒤의 공백을 제거하고 리스트에 추가
+  //   newWord.push(sentenceList); // 각각의 sentenceList를 newWord 리스트에 추가
+  // }
+  // setWord(newWord);
+
+  // 형태소 사전 검색 호출
+  const searchDictionary = (morp) => {
+    return axios
+      .post("http://127.0.0.1:8000/api/Dictionary/", {
+        text: morp,
+      })
+      .then((response) => {
+        const dict = response.data.result; // 형태소 사전 검색 결과 추출
+        return dict;
+      })
+      .catch((error) => {
+        console.error(error);
+        throw new Error("형태소 사전 검색 실패");
+      });
+  };
+
+  // DOM화면을 이미지로 저장하는 코드
   const morResultRef = useRef(null);
 
   const captureAndSaveImage = () => {
     // 캡처할 요소를 선택 (여기서는 morResult div를 선택)
     const element = morResultRef.current;
-
 
     // html2canvas를 사용하여 선택한 div 요소를 이미지로 변환
     html2canvas(element).then((canvas) => {
@@ -187,53 +187,51 @@ const Main = () => {
     });
   };
 
-  
-  
-
-  
-    return (
-      <div className={styles.mainlayout}>
-        <div className={styles.translatedBox}>
-          <div className={styles.left}>
-            <h2>영어</h2>
-            <div className={styles.textposition1}>  
-              <textarea className={styles.inputField} 
+  return (
+    <div className={styles.mainlayout}>
+      <div className={styles.translatedBox}>
+        <div className={styles.left}>
+          <h2>영어</h2>
+          <div className={styles.textposition1}>
+            <textarea
+              className={styles.inputField}
               placeholder="번역할 내용을 입력하세요."
               value={textValue}
-              
               onChange={handleSetValue}
             ></textarea>
             <hr></hr>
-            <button className={styles.button} onClick={clicked}>번역</button>
-            </div>
+            <button className={styles.button} onClick={clicked}>
+              번역
+            </button>
           </div>
-          
-          <div className={styles.arrow}></div>
-  
-          <div className={styles.right}>
-            <h2>한국어</h2>
-            <div className={styles.textposition2}>
-              <textarea class={styles.outputField} 
+        </div>
+
+        <div className={styles.arrow}></div>
+
+        <div className={styles.right}>
+          <h2>한국어</h2>
+          <div className={styles.textposition2}>
+            <textarea
+              class={styles.outputField}
               placeholder="번역 결과"
               value={resultValue1}
-              readOnly>
-                
-              </textarea>
-            </div>
+              readOnly
+            ></textarea>
           </div>
         </div>
-        
-        <div className={styles.resultBox}>
-          <h4>문장 분석 결과입니다.</h4>
-          <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
-          <button className={styles.button2_3} onClick={captureAndSaveImage}>
+      </div>
+
+      <div className={styles.resultBox}>
+        <h4>문장 분석 결과입니다.</h4>
+        <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
+        <button className={styles.button2_3} onClick={captureAndSaveImage}>
           결과 이미지 저장
-          </button>
-          {/* <button className={styles.button2_1} onClick={mor_Clicked}>형태소 분석하기</button>
+        </button>
+        {/* <button className={styles.button2_1} onClick={mor_Clicked}>형태소 분석하기</button>
           <button className={styles.button2_2} onClick={diction_Clicked}>한국어 결과보기</button> */}
-        </div>
-        
-        {/* <div className={styles.wordSave}>
+      </div>
+
+      {/* <div className={styles.wordSave}>
           <h5>저장할 폴더를 선택해주세요</h5>
           <button className={styles.button3}>저장</button>
           <hr></hr>
@@ -241,11 +239,7 @@ const Main = () => {
           
         </div> */}
 
-
-
-
-
-        {/* <div className={styles.morphemeBox} ref={morResultRef}>
+      {/* <div className={styles.morphemeBox} ref={morResultRef}>
           <textarea className={styles.outputbox}
              placeholder="형태소 분석 및 사전 검색 결과"
              // 사전 검색 기본 값.
@@ -260,7 +254,7 @@ const Main = () => {
                  : "error"
              } */}
 
-            {/*
+      {/*
             //  value={
             //    Array.isArray(words) && words.length > 0
             //      ? words.map((item, index) => {
@@ -305,29 +299,35 @@ const Main = () => {
           */}
 
       {showMorphemeBox && (
-      <div className={styles.morphemeBox} ref={morResultRef} >
+        <div className={styles.morphemeBox} ref={morResultRef}>
           {/* 형태소 분석 및 사전 검색 결과 */}
           <ul className={styles.outputbox}>
-            {Array.isArray(words) && words.length > 0 ? words.map((item, index) => {
-                      const analysisResult = item[0];
-                      const dictionaryResult = Array.isArray(item[1]) && item[1].length > 0 && item[1][0].length > 0 ? item[1][0][1] : "";
+            {Array.isArray(words) && words.length > 0 ? (
+              words.map((item, index) => {
+                const analysisResult = item[0];
+                const dictionaryResult =
+                  Array.isArray(item[1]) &&
+                  item[1].length > 0 &&
+                  item[1][0].length > 0
+                    ? item[1][0][1]
+                    : "";
 
-                      return (
-                        <li key={index}>
-                          {analysisResult}
-                          <br />
-                          {dictionaryResult}
-                        </li>
-                      );
-                    })
-                  : (<li>형태소 분석 및 사전 검색 결과</li>)
-                  }
-                </ul>
-              </div>
+                return (
+                  <li key={index}>
+                    {analysisResult}
+                    <br />
+                    {dictionaryResult}
+                  </li>
+                );
+              })
+            ) : (
+              <li>형태소 분석 및 사전 검색 결과</li>
+            )}
+          </ul>
+        </div>
       )}
     </div>
+  );
+};
 
-      );
-    };
-    
 export default Main;
