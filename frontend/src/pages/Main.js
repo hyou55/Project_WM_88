@@ -176,7 +176,7 @@ const Main = () => {
 
 
     // html2canvas를 사용하여 선택한 div 요소를 이미지로 변환
-    html2canvas(element).then((canvas) => {
+    html2canvas(element).then((canvas) =>  {
       // 변환된 이미지를 저장할 수 있는 링크 생성
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
