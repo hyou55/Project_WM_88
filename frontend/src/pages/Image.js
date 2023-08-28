@@ -53,8 +53,8 @@ function Image() {
   const [translate, setTranslate] = useState("");
   const [morResult, setmorResult] = useState([]); // 초기값은 빈 배열로 설정
   const [morTranslate, setmorTranslate] = useState([]); // 초기값은 빈 배열로 설정
-  const [button2Count, setButton2Count] = useState(0);
-  const [extractionResult, setExtractionResult] = useState('');
+  // const [button2Count, setButton2Count] = useState(0);
+  // const [extractionResult, setExtractionResult] = useState('');
 
 
   //const button2Switch = async () => { 
@@ -63,50 +63,57 @@ function Image() {
     //if (button2Count%2== 0) clicked();
   //}
 
-  const convertImageToText = async () => {
-    if (!imageData) return;
-    const worker =await createWorker({
-      logger: (m) => {
-        console.log(m);
-      },
-    });
-    await worker.load();
-    await worker.loadLanguage("eng");
-    await worker.initialize("eng");
-    const {
-      data: { text },
-    } = await worker.recognize(imageData);
-    setExtractionResult(text);
+  // const convertImageToText = async () => {
+  //   if (!imageData) return;
+  //   const worker =await createWorker({
+  //     logger: (m) => {
+  //       console.log(m);
+  //     },
+  //   });
+  //   await worker.load();
+  //   await worker.loadLanguage("eng");
+  //   await worker.initialize("eng");
+  //   const {
+  //     data: { text },
+  //   } = await worker.recognize(imageData);
+  //   setExtractionResult(text);
 
-    //document.getElementById("button2").innerHTML = "한글 번역";
-    //button2Count++;
+  //   //document.getElementById("button2").innerHTML = "한글 번역";
+  //   //button2Count++;
     
-  };
+  // };
 
 
-  const clicked = async () => { 
-    //document.getElementById("button2").innerHTML = "텍스트 추출";
-    //setButton2Count((prevCount) => prevCount + 1);
-    //button2Count++;
-
-    axios
-    .post("http://127.0.0.1:8000/api/PAPAGO/", {
-      text: extractionResult,
-    })
-    .then((response) => {
-      const translatedText1 = response.data.translated_text;
-      setExtractionResult(translatedText1);
-    })
-    .catch((error) => {
-      console.error(error);
-      setExtractionResult("번역 실패");
-    });
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
-        text: extractionResult,
-      });
+  const clicked = async () => {
+    if (!imageData) return;
   
-      const nouns = response.data.nouns;
+    try {
+      // 이미지에서 텍스트 추출
+      const worker = await createWorker({
+        logger: (m) => {
+          console.log(m);
+        },
+      });
+      await worker.load();
+      await worker.loadLanguage("eng");
+      await worker.initialize("eng");
+      const {
+        data: { text },
+      } = await worker.recognize(imageData);
+      //setExtractionResult(text);
+  
+      // 번역 작업
+      const translationResponse = await axios.post("http://127.0.0.1:8000/api/PAPAGO/", {
+        text: text,
+      });
+      const translatedText1 = translationResponse.data.translated_text;
+      setTranslate(translatedText1);
+  
+      // 형태소 분석 및 사전 검색
+      const analysisResponse = await axios.post("http://127.0.0.1:8000/api/process_text/", {
+        text: text,
+      });
+      const nouns = analysisResponse.data.nouns;
   
       // 형태소 분석 결과를 words 상태로 업데이트
       setmorTranslate(nouns.map((word) => [word, ""]));
@@ -117,8 +124,8 @@ function Image() {
       // 형태소 사전 검색 호출
       const results = [];
       for (const item of nouns) {
-        let dict = ""; // 사전 검색 결과를 담을 변수
-        while (dict === "") { // 사전 검색 결과가 빈 문자열일 경우 계속해서 사전 검색 수행
+        let dict = "";
+        while (dict === "") {
           try {
             dict = await searchDictionary(item);
           } catch (error) {
@@ -127,7 +134,6 @@ function Image() {
           }
         }
   
-        // words 배열의 각 항목에 형태소와 사전 검색 결과를 할당
         setmorTranslate((prevWords) =>
           prevWords.map((word) => {
             if (word[0] === item) {
@@ -141,11 +147,9 @@ function Image() {
       }
     } catch (error) {
       console.error(error);
-      setmorResult(["형태소 분석 실패"]);
+      setmorResult(["모종의 다른 이유로 실패"]);
     }
-
-
-  }
+  };
   // useEffect(() => {
   //   convertImageToText();
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -165,19 +169,19 @@ function Image() {
     reader.readAsDataURL(file);
   }
   // Tesseract로 영어 문장을 변환하고, 서버로 전송하는 함수
-const sendTextToDjango = async (text) => {
-  try {
-    const response = await axios.post('/api/process_text/', { text });
-    console.log(response.data); // 형태소 분석 결과
-    // 분석 결과를 원하는 방식으로 처리
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const sendTextToDjango = async (text) => {
+//   try {
+//     const response = await axios.post('/api/process_text/', { text });
+//     console.log(response.data); // 형태소 분석 결과
+//     // 분석 결과를 원하는 방식으로 처리
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 // 영어 문장 변환 후 sendTextToDjango 함수 호출 예시
-const englishSentence = extractionResult;
-sendTextToDjango(englishSentence);
+// const englishSentence = extractionResult;
+// sendTextToDjango(englishSentence);
 
     // 형태소 사전 검색 호출
     const searchDictionary = (morp) => {
@@ -201,15 +205,19 @@ sendTextToDjango(englishSentence);
     document.getElementById("file-input").click();
   };
 
-  const button2Switch = async () => {
-    if (button2Count % 2 === 0) {
-      await convertImageToText();
-    } else {
-      await clicked();
-    }
-    setButton2Count((prevCount) => prevCount + 1);
-  };
+  // const buttonClicked = async () => {
+  //   if (button2Count % 2 === 0) {
+  //     await convertImageToText();
+  //   } else {
+  //     await clicked();
+  //   }
+  //   setButton2Count((prevCount) => prevCount + 1);
+  // };
 
+  const buttonClicked = async () => {
+      //await convertImageToText();
+      await clicked();
+  };
 
   return (
     <div className={styles.mainlayout}>
@@ -234,8 +242,8 @@ sendTextToDjango(englishSentence);
       
       <div className={styles.Image}>
         <div>
-          <button id="button2" className={styles.button2} onClick={button2Switch}>
-            {button2Count % 2 === 0 ? '텍스트 추출' : '한글 번역'}          
+          <button id="button2" className={styles.button2} onClick={buttonClicked}>
+            {'한글 번역'}          
           </button>
 
           {/* <button className={styles.button} onClick={clicked}>
@@ -251,7 +259,7 @@ sendTextToDjango(englishSentence);
           <textarea
             className={styles.outputbox}
             placeholder="번역 결과"
-            value={extractionResult}
+            value={translate}
             readOnly
           ></textarea>
       </div>
