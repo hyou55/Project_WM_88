@@ -16,23 +16,28 @@ p {
 
 /* main 페이지의 css에서 가져옴 + 번역된 textareaBox는 새로 작성할 필요가 있어 작성함 */
 .mainlayout {
-  margin: 300px 200px;
+  margin: 500px 200px;
   width: 1100px;
   height: 1400px;
   background-color: transparent;
 }
 
-.translateBox {
-  position: absolute;
-  width: 800px;
-  height: 280px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-color: rgb(132, 132, 132);
-  border-radius: 30px;
-  border-style: solid;
-  background-color: transparent;
+.translatedBox{
+  margin: 100px 50px;
+  width: 1100px;
+  height: 500px;
+}
+
+.left{
+  width: 410px;
+  margin-right: 50px;
+  display: inline-block;
+}
+
+.right{
+  width: 410px;
+  margin-left: 0px;
+  display: inline-block;
 }
 
 .inputField {
@@ -49,11 +54,9 @@ p {
 }
 
 .outputbox {
-  position: absolute;
+  margin-top: 0px;
   width: 421px;
   height: 280px;
-  top: 30px;
-  left: 550px;
   border-color: rgb(132, 132, 132);
   border-radius: 30px;
   border-style: solid;
@@ -61,24 +64,14 @@ p {
   text-align: center;
 }
 
-.blank0 {
-  margin: 100px 50px;
-  width: 1100px;
-  height: 150px;
-}
-
-.blank1 {
-  position: absolute;
-  top: 700px;
-  left: 0px;
-}
 
 /*  */
 
 .textposition1 {
   margin: 0px 50px;
-  width: 1100px;
-  height: 50px;
+  width: 400px;
+  height: 310px;
+  display: inline-block;
 }
 
 .textposition2 {
@@ -88,7 +81,7 @@ p {
 }
 
 .textposition3 {
-  margin: 10px 100px;
+  margin: 0px 100px;
   width: 1100px;
   height: 50px;
 }
@@ -110,8 +103,49 @@ p {
   cursor: pointer; /* 커서를 포인터로 변경하여 사용자가 버튼처럼 느끼게 함 */
 }
 
+
+
+h2 {margin: 10px 10px; width: 500px; display: inline-block;}
+
+.container {
+  margin-top: -250px;
+  display: flex;
+  flex-direction: row; /* 세로로 정렬하려면 row 대신 column */
+  align-items: center; /* 수직 중앙 정렬 */
+}
+
+.inputfilebutton {
+  margin: 0px 140px;
+  width: 134px;
+  height: 40px;
+  background-color: rgb(26, 80, 139);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* 커서를 포인터로 변경하여 사용자가 버튼처럼 느끼게 함 */
+   /* 버튼의 층위를 설정하여 버튼이 다른 요소들보다 위에 표시되도록 함 */
+}
+
+.folderimg {
+  margin: 0px -330px;
+  width: 50px;
+  display: flex; /* 이미지의 층위를 설정하여 버튼보다 더 위에 표시되도록 함 */
+}
+
+.container2 {
+  margin-top: -420px;
+  margin-left: 700px;
+  display: flex;
+  flex-direction: column; /* 세로로 정렬하려면 row 대신 column */
+ /* 수직 중앙 정렬 */
+}
+
 .button2 {
-  margin: -120px 900px;
+  margin: 10px 320px;
   width: 100px;
   height: 40px;
   background-color: rgb(26, 80, 139);
@@ -125,30 +159,13 @@ p {
   cursor: pointer; /* 커서를 포인터로 변경하여 사용자가 버튼처럼 느끼게 함 */
 }
 
-.inputfilebutton {
-  margin: 0px 60px;
-  width: 134px;
-  height: 40px;
-  background-color: rgb(26, 80, 139);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer; /* 커서를 포인터로 변경하여 사용자가 버튼처럼 느끼게 함 */
-  z-index: 1; /* 버튼의 층위를 설정하여 버튼이 다른 요소들보다 위에 표시되도록 함 */
-}
-
 .outputbox {
+  margin: 0px 0px;
   width: 450px;
   height: 300px;
-  margin-top: 370px;
-  margin-left: 300px;
   font-size: 18px;
   font-weight: 200;
-  text-align: 30px;
+  text-align: left;
   display: inline-block;
   line-height : 25px;
   background-color: rgba(255, 255, 255, 0);
@@ -175,22 +192,23 @@ p {
   overflow: auto;
 }
 
-.folderimg {
-  margin-top: -70px;
-  left: 0px;
-  width: 50px;
-  z-index: 2; /* 이미지의 층위를 설정하여 버튼보다 더 위에 표시되도록 함 */
-}
+
 
 .ocrimg {
-  max-width: 30vw;
+  max-width: 400px;
   margin-right: 50px;
-  margin-top: 150px;
+  margin-top: 50px;
   height: auto;
+  background: transparent;
+  min-height: 300px;
+}
+
+.container3 {
+  margin-top: 200px;
 }
 
 .resultBox {
-  margin: 400px auto;
+  margin: 0px auto;
   width: 1100px;
   height: 80px;
   border-bottom: 2px solid rgb(160, 160, 160);
@@ -199,11 +217,7 @@ p {
 h4 {
   margin: 10px 10px;
 }
-h2 {
-  margin: 10px 10px;
-  width: 500px;
-  display: inline-block;
-}
+
 
 .button2_1 {
   margin: 3px 5px 3px 310px;
@@ -301,10 +315,14 @@ h2 {
   height: 500px;
 }
 
-.arrowimg {
+.arrow{
+  background-image: url("./img/arrow.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  width: 80px;
+  height: 80px;
   position: absolute;
-  width: 64px;
-  height: 64px;
-  top: 510px;
-  left: 750px;
+  top: 720px;
+  left: 720px;
 }
