@@ -3,12 +3,21 @@ import styles from "../styles/Main.module.css";
 import axios from "axios";
 import html2canvas from "html2canvas";
 
+const languageMappings = {
+  en: "영어",
+  ja: "일본어",
+  "zh-CN": "중국어 (간체)",
+  "zh-TW": "중국어 (번체)",
+  // 언어 추가
+};
+
 const Main = () => {
   const [textValue, setTextValue] = useState("");
-  const [resultValue1, setResultValue1] = useState("");
+  const [translate, setTranslate] = useState("");
+  const [langTrans, setLangTrans] = useState("언어 감지");
   const [morp, setMorp] = useState([]); // 형태소 분석된 것들의 리스트
   const [words, setWords] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색의 전체 문장이 들어있음)
-  // const [word, setWord] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색 안에서 또 개별 단어가 리스트화 됨)
+  const [word, setWord] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색 안에서 또 개별 단어가 리스트화 됨)
   const [showMorphemeBox, setShowMorphemeBox] = useState(false);
 
   const handleSetValue = (e) => {
@@ -17,23 +26,31 @@ const Main = () => {
 
   const clicked = async () => {
     setShowMorphemeBox(true);
+    //언어 감지 코드 전달 변수
+    const langcode = [];
     axios
       .post("http://127.0.0.1:8000/api/PAPAGO/", {
         text: textValue,
       })
       .then((response) => {
         const translatedText1 = response.data.translated_text;
-        setResultValue1(translatedText1);
+        const langCode = response.data.lang_code;
+        setLangTrans(languageMappings[langCode]);
+        //언어 감지 코드 저장
+        langcode[0] = langCode;
+
+        setTranslate(translatedText1);
       })
       .catch((error) => {
         console.error(error);
-        setResultValue1("번역 실패");
+        setTranslate("번역 실패");
       });
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/process_text/",
         {
           text: textValue,
+          // lang_code: langcode,
         }
       );
 
@@ -116,7 +133,7 @@ const Main = () => {
     <div className={styles.mainlayout}>
       <div className={styles.translatedBox}>
         <div className={styles.left}>
-          <h2>영어</h2>
+          <h2>{langTrans}</h2>
           <div className={styles.textposition1}>
             <textarea
               className={styles.inputField}
@@ -139,7 +156,7 @@ const Main = () => {
             <textarea
               class={styles.outputField}
               placeholder="번역 결과"
-              value={resultValue1}
+              value={translate}
               readOnly
             ></textarea>
           </div>
