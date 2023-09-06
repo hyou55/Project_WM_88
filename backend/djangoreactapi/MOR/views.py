@@ -19,6 +19,15 @@ import re
 # 불용어 제거용
 from nltk.corpus import stopwords
 
+# 겹치는 단어 없애고 순서대로 출력하기 위한
+from collections import OrderedDict
+
+# 심볼 제거용
+import re
+
+# 불용어 제거용
+from nltk.corpus import stopwords
+
 @method_decorator(csrf_exempt, name='dispatch')
 def process_text(request):
     if request.method == "POST":

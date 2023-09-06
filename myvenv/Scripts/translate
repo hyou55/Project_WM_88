@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!C:\Users\haim2\OneDrive\바탕 화면\Project_WM_88\myvenv\Scripts\python.exe
+=======
+#!C:\Users\haim2\OneDrive\바탕 화면\projectWM88\myvenv\Scripts\python.exe
+>>>>>>> 595493a253d77832ec959475c816ed105c55b594
 # -*- coding: utf-8 -*-
 import argparse
 import sys
