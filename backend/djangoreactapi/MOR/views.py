@@ -39,7 +39,6 @@ def process_text(request):
         # 만약에 일일히 안 알려주고 그냥 lemmatize하면 정확도가 떨어지는 이상한 결과가 나옴
 
 
-
         # 단어배열[]을 겹치는거 없고 순서없는 배열{}로 만듬
         stop_word_check = set(tokens)
 
@@ -82,34 +81,8 @@ def process_text(request):
             elif 'RB' in tag:
                 word_tokens.append(word)
 
-        # 명사만 추출하여 리스트에 저장
-        # nouns = [word for word, pos in analyzed_text if pos.startswith('NN')]
-        # verbs = [word for word, pos in analyzed_text if pos.startswith('VB')]
-        # adverbs = [word for word, pos in analyzed_text if pos.startswith('RB')]
-        
-        # 배열 하나에 명사, 동사, 형용사 순서로 넣음
-        # word_tokens = []
-        # word_tokens.append(nouns)
-        # word_tokens.append(verbs)
-        # word_tokens.append(adverbs)
-
-        # 각 단어들 번역하는 공간.
-        # translator = googletrans.Translator()
-        # result = []
-        
-        # for i, word in enumerate(nouns) :
-        #     result[i] = translator.translate(nouns[i], dest='ko', src='en')
         
         return JsonResponse({'nouns': word_tokens}) # none 옆에 변수 하나 더 추가해서 데이터를 2개 보내도록.
 
     return JsonResponse({'error': 'Invalid request'})
 
-# def process_text(request):
-#     text = "i am apple"
-#     tokens = word_tokenize(text)
-#     analyzed_text = pos_tag(tokens)
-#     print(f'Text: {text}')
-#     print(f'Tokens: {tokens}')
-#     print(f'Analyzed Text: {analyzed_text}')
-    
-#     return JsonResponse({'result': analyzed_text})

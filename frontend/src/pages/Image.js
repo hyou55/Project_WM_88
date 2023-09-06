@@ -1,43 +1,3 @@
-//import React, { useEffect, useState } from "react";
-//import { createWorker } from 'tesseract.js';
-
-//const Image = () => {
-//  return (
-//    useEffect(async() => {
-//      const worker =await createWorker({
-//        logger: m => console.log(m)
-//      });
-//
-//      (async () => {
-//        await worker.load();
-//        await worker.loadLanguage('eng'); //추출대상 언어
-//        await worker.initialize('eng');	//추출대상 언어
-//        const { data: { text } } = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
-//        console.log(text);
-//        await worker.terminate();
-//      })();
-//  })
-//  );
-//};
-
-//export default Image;
-
-//const [image, setImage] = useState(null);
-//  const [text, setText] = useState(
-//    "현재 클립보드에 저장된 이미지가 없습니다. (No images are currently stored on the clipboard)"
-
-//  async function getImageFromClipboard() {
-//  await navigator.clipboard.readText();
-//  const clipboardItems = await navigator.clipboard.read();
-//  for (const item of clipboardItems) {
-//    for (const type of item.types) {
-//      if (type.startsWith("image/")) {
-//        const blob = await item.getType(type);
-//        if (blob) {
-//          const img = document.createElement("img");
-//          img.src = URL.createObjectURL(blob);
-//          setImage(img);
-
 import React, { useState, useRef } from "react";
 import { createWorker } from "tesseract.js";
 import axios from "axios";
@@ -310,30 +270,6 @@ function Image() {
               <li>형태소 분석 및 사전 검색 결과</li>
             )}
           </ul>
-          {/* <textarea
-          className={styles.outputbox2}
-          placeholder="형태소 분석 및 사전 검색 결과"
-          //사전 검색 기본 값.
-          value={
-            Array.isArray(morTranslate) && morTranslate.length > 0
-              ? morTranslate
-                  .map((item, index) => {
-                    const analysisResult = item[0];
-                    const dictionaryResult =
-                      Array.isArray(item[1]) &&
-                      item[1].length > 0 &&
-                      item[1][0].length > 0
-                        ? item[1][0][1]
-                        : "";
-
-                    return `${analysisResult}\n${dictionaryResult}\n\n`;
-                  })
-                  .join("")
-              : "형태소 분석 및 사전 검색 결과"
-          }
-          readOnly
-        ></textarea> */}
-
           {/* 원래 왼쪽에는 형태소 분석, 오른쪽에는 형태소 사전 검색 결과가 있었지만 이제는 형태소, 사전검색 결과가 같이 나오도록 됨. \
           수정할 것 ->textarea 2개를 하나로 만들고 데이터가 많으면 스크롤로 내리도록 하기 */}
         </div>

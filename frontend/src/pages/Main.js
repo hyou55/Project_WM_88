@@ -77,81 +77,6 @@ const Main = () => {
     }
   };
 
-  // const mor_Clicked = async () => {
-  //   try {
-  //     const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
-  //       text: "Ukraine war is spurring a revolution in drone warfare using artificial intelligence",
-  //       // text: "Chinese audiences are gravitating toward movies made at home, rather than in Hollywood",
-  //     });
-
-  //     const nouns = response.data.nouns;
-
-  //     // 형태소 분석 결과를 words 상태로 업데이트
-  //     setWords(nouns.map((word) => [word, ""]));
-
-  //     // 형태소 분석 결과를 morp 상태로 업데이트
-  //     setMorp(nouns);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setMorp(["형태소 분석 실패"]);
-  //   }
-  // };
-
-  // const diction_Clicked = async () => {
-  //   // 형태소 분석 호출
-  //   try {
-  //     const response = await axios.post("http://127.0.0.1:8000/api/process_text/", {
-  //       text: textValue,
-  //     });
-
-  //     const nouns = response.data.nouns;
-
-  //     // 형태소 분석 결과를 words 상태로 업데이트
-  //     setWords(nouns.map((word) => [word, ""]));
-
-  //     // 형태소 분석 결과를 morp 상태로 업데이트
-  //     setMorp(nouns);
-
-  //     // 형태소 사전 검색 호출
-  //     const results = [];
-  //     for (const item of nouns) {
-  //       let dict = ""; // 사전 검색 결과를 담을 변수
-  //       while (dict === "") { // 사전 검색 결과가 빈 문자열일 경우 계속해서 사전 검색 수행
-  //         try {
-  //           dict = await searchDictionary(item);
-  //         } catch (error) {
-  //           console.error(error);
-  //           dict = "형태소 사전 검색 실패";
-  //         }
-  //       }
-
-  //       // words 배열의 각 항목에 형태소와 사전 검색 결과를 할당
-  //       setWords((prevWords) =>
-  //         prevWords.map((word) => {
-  //           if (word[0] === item) {
-  //             return [item, dict];
-  //           }
-  //           return word;
-  //         })
-  //       );
-
-  //       results.push(dict);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     setMorp(["형태소 분석 실패"]);
-  //   }
-  // };
-
-  // words를 쪼개서 word 리스트에 저장하는 작업
-  // const newWord = [];
-  // for (const wordItem of results) {
-  //   const sentences = wordItem[0].split(", "); // ", "를 기준으로 문장을 나눔
-  //   const sentenceList = sentences.map((sentence) => sentence.trim()); // 각 문장 앞뒤의 공백을 제거하고 리스트에 추가
-  //   newWord.push(sentenceList); // 각각의 sentenceList를 newWord 리스트에 추가
-  // }
-  // setWord(newWord);
-
   // 형태소 사전 검색 호출
   const searchDictionary = (morp) => {
     return axios
@@ -222,81 +147,11 @@ const Main = () => {
       </div>
 
       <div className={styles.resultBox}>
-        <h4>문장 분석 결과입니다.</h4>
-        <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
+        <h2>번역된 문장에서 단어를 추출한 결과입니다.</h2>
         <button className={styles.button2_3} onClick={captureAndSaveImage}>
           결과 이미지 저장
         </button>
-        {/* <button className={styles.button2_1} onClick={mor_Clicked}>형태소 분석하기</button>
-          <button className={styles.button2_2} onClick={diction_Clicked}>한국어 결과보기</button> */}
       </div>
-
-      {/* <div className={styles.wordSave}>
-          <h5>저장할 폴더를 선택해주세요</h5>
-          <button className={styles.button3}>저장</button>
-          <hr></hr>
-          <p className={styles.saveVocaAdd}>단어장A</p>
-          
-        </div> */}
-
-      {/* <div className={styles.morphemeBox} ref={morResultRef}>
-          <textarea className={styles.outputbox}
-             placeholder="형태소 분석 및 사전 검색 결과"
-             // 사전 검색 기본 값.
-             value={
-               Array.isArray(words) && words.length > 0
-                 ? words.map((item, index) => {
-                     const analysisResult = item[0];
-                     const dictionaryResult = Array.isArray(item[1]) && item[1].length > 0 && item[1][0].length > 0 ? item[1][0] : "";
-     
-                     return `${analysisResult}\n${dictionaryResult}\n\n`;
-                   }).join("")
-                 : "error"
-             } */}
-
-      {/*
-            //  value={
-            //    Array.isArray(words) && words.length > 0
-            //      ? words.map((item, index) => {
-            //          const analysisResult = item[0];
-            //          let dictionaryResult = "";
-             
-            //          if (Array.isArray(item[1]) && item[1].length > 0) {
-            //            const result0 = item[1][0][0];
-            //            const result1 = item[1][0][1];
-             
-            //            if (result0.match(/^[a-zA-Z]/)) {
-            //              const mergedLength = item[1][0].reduce((total, str) => total + str.length, 0);
-            //              if (mergedLength > 50) {
-            //                let currentIndex = 0;
-            //                let currentLength = 0;
-            //                while (item[1][0][1][currentIndex]) {
-            //                  currentLength += item[1][0][1][currentIndex].length;
-            //                  if (currentLength > 50) {
-            //                    dictionaryResult = item[1][0][1].slice(0, currentIndex + 1);
-            //                    break;
-            //                  }
-            //                  currentIndex++;
-            //                }
-            //              }
-            //              else{
-            //              dictionaryResult = result1;
-            //              }
-            //            } else if (result0.match(/^[0-9(]/)) {
-            //              dictionaryResult = result0;
-            //            } else {
-            //              dictionaryResult = result0;
-            //            }
-            //          }
-            //          return `${analysisResult}\n${dictionaryResult}\n\n`;
-            //        }).join("")
-            //      : "형태소 분석 및 사전 검색 결과"
-            //  }
-             
-             readOnly
-           ></textarea>
-            </div> 
-          */}
 
       {showMorphemeBox && (
         <div className={styles.morphemeBox} ref={morResultRef}>
@@ -312,11 +167,31 @@ const Main = () => {
                     ? item[1][0][1]
                     : "";
 
+                const analysisResultStyle = {
+                  fontWeight: "bold",
+                  color: "black",
+                  fontSize: "30px",
+                  marginRight: "30px",
+                };
+
+                const dictionaryResultStyle = {
+                  color: "black",
+                  marginRight: "20px",
+                };
+
+                const listItemStyle = {
+                  display: "flex",
+                  alignItems: "center",
+                  margin: "30px 0", // index 사이의 간격을 조절합니다.
+                };
+
                 return (
-                  <li key={index}>
-                    {analysisResult}
+                  <li key={index} style={listItemStyle}>
+                    <span style={analysisResultStyle}>{analysisResult}</span>
                     <br />
-                    {dictionaryResult}
+                    <span style={dictionaryResultStyle}>
+                      {dictionaryResult}
+                    </span>
                   </li>
                 );
               })
