@@ -1,43 +1,3 @@
-//import React, { useEffect, useState } from "react";
-//import { createWorker } from 'tesseract.js';
-
-//const Image = () => {
-//  return (
-//    useEffect(async() => {
-//      const worker =await createWorker({
-//        logger: m => console.log(m)
-//      });
-//
-//      (async () => {
-//        await worker.load();
-//        await worker.loadLanguage('eng'); //추출대상 언어
-//        await worker.initialize('eng');	//추출대상 언어
-//        const { data: { text } } = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
-//        console.log(text);
-//        await worker.terminate();
-//      })();
-//  })
-//  );
-//};
-
-//export default Image;
-
-//const [image, setImage] = useState(null);
-//  const [text, setText] = useState(
-//    "현재 클립보드에 저장된 이미지가 없습니다. (No images are currently stored on the clipboard)"
-
-//  async function getImageFromClipboard() {
-//  await navigator.clipboard.readText();
-//  const clipboardItems = await navigator.clipboard.read();
-//  for (const item of clipboardItems) {
-//    for (const type of item.types) {
-//      if (type.startsWith("image/")) {
-//        const blob = await item.getType(type);
-//        if (blob) {
-//          const img = document.createElement("img");
-//          img.src = URL.createObjectURL(blob);
-//          setImage(img);
-
 import React, { useState, useRef } from "react";
 import { createWorker } from "tesseract.js";
 import axios from "axios";
@@ -81,31 +41,14 @@ function Image() {
 
     //document.getElementById("button2").innerHTML = "한글 번역";
     //button2Count++;
-  };
-
-  const clicked = async () => {
-    //document.getElementById("button2").innerHTML = "텍스트 추출";
-    //setButton2Count((prevCount) => prevCount + 1);
-    //button2Count++;
+  
     setShowMorphemeBox(true);
 
-    axios
-      .post("http://127.0.0.1:8000/api/PAPAGO/", {
-        text: extractionResult,
-      })
-      .then((response) => {
-        const translatedText1 = response.data.translated_text;
-        setExtractionResult(translatedText1);
-      })
-      .catch((error) => {
-        console.error(error);
-        setExtractionResult("번역 실패");
-      });
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/process_text/",
         {
-          text: extractionResult,
+          text: text,
         }
       );
 
@@ -148,6 +91,25 @@ function Image() {
       setmorResult(["형태소 분석 실패"]);
     }
   };
+
+  const clicked = async () => {
+    //document.getElementById("button2").innerHTML = "텍스트 추출";
+    //setButton2Count((prevCount) => prevCount + 1);
+    //button2Count++;
+
+    axios
+      .post("http://127.0.0.1:8000/api/PAPAGO/", {
+        text: extractionResult,
+      })
+      .then((response) => {
+        const translatedText1 = response.data.translated_text;
+        setExtractionResult(translatedText1);
+      })
+      .catch((error) => {
+        console.error(error);
+        setExtractionResult("번역 실패");
+      });
+  };
   // useEffect(() => {
   //   convertImageToText();
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,20 +126,6 @@ function Image() {
     };
     reader.readAsDataURL(file);
   }
-  // Tesseract로 영어 문장을 변환하고, 서버로 전송하는 함수
-  const sendTextToDjango = async (text) => {
-    try {
-      const response = await axios.post("/api/process_text/", { text });
-      console.log(response.data); // 형태소 분석 결과
-      // 분석 결과를 원하는 방식으로 처리
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // 영어 문장 변환 후 sendTextToDjango 함수 호출 예시
-  const englishSentence = extractionResult;
-  sendTextToDjango(englishSentence);
 
   // 형태소 사전 검색 호출
   const searchDictionary = (morp) => {
@@ -226,14 +174,14 @@ function Image() {
       link.click();
     });
   };
+  
 
   return (
     <div className={styles.mainlayout}>
       <div className={styles.textposition1}>
         <h2>이미지를 첨부해주세요</h2>
       </div>
-      <div className={styles.textposition3}>
-        {/* 버튼으로 변경된 부분 */}
+      <div className={styles.container}>
         <button className={styles.inputfilebutton} onClick={handleButtonClick}>
           이미지 첨부
         </button>
@@ -245,27 +193,20 @@ function Image() {
           accept="image/*"
           style={{ display: "none" }}
         />
-        <img className={styles.folderimg} src={folder} alt="Folder Icon" />
+      
+          <img className={styles.folderimg} src={folder} alt="Folder Icon" />
       </div>
-
-      <div className={styles.Image}>
-        <div>
-          <button
-            id="button2"
-            className={styles.button2}
-            onClick={button2Switch}
-          >
-            {button2Count % 2 === 0 ? "텍스트 추출" : "한글 번역"}
-          </button>
-
-          {/* <button className={styles.button} onClick={clicked}>
-          한글 번역  
-          </button> */}
-        </div>
-        <div className={styles.displayflex}>
           <img className={styles.ocrimg} src={imageData} alt="" srcset="" />
-          <img className={styles.arrowimg} src={arrow}></img>
-        </div>
+      
+      
+      <div className={styles.container2}>
+        <button
+          id="button2"
+          className={styles.button2}
+          onClick={button2Switch}
+          >
+          {button2Count % 2 === 0 ? "텍스트 추출" : "한글 번역"}
+        </button>
         <textarea
           className={styles.outputbox}
           placeholder="번역 결과"
@@ -274,10 +215,11 @@ function Image() {
         ></textarea>
       </div>
 
-      <div className={styles.blank0}></div>
+      <div className={styles.arrow}></div>
+
+      <div className={styles.container3}></div>
       <div className={styles.resultBox}>
-        <h4>문장 분석 결과입니다.</h4>
-        <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
+        <h2>번역된 문장에서 단어를 추출한 결과입니다.</h2>
         <button className={styles.button2_3} onClick={captureAndSaveImage}>
           결과 이미지 저장
         </button>
@@ -298,11 +240,29 @@ function Image() {
                     ? item[1][0][1]
                     : "";
 
+                const analysisResultStyle = {
+                  fontWeight: 'bold',
+                  color :'black',
+                  fontSize :'30px',
+                  marginRight: '30px'
+                };
+    
+                const dictionaryResultStyle = {
+                  color :'black',
+                  marginRight: '20px'
+                };
+    
+                const listItemStyle = {
+                  display: 'flex',
+                  alignItems: 'center',
+                  margin: '30px 0', // index 사이의 간격을 조절합니다.
+                };    
+
                 return (
-                  <li key={index}>
-                    {analysisResult}
+                  <li key={index} style={listItemStyle}>
+                    <span style={analysisResultStyle}>{analysisResult}</span>
                     <br />
-                    {dictionaryResult}
+                    <span style={dictionaryResultStyle}>{dictionaryResult}</span>
                   </li>
                 );
               })

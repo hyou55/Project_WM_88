@@ -222,8 +222,7 @@ const Main = () => {
       </div>
 
       <div className={styles.resultBox}>
-        <h4>문장 분석 결과입니다.</h4>
-        <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
+        <h2>번역된 문장에서 단어를 추출한 결과입니다.</h2>
         <button className={styles.button2_3} onClick={captureAndSaveImage}>
           결과 이미지 저장
         </button>
@@ -312,11 +311,29 @@ const Main = () => {
                     ? item[1][0][1]
                     : "";
 
+                const analysisResultStyle = {
+                  fontWeight: 'bold',
+                  color :'black',
+                  fontSize :'30px',
+                  marginRight: '30px'
+                };
+
+                const dictionaryResultStyle = {
+                  color :'black',
+                  marginRight: '20px'
+                };
+
+                const listItemStyle = {
+                  display: 'flex',
+                  alignItems: 'center',
+                  margin: '30px 0', // index 사이의 간격을 조절합니다.
+                };
+
                 return (
-                  <li key={index}>
-                    {analysisResult}
+                  <li key={index} style={listItemStyle}>
+                    <span style={analysisResultStyle}>{analysisResult}</span>
                     <br />
-                    {dictionaryResult}
+                    <span style={dictionaryResultStyle}>{dictionaryResult}</span>
                   </li>
                 );
               })
