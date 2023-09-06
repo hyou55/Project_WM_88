@@ -36,8 +36,11 @@ const Main = () => {
         const translatedText1 = response.data.translated_text;
         const langCode = response.data.lang_code;
         setLangTrans(languageMappings[langCode]);
+<<<<<<< HEAD
         //언어 감지 코드 저장
         langcode[0] = langCode;
+=======
+>>>>>>> 8dff245b774c72db2779cf411d88c95a48461826
 
         setTranslate(translatedText1);
       })
