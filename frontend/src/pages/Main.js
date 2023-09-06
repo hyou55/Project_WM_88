@@ -166,7 +166,6 @@ const Main = () => {
                   item[1][0].length > 0
                     ? item[1][0][1]
                     : "";
-
                 const analysisResultStyle = {
                   fontWeight: "bold",
                   color: "black",
@@ -184,14 +183,11 @@ const Main = () => {
                   alignItems: "center",
                   margin: "30px 0", // index 사이의 간격을 조절합니다.
                 };
-
                 return (
                   <li key={index} style={listItemStyle}>
                     <span style={analysisResultStyle}>{analysisResult}</span>
                     <br />
-                    <span style={dictionaryResultStyle}>
-                      {dictionaryResult}
-                    </span>
+                    {dictionaryResult}
                   </li>
                 );
               })
