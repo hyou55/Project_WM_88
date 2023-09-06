@@ -41,7 +41,7 @@ function Image() {
 
     //document.getElementById("button2").innerHTML = "한글 번역";
     //button2Count++;
-
+  
     setShowMorphemeBox(true);
 
     try {
@@ -174,14 +174,14 @@ function Image() {
       link.click();
     });
   };
+  
 
   return (
     <div className={styles.mainlayout}>
       <div className={styles.textposition1}>
         <h2>이미지를 첨부해주세요</h2>
       </div>
-      <div className={styles.textposition3}>
-        {/* 버튼으로 변경된 부분 */}
+      <div className={styles.container}>
         <button className={styles.inputfilebutton} onClick={handleButtonClick}>
           이미지 첨부
         </button>
@@ -193,27 +193,20 @@ function Image() {
           accept="image/*"
           style={{ display: "none" }}
         />
-        <img className={styles.folderimg} src={folder} alt="Folder Icon" />
+      
+          <img className={styles.folderimg} src={folder} alt="Folder Icon" />
       </div>
-
-      <div className={styles.Image}>
-        <div>
-          <button
-            id="button2"
-            className={styles.button2}
-            onClick={button2Switch}
-          >
-            {button2Count % 2 === 0 ? "텍스트 추출" : "한글 번역"}
-          </button>
-
-          {/* <button className={styles.button} onClick={clicked}>
-          한글 번역  
-          </button> */}
-        </div>
-        <div className={styles.displayflex}>
           <img className={styles.ocrimg} src={imageData} alt="" srcset="" />
-          <img className={styles.arrowimg} src={arrow}></img>
-        </div>
+      
+      
+      <div className={styles.container2}>
+        <button
+          id="button2"
+          className={styles.button2}
+          onClick={button2Switch}
+          >
+          {button2Count % 2 === 0 ? "텍스트 추출" : "한글 번역"}
+        </button>
         <textarea
           className={styles.outputbox}
           placeholder="번역 결과"
@@ -222,10 +215,11 @@ function Image() {
         ></textarea>
       </div>
 
-      <div className={styles.blank0}></div>
+      <div className={styles.arrow}></div>
+
+      <div className={styles.container3}></div>
       <div className={styles.resultBox}>
-        <h4>문장 분석 결과입니다.</h4>
-        <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
+        <h2>번역된 문장에서 단어를 추출한 결과입니다.</h2>
         <button className={styles.button2_3} onClick={captureAndSaveImage}>
           결과 이미지 저장
         </button>
