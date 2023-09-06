@@ -3,9 +3,18 @@ import styles from "../styles/Main.module.css";
 import axios from "axios";
 import html2canvas from "html2canvas";
 
+const languageMappings = {
+  en: "영어",
+  ja: "일본어",
+  "zh-CN": "중국어 (간체)",
+  "zh-TW": "중국어 (번체)",
+  // 언어 추가
+};
+
 const Main = () => {
   const [textValue, setTextValue] = useState("");
-  const [resultValue1, setResultValue1] = useState("");
+  const [translate, setTranslate] = useState("");
+  const [langTrans, setLangTrans] = useState("언어 감지");
   const [morp, setMorp] = useState([]); // 형태소 분석된 것들의 리스트
   const [words, setWords] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색의 전체 문장이 들어있음)
   // const [word, setWord] = useState([]); // 형태소 사전 검색한 것들의 리스트(사전 검색 안에서 또 개별 단어가 리스트화 됨)
@@ -23,11 +32,14 @@ const Main = () => {
       })
       .then((response) => {
         const translatedText1 = response.data.translated_text;
-        setResultValue1(translatedText1);
+        const langCode = response.data.lang_code;
+        setLangTrans(languageMappings[langCode]);
+
+        setTranslate(translatedText1);
       })
       .catch((error) => {
         console.error(error);
-        setResultValue1("번역 실패");
+        setTranslate("번역 실패");
       });
     try {
       const response = await axios.post(
@@ -191,7 +203,7 @@ const Main = () => {
     <div className={styles.mainlayout}>
       <div className={styles.translatedBox}>
         <div className={styles.left}>
-          <h2>영어</h2>
+          <h2>{langTrans}</h2>
           <div className={styles.textposition1}>
             <textarea
               className={styles.inputField}
@@ -214,7 +226,7 @@ const Main = () => {
             <textarea
               class={styles.outputField}
               placeholder="번역 결과"
-              value={resultValue1}
+              value={translate}
               readOnly
             ></textarea>
           </div>
@@ -222,7 +234,8 @@ const Main = () => {
       </div>
 
       <div className={styles.resultBox}>
-        <h2>번역된 문장에서 단어를 추출한 결과입니다.</h2>
+        <h4>문장 분석 결과입니다.</h4>
+        <h2>단어장에 추가하고 싶은 단어를 선택해주세요.</h2>
         <button className={styles.button2_3} onClick={captureAndSaveImage}>
           결과 이미지 저장
         </button>
