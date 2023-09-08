@@ -1,4 +1,4 @@
-# from django.contrib import admin
+from django.contrib import admin
 # from .models import UserInfo, VocaInfo, VocaSentence, VocaWord, Scrapbook, ScrapbookContent
 
 # admin.site.register(UserInfo)

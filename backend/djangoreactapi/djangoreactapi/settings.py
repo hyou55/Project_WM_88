@@ -1,9 +1,40 @@
 # from my_settings import SECRET_KEY
 from pathlib import Path
+import os
+import environ
+
 
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# db, secret key 설정
+env = environ.Env()
+environ.Env.read_env()
+
+# RDS Django 연동 pymysql 설치후 추가
+import pymysql
+pymysql.version_info = (1, 4, 3, "final", 0)
+pymysql.install_as_MySQLdb()
+
+
+DATABASES = {
+    "default": {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env("DB_NAME"),  # DB name RDS 인스턴스 설정에 있는 '그냥' DB 이름
+        'USER': env('DB_USER'),  # DB user
+        'PASSWORD': env('DB_PASSWORD'),  # DB account's password
+        'HOST': env('DB_HOST'),  # RDS end point
+        'PORT': env('DB_PORT'),  # DB port(normally 3306)
+    }
+}
+
+SECRET_KEY = env("SECRET_KEY")
+DEBUG = env('DEBUG')
+
+
+
+
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -147,24 +178,6 @@ WSGI_APPLICATION = "djangoreactapi.wsgi.application"
 
 # SECRET_KEY = "django-insecure-%3q#eu9+m@rpi%a0su()g_xw86u8&5rlx(=84ezg9r#7cvm=9j"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "wm88db",  # DB name RDS 인스턴스 설정에 있는 '그냥' DB 이름
-        "USER": "admin",  # DB user
-        "PASSWORD": "whybinc2k!",  # DB account's password
-        "HOST": "mywm88.czssdtqolbnx.ap-northeast-2.rds.amazonaws.com",  # RDS end point
-        "PORT": "3306",  # DB port(normally 3306)
-    }
-}
-
-SECRET_KEY = "django-insecure-%3q#eu9+m@rpi%a0su()g_xw86u8&5rlx(=84ezg9r#7cvm=9j"
-
-
-# RDS Django 연동 pymysql 설치후 추가
-import pymysql
-pymysql.version_info = (1, 4, 3, "final", 0)
-pymysql.install_as_MySQLdb()
 
 
 
