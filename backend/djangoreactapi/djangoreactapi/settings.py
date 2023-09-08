@@ -103,32 +103,6 @@ SIMPLE_JWT = {
 
 
 
-
-# rest 추가 후 기본 설정
-# REST_FRAMEWORK = {
-#     "DEFAULT_PERMISSION_CLASSES": [
-#         "rest_framework.permissions.AllowAny",
-#     ]
-# }
-
-
-# 이전에 참고한 블로그 설정 ------------
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = None # username 필드 사용 x
-# ACCOUNT_EMAIL_REQUIRED = True            # email 필드 사용 o
-# ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
-# ACCOUNT_AUTHENTICATION_METHOD = "email"
-
-
-# 그외 참조한 블로그에서 있던 설정
-
-# REST_FRAMEWORK = {
-#     "DEFAULT_AUTHENTICATION_CLASSES": (
-#         "rest_framework_simplejwt.authentication.JWTAuthentication",
-#     )
-# }
-
-
-
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",     # http접근제어 규약해제 명령어추가
     "django.middleware.common.CommonMiddleware", # http접근제어 규약해제 명령어추가
@@ -242,9 +216,3 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-# # Google OAuth 관련 설정
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "813909167375-nkh5gpit9r8f59cr8us9sr7pkqnuls0g.apps.googleusercontent.com"
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "AIzaSyBeqDg4SiDQX2CnW3Sg5gTam3VOg7wzgA8"
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ["email"]
-# SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {"access_type": "offline"}
