@@ -1,4 +1,4 @@
-from my_settings import SECRET_KEY
+# from my_settings import SECRET_KEY
 from pathlib import Path
 
 
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 # user 앱에서 내가 설정한 User를 사용하겠다고 설정
-AUTH_USER_MODEL = "WMVoca.UserInfo"
+# AUTH_USER_MODEL = "WMVoca.UserInfo"
 
 # dj_rest_auth.registration.views.SocialLoginView를 쓰기 위한 설정
 # JWT를 사용하기위한 설정
@@ -85,21 +85,21 @@ JWT_AUTH_REFRESH_COOKIE = "sociallogin-refresh-token"
 REST_USE_JWT = True
 
 # simplejwt 에 대한 설정
-SIMPLE_JWT = {
-    # access token의 유효기한
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
-    # refresh token의 유효기한
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
-    # 토큰에 들어갈 알고리즘
-    "ALGORITHM": "HS256",
-    #토큰을 만드는데 사용할 secret key
-    "SIGNING_KEY": SECRET_KEY,
+# SIMPLE_JWT = {
+#     # access token의 유효기한
+#     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
+#     # refresh token의 유효기한
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
+#     # 토큰에 들어갈 알고리즘
+#     "ALGORITHM": "HS256",
+#     #토큰을 만드는데 사용할 secret key
+#     "SIGNING_KEY": SECRET_KEY,
 
-    # 이전에 참고한 블로그 설정----------
-    # "ROTATE_REFRESH_TOKENS": False,
-    # "BLACKLIST_AFTER_ROTATION": True,
-}
-# ----------------------------
+#     # 이전에 참고한 블로그 설정----------
+#     # "ROTATE_REFRESH_TOKENS": False,
+#     # "BLACKLIST_AFTER_ROTATION": True,
+# }
+# # ----------------------------
 
 
 
@@ -141,11 +141,24 @@ WSGI_APPLICATION = "djangoreactapi.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import my_settings
+# import my_settings
 
-DATABASES = my_settings.DATABASES
+# DATABASES = my_settings.DATABASES
 
 # SECRET_KEY = "django-insecure-%3q#eu9+m@rpi%a0su()g_xw86u8&5rlx(=84ezg9r#7cvm=9j"
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "wm88db",  # DB name RDS 인스턴스 설정에 있는 '그냥' DB 이름
+        "USER": "admin",  # DB user
+        "PASSWORD": "whybinc2k!",  # DB account's password
+        "HOST": "mywm88.czssdtqolbnx.ap-northeast-2.rds.amazonaws.com",  # RDS end point
+        "PORT": "3306",  # DB port(normally 3306)
+    }
+}
+
+SECRET_KEY = "django-insecure-%3q#eu9+m@rpi%a0su()g_xw86u8&5rlx(=84ezg9r#7cvm=9j"
 
 
 # RDS Django 연동 pymysql 설치후 추가
