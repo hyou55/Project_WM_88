@@ -1,6 +1,5 @@
 # # DB ORM 설정 코드 
 
-# from django.db import models
 
 # # django에서 제공하는 User 형식 대신에 내가 만든 USer를 사용하기 위한 것
 # # from django.contrib.auth.models import AbstractUser
