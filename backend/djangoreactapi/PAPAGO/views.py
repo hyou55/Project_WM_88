@@ -46,6 +46,6 @@ def main(request):
         response = requests.post(url, headers=headers, data=data)
         if response.status_code == 200:
             translated_text = response.json()["message"]["result"]["translatedText"]
-            return JsonResponse({"translated_text": translated_text}, safe=False)
+            return JsonResponse({"translated_text": translated_text, "lang_code": lang_code}, safe=False)
 
     return JsonResponse({"error": "Invalid request"}, status=400)

@@ -6,8 +6,8 @@ import html2canvas from "html2canvas";
 const languageMappings = {
   en: "영어",
   ja: "일본어",
-  "zh-CN": "중국어 (간체)",
-  "zh-TW": "중국어 (번체)",
+  "zh-CN": "중국어",
+  "zh-TW": "중국어",
   // 언어 추가
 };
 
