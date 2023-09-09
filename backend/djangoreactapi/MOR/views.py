@@ -6,7 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import nltk
 import MeCab
+# from jiayan import PMIEntropyLexiconConstructor
+# from jiayan import load_lm
+# from jiayan import CharHMMTokenizer
+# from jiayan import WordNgramTokenizer
 from langdetect import detect
+
 
 
 nltk.download('punkt')
@@ -100,6 +105,16 @@ def process_text(request):
             result = wakati.parse(text).split()
 
             return JsonResponse({'nouns': result})
+        
+        # elif detected_language == 'zh-cn' or detected_language == 'zh-tw':
+        #     lm = load_lm('jiayan.klm')
+        #     tokenizer = CharHMMTokenizer(lm)
+        #     result = tokenizer.tokenize(text)
+
+        #     return JsonResponse({'nouns': result})
+            
+
+        # elif detected_language == 'zh-tw':
 
         
         

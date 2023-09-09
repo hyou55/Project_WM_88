@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,react,django
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,react,django
 
+# 배포시 .env에 적는 DB와 secretkey 정보가 있는 파일
+my_settings.py
+
 ### Django ###
 *.log
 *.pot

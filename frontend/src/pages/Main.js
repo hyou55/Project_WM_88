@@ -27,7 +27,7 @@ const Main = () => {
   const clicked = async () => {
     setShowMorphemeBox(true);
     //언어 감지 코드 전달 변수
-    const langcode = [];
+
     axios
       .post("http://127.0.0.1:8000/api/PAPAGO/", {
         text: textValue,
@@ -36,8 +36,6 @@ const Main = () => {
         const translatedText1 = response.data.translated_text;
         const langCode = response.data.lang_code;
         setLangTrans(languageMappings[langCode]);
-        //언어 감지 코드 저장
-        langcode[0] = langCode;
 
         setTranslate(translatedText1);
       })
@@ -50,7 +48,6 @@ const Main = () => {
         "http://127.0.0.1:8000/api/process_text/",
         {
           text: textValue,
-          // lang_code: langcode,
         }
       );
 
