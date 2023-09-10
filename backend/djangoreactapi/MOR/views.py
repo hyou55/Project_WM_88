@@ -4,15 +4,13 @@ from django.http import JsonResponse
 from nltk import word_tokenize, pos_tag
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+
 import nltk
 import MeCab
-# from jiayan import PMIEntropyLexiconConstructor
-# from jiayan import load_lm
-# from jiayan import CharHMMTokenizer
-# from jiayan import WordNgramTokenizer
+import jieba
+
+import langid
 from langdetect import detect
-
-
 
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -35,9 +33,10 @@ def process_text(request):
         text = data.get("text", "")
 
         # 문장의 언어 감지
-        detected_language = detect(text)
+        detected_language, _ = langid.classify(text)
 
         if detected_language == 'en':
+            print("감지된 언어:", detected_language)  # 감지된 언어를 콘솔에 출력
             # 불필요한 심볼 제거
             cleaned_content = re.sub(r'[^\.\?\!\w\d\s\[\]\{\}\(\)]','',text)
 
@@ -98,6 +97,7 @@ def process_text(request):
             return JsonResponse({'nouns': word_tokens}) # none 옆에 변수 하나 더 추가해서 데이터를 2개 보내도록.
 
         elif detected_language == 'ja':
+            print("감지된 언어:", detected_language)  # 감지된 언어를 콘솔에 출력
             # mecab = MeCab.Tagger("-Ochasen")
             # # MeCab를 사용하여 일본어 형태소 분석
             # result = mecab.parse(text).split()
@@ -106,19 +106,20 @@ def process_text(request):
 
             return JsonResponse({'nouns': result})
         
-        # elif detected_language == 'zh-cn' or detected_language == 'zh-tw':
-        #     lm = load_lm('jiayan.klm')
-        #     tokenizer = CharHMMTokenizer(lm)
-        #     result = tokenizer.tokenize(text)
+        elif detected_language == 'zh':
+            print("감지된 언어:", detected_language)  # 감지된 언어를 콘솔에 출력
+            # jieba 라이브러리를 사용하여 중국어 텍스트 세분화 수행
+            result = jieba.cut(text, cut_all=False)
 
-        #     return JsonResponse({'nouns': result})
-            
+            # 세분화 결과를 리스트로 변환
+            result_list = list(result)
 
-        # elif detected_language == 'zh-tw':
+            # 결과에서 빈 문자열을 제거하여 유효한 중국어 단어만 포함되도록 함
+            result_list = [word for word in result_list if word.strip()]
 
-        
-        
+            return JsonResponse({'nouns': result_list})
 
+    
     return JsonResponse({'error': 'Invalid request'})
 
 
