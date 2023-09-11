@@ -1,9 +1,40 @@
-from my_settings import SECRET_KEY
+# from my_settings import SECRET_KEY
 from pathlib import Path
+import os
+import environ
+
 
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# db, secret key 설정
+env = environ.Env()
+environ.Env.read_env()
+
+# RDS Django 연동 pymysql 설치후 추가
+import pymysql
+pymysql.version_info = (1, 4, 3, "final", 0)
+pymysql.install_as_MySQLdb()
+
+
+DATABASES = {
+    "default": {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env("DB_NAME"),  # DB name RDS 인스턴스 설정에 있는 '그냥' DB 이름
+        'USER': env('DB_USER'),  # DB user
+        'PASSWORD': env('DB_PASSWORD'),  # DB account's password
+        'HOST': env('DB_HOST'),  # RDS end point
+        'PORT': env('DB_PORT'),  # DB port(normally 3306)
+    }
+}
+
+SECRET_KEY = env("SECRET_KEY")
+DEBUG = env('DEBUG')
+
+
+
+
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -49,7 +80,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 # user 앱에서 내가 설정한 User를 사용하겠다고 설정
-AUTH_USER_MODEL = "WMVoca.UserInfo"
+# AUTH_USER_MODEL = "WMVoca.UserInfo"
 
 # dj_rest_auth.registration.views.SocialLoginView를 쓰기 위한 설정
 # JWT를 사용하기위한 설정
@@ -85,47 +116,21 @@ JWT_AUTH_REFRESH_COOKIE = "sociallogin-refresh-token"
 REST_USE_JWT = True
 
 # simplejwt 에 대한 설정
-SIMPLE_JWT = {
-    # access token의 유효기한
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
-    # refresh token의 유효기한
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
-    # 토큰에 들어갈 알고리즘
-    "ALGORITHM": "HS256",
-    #토큰을 만드는데 사용할 secret key
-    "SIGNING_KEY": SECRET_KEY,
+# SIMPLE_JWT = {
+#     # access token의 유효기한
+#     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
+#     # refresh token의 유효기한
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
+#     # 토큰에 들어갈 알고리즘
+#     "ALGORITHM": "HS256",
+#     #토큰을 만드는데 사용할 secret key
+#     "SIGNING_KEY": SECRET_KEY,
 
-    # 이전에 참고한 블로그 설정----------
-    # "ROTATE_REFRESH_TOKENS": False,
-    # "BLACKLIST_AFTER_ROTATION": True,
-}
-# ----------------------------
-
-
-
-
-# rest 추가 후 기본 설정
-# REST_FRAMEWORK = {
-#     "DEFAULT_PERMISSION_CLASSES": [
-#         "rest_framework.permissions.AllowAny",
-#     ]
+#     # 이전에 참고한 블로그 설정----------
+#     # "ROTATE_REFRESH_TOKENS": False,
+#     # "BLACKLIST_AFTER_ROTATION": True,
 # }
-
-
-# 이전에 참고한 블로그 설정 ------------
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = None # username 필드 사용 x
-# ACCOUNT_EMAIL_REQUIRED = True            # email 필드 사용 o
-# ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
-# ACCOUNT_AUTHENTICATION_METHOD = "email"
-
-
-# 그외 참조한 블로그에서 있던 설정
-
-# REST_FRAMEWORK = {
-#     "DEFAULT_AUTHENTICATION_CLASSES": (
-#         "rest_framework_simplejwt.authentication.JWTAuthentication",
-#     )
-# }
+# # ----------------------------
 
 
 
@@ -167,17 +172,12 @@ WSGI_APPLICATION = "djangoreactapi.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import my_settings
+# import my_settings
 
-DATABASES = my_settings.DATABASES
+# DATABASES = my_settings.DATABASES
 
 # SECRET_KEY = "django-insecure-%3q#eu9+m@rpi%a0su()g_xw86u8&5rlx(=84ezg9r#7cvm=9j"
 
-
-# RDS Django 연동 pymysql 설치후 추가
-import pymysql
-pymysql.version_info = (1, 4, 3, "final", 0)
-pymysql.install_as_MySQLdb()
 
 
 
@@ -242,9 +242,3 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-# # Google OAuth 관련 설정
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "813909167375-nkh5gpit9r8f59cr8us9sr7pkqnuls0g.apps.googleusercontent.com"
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "AIzaSyBeqDg4SiDQX2CnW3Sg5gTam3VOg7wzgA8"
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ["email"]
-# SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {"access_type": "offline"}

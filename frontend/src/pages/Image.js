@@ -270,30 +270,6 @@ function Image() {
               <li>형태소 분석 및 사전 검색 결과</li>
             )}
           </ul>
-          {/* <textarea
-          className={styles.outputbox2}
-          placeholder="형태소 분석 및 사전 검색 결과"
-          //사전 검색 기본 값.
-          value={
-            Array.isArray(morTranslate) && morTranslate.length > 0
-              ? morTranslate
-                  .map((item, index) => {
-                    const analysisResult = item[0];
-                    const dictionaryResult =
-                      Array.isArray(item[1]) &&
-                      item[1].length > 0 &&
-                      item[1][0].length > 0
-                        ? item[1][0][1]
-                        : "";
-
-                    return `${analysisResult}\n${dictionaryResult}\n\n`;
-                  })
-                  .join("")
-              : "형태소 분석 및 사전 검색 결과"
-          }
-          readOnly
-        ></textarea> */}
-
           {/* 원래 왼쪽에는 형태소 분석, 오른쪽에는 형태소 사전 검색 결과가 있었지만 이제는 형태소, 사전검색 결과가 같이 나오도록 됨. \
           수정할 것 ->textarea 2개를 하나로 만들고 데이터가 많으면 스크롤로 내리도록 하기 */}
         </div>
