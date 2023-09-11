@@ -32,8 +32,8 @@ function Image() {
       },
     });
     await worker.load();
-    await worker.loadLanguage("eng+chi_tra+jpn+kor");
-    await worker.initialize("eng+chi_tra+jpn+kor");
+    await worker.loadLanguage("eng+chi_tra+jpn");
+    await worker.initialize("eng+chi_tra+jpn");
     const {
       data: { text },
     } = await worker.recognize(imageData);
