@@ -9,6 +9,22 @@ CLIENT_ID = "lUmpXs3j1n6tF4ycqdrp"  # 네이버 Papago API 클라이언트 ID
 CLIENT_SECRET = "ttvQqE7dMc"  # 네이버 Papago API 클라이언트 시크릿
 
 
+
+def langDetect(sentence):
+    content = "query=" + sentence
+    url = "https://openapi.naver.com/v1/papago/detectLangs"
+    request = urllib.request.Request(url)
+    request.add_header("X-Naver-Client-Id",CLIENT_ID)
+    request.add_header("X-Naver-Client-Secret",CLIENT_SECRET)
+    response = urllib.request.urlopen(request, data=content.encode("utf-8"))
+    rescode = response.getcode()
+    if(rescode==200):
+        response_body = response.read()
+        lang = json.loads(response_body)
+        return lang['langCode']
+    else:
+        print("Error Code:" + rescode)
+
 @method_decorator(csrf_exempt, name='dispatch')
 def main(request):
     if request.method == "POST":

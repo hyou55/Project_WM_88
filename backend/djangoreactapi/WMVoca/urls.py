@@ -11,5 +11,5 @@ from rest_framework import routers
 # router.register(r'scrapbookcontent', ScrapbookContentViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    # path('', include(router.urls)),
 ]

@@ -6,8 +6,8 @@ import html2canvas from "html2canvas";
 const languageMappings = {
   en: "영어",
   ja: "일본어",
-  "zh-CN": "중국어",
-  "zh-TW": "중국어",
+  "zh-CN": "중국어 (간체)",
+  "zh-TW": "중국어 (번체)",
   // 언어 추가
 };
 
@@ -201,7 +201,7 @@ const Main = () => {
                   <li key={index} style={listItemStyle}>
                     <span style={analysisResultStyle}>{analysisResult}</span>
                     <br />
-                    <span style={dictionaryResultStyle}>{dictionaryResult}</span>
+                    {dictionaryResult}
                   </li>
                 );
               })

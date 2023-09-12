@@ -7,3 +7,4 @@ from django.contrib import admin
 # admin.site.register(VocaWord)
 # admin.site.register(Scrapbook)
 # admin.site.register(ScrapbookContent)
+

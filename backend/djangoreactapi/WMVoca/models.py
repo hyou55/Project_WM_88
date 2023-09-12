@@ -1,4 +1,4 @@
-# DB ORM 설정 코드 
+# # DB ORM 설정 코드 
 
 from django.db import models
 
