@@ -25,6 +25,3 @@ urlpatterns = [
 
     # 추가 
     # path("app/", include("WMVoca.urls")), 
-
-
-
