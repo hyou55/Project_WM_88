@@ -201,7 +201,7 @@ const Main = () => {
                   <li key={index} style={listItemStyle}>
                     <span style={analysisResultStyle}>{analysisResult}</span>
                     <br />
-                    {dictionaryResult}
+                    <span style={dictionaryResultStyle}>{dictionaryResult}</span>
                   </li>
                 );
               })
