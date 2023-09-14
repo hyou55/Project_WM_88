@@ -5,9 +5,9 @@ from nltk import word_tokenize, pos_tag
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
+import re
 import urllib
 from urllib.request import urlopen
-import re
 
 import nltk
 import MeCab
@@ -102,6 +102,10 @@ def process_text(request):
 
         elif detected_language == 'ja':
             print("감지된 언어:", detected_language)  # 감지된 언어를 콘솔에 출력
+            # mecab = MeCab.Tagger("-Ochasen")
+            # # MeCab를 사용하여 일본어 형태소 분석
+            # result = mecab.parse(text).split()
+
             # 일본어 불용어 제거 코드------------------
 
             # slothlib------불용어 리스트1
@@ -111,22 +115,20 @@ def process_text(request):
             # stopwordsiso------불용어 리스트2 (이코드에서는 리스트2만 사용하는듯)
             iso_path = "https://raw.githubusercontent.com/stopwords-iso/stopwords-ja/master/stopwords-ja.txt"
             iso_file = urllib.request.urlopen(iso_path)
-            stopwords = [line.decode("utf-8").strip() for line in iso_file]
+            stop_words = [line.decode("utf-8").strip() for line in iso_file]
 
-            stopwords = [ss for ss in stopwords if not ss==u'']
-            stopwords = list(set(stopwords))
+            stop_words = [ss for ss in stop_words if not ss==u'']
+            stop_words = list(set(stop_words))
 
-            #------------------------
 
-            # mecab = MeCab.Tagger("-Ochasen")
-            # # MeCab를 사용하여 일본어 형태소 분석
-            # result = mecab.parse(text).split()
-            n_text = text.replace(" ", "")
+            # 일본어 한문자씩 분리되는부분 공백 제거
+            n_text = re.sub(r"\s", "", text)
+
 
             wakati = MeCab.Tagger("-Owakati")
             words = wakati.parse(n_text).split()
 
-            ws = [w for w in words if w not in stopwords]
+            ws = [w for w in words if w not in stop_words]
 
 
             return JsonResponse({'nouns': ws})

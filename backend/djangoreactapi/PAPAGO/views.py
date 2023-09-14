@@ -5,6 +5,8 @@ import urllib.request
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
+import re
+
 CLIENT_ID = "lUmpXs3j1n6tF4ycqdrp"  # 네이버 Papago API 클라이언트 ID
 CLIENT_SECRET = "ttvQqE7dMc"  # 네이버 Papago API 클라이언트 시크릿
 
@@ -33,9 +35,12 @@ def main(request):
 
         lang_code = langDetect(text)
 
+        # 일본어 한 글자씩 분리되는거 빈칸 삭제
         if lang_code == 'ja':
-            n_text = text.replace(" ", "")
-            
+           #  n_text = re.sub(r"[^\.\?\!\w\d\s\[\]\{\}\(\)]", "", text)
+           n_text = text.replace(" ", "")
+        else:
+            n_text = text
 
         url = "https://openapi.naver.com/v1/papago/n2mt"
         headers = {
