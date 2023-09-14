@@ -33,6 +33,10 @@ def main(request):
 
         lang_code = langDetect(text)
 
+        if lang_code == 'ja':
+            n_text = text.replace(" ", "")
+            
+
         url = "https://openapi.naver.com/v1/papago/n2mt"
         headers = {
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -42,7 +46,7 @@ def main(request):
         data = {
             "source": lang_code,
             "target": "ko",
-            "text": text,
+            "text": n_text,
         }
 
         response = requests.post(url, headers=headers, data=data)

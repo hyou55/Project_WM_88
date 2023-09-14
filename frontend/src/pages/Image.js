@@ -32,16 +32,17 @@ function Image() {
       },
     });
     await worker.load();
-    await worker.loadLanguage("eng");
-    await worker.initialize("eng");
+    await worker.loadLanguage("eng+chi_sim+chi_tra+jpn");
+    await worker.initialize("eng+chi_sim+chi_tra+jpn");
     const {
       data: { text },
     } = await worker.recognize(imageData);
+
     setExtractionResult(text);
 
     //document.getElementById("button2").innerHTML = "한글 번역";
     //button2Count++;
-  
+
     setShowMorphemeBox(true);
 
     try {
@@ -174,7 +175,6 @@ function Image() {
       link.click();
     });
   };
-  
 
   return (
     <div className={styles.mainlayout}>
@@ -193,18 +193,13 @@ function Image() {
           accept="image/*"
           style={{ display: "none" }}
         />
-      
-          <img className={styles.folderimg} src={folder} alt="Folder Icon" />
+
+        <img className={styles.folderimg} src={folder} alt="Folder Icon" />
       </div>
-          <img className={styles.ocrimg} src={imageData} alt="" srcset="" />
-      
-      
+      <img className={styles.ocrimg} src={imageData} alt="" srcset="" />
+
       <div className={styles.container2}>
-        <button
-          id="button2"
-          className={styles.button2}
-          onClick={button2Switch}
-          >
+        <button id="button2" className={styles.button2} onClick={button2Switch}>
           {button2Count % 2 === 0 ? "텍스트 추출" : "한글 번역"}
         </button>
         <textarea
@@ -241,28 +236,30 @@ function Image() {
                     : "";
 
                 const analysisResultStyle = {
-                  fontWeight: 'bold',
-                  color :'black',
-                  fontSize :'30px',
-                  marginRight: '30px'
+                  fontWeight: "bold",
+                  color: "black",
+                  fontSize: "30px",
+                  marginRight: "30px",
                 };
-    
+
                 const dictionaryResultStyle = {
-                  color :'black',
-                  marginRight: '20px'
+                  color: "black",
+                  marginRight: "20px",
                 };
-    
+
                 const listItemStyle = {
-                  display: 'flex',
-                  alignItems: 'center',
-                  margin: '30px 0', // index 사이의 간격을 조절합니다.
-                };    
+                  display: "flex",
+                  alignItems: "center",
+                  margin: "30px 0", // index 사이의 간격을 조절합니다.
+                };
 
                 return (
                   <li key={index} style={listItemStyle}>
                     <span style={analysisResultStyle}>{analysisResult}</span>
                     <br />
-                    <span style={dictionaryResultStyle}>{dictionaryResult}</span>
+                    <span style={dictionaryResultStyle}>
+                      {dictionaryResult}
+                    </span>
                   </li>
                 );
               })
