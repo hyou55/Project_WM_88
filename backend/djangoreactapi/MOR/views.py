@@ -135,8 +135,12 @@ def process_text(request):
         
         elif detected_language == 'zh':
             print("감지된 언어:", detected_language)  # 감지된 언어를 콘솔에 출력
+
+            n_text = re.sub(r"\s", "", text)
+
+
             # jieba 라이브러리를 사용하여 중국어 텍스트 세분화 수행
-            result = jieba.cut(text, cut_all=False)
+            result = jieba.cut(n_text, cut_all=False)
 
             # 세분화 결과를 리스트로 변환
             result_list = list(result)

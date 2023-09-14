@@ -38,7 +38,9 @@ def main(request):
         # 일본어 한 글자씩 분리되는거 빈칸 삭제
         if lang_code == 'ja':
            #  n_text = re.sub(r"[^\.\?\!\w\d\s\[\]\{\}\(\)]", "", text)
-           n_text = text.replace(" ", "")
+            n_text = text.replace(" ", "")
+        elif lang_code == 'zh':
+            n_text = re.sub(r"\s", "", text)
         else:
             n_text = text
 
