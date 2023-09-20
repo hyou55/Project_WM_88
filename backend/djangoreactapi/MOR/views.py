@@ -10,6 +10,7 @@ import urllib
 from urllib.request import urlopen
 
 import nltk
+# from nltk.stem import PorterStemmer
 import MeCab
 import jieba
 
@@ -56,6 +57,7 @@ def process_text(request):
 
 
 
+
             # 단어배열[]을 겹치는거 없고 순서없는 배열{}로 만듬
             stop_word_check = set(tokens)
 
@@ -98,6 +100,13 @@ def process_text(request):
                 elif 'RB' in tag:
                     word_tokens.append(word)
 
+
+                # 어간 추출 작업
+                # stemmer = PorterStemmer()
+                # portered_text = [stemmer.stem(word) for word in word_tokens]
+                
+                
+
             return JsonResponse({'nouns': word_tokens}) # none 옆에 변수 하나 더 추가해서 데이터를 2개 보내도록.
 
         elif detected_language == 'ja':
@@ -123,12 +132,16 @@ def process_text(request):
 
             # 일본어 한문자씩 분리되는부분 공백 제거
             n_text = re.sub(r"\s", "", text)
+           
 
 
             wakati = MeCab.Tagger("-Owakati")
             words = wakati.parse(n_text).split()
 
+
             ws = [w for w in words if w not in stop_words]
+            ws.remove("。")
+            ws.remove("、")
 
 
             return JsonResponse({'nouns': ws})
